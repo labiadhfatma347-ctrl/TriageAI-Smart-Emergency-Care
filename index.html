@@ -1,3936 +1,2374 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0f766e">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#0b7285">
 
-<title>TriageAI - Smart Emergency Care</title>
+<title>TriageAI — Smart Emergency Care</title>
 
 <style>
-
 *{
   box-sizing:border-box;
-  font-family:Arial,sans-serif;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  margin:0;
-  padding:12px;
-  background:linear-gradient(180deg,#ecfdf5,#f8fafc,#eef6ff);
-  color:#172033;
+  background:#eef7f8;
+  color:#16323a;
+  min-height:100vh;
 }
 
-.container{
-  max-width:850px;
-  margin:auto;
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
 }
 
 header{
-  position:relative;
-  overflow:hidden;
-  background:linear-gradient(135deg,#064e3b,#0f766e,#14b8a6);
+  background:linear-gradient(135deg,#075985,#0f766e);
   color:white;
-  padding:30px 20px;
-  border-radius:25px;
-  text-align:center;
-  margin-bottom:18px;
-  box-shadow:0 15px 35px rgba(15,118,110,.25);
+  padding:22px 16px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  box-shadow:0 4px 18px rgba(0,0,0,.15);
 }
 
-header:after{
-  content:"";
-  position:absolute;
-  width:190px;
-  height:190px;
-  border-radius:50%;
-  background:rgba(255,255,255,.10);
-  right:-65px;
-  top:-80px;
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
 .logo{
-  font-size:45px;
+  font-size:25px;
+  font-weight:800;
 }
 
-.brand{
-  font-size:32px;
-  font-weight:900;
+.subtitle{
+  opacity:.85;
+  font-size:13px;
+  margin-top:4px;
 }
 
-header p{
-  margin:8px 0;
-  opacity:.92;
-}
-
-.tagline{
-  display:inline-block;
-  margin-top:10px;
-  padding:8px 13px;
-  border-radius:50px;
-  background:rgba(255,255,255,.16);
+.status{
+  background:rgba(255,255,255,.15);
+  padding:8px 12px;
+  border-radius:20px;
   font-size:12px;
-  font-weight:bold;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:18px;
+}
+
+.hero{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 5px 25px rgba(0,0,0,.07);
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:30px;
+  color:#075985;
+}
+
+.hero p{
+  margin-top:8px;
+  color:#557078;
+  line-height:1.5;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
 }
 
 .card{
   background:white;
-  padding:20px;
-  margin-bottom:18px;
-  border-radius:20px;
-  border:1px solid #e5e7eb;
-  box-shadow:0 7px 25px rgba(15,23,42,.08);
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+  margin-bottom:16px;
 }
 
 .card h2{
-  margin:0 0 7px;
-  color:#0f766e;
-  font-size:21px;
+  color:#075985;
+  margin-bottom:14px;
+  font-size:20px;
 }
 
-.subtitle{
-  color:#64748b;
-  font-size:14px;
-  margin:0 0 16px;
-  line-height:1.5;
-}
-
-.feature{
-  background:linear-gradient(135deg,#f0fdfa,#ffffff);
-  border:2px solid #99f6e4;
-}
-
-.feature h2{
-  font-size:25px;
-}
-
-.feature-badge{
-  display:inline-block;
-  background:#ccfbf1;
-  color:#0f766e;
-  padding:6px 10px;
-  border-radius:50px;
-  font-size:11px;
-  font-weight:900;
+.card h3{
   margin-bottom:8px;
 }
 
 label{
   display:block;
-  margin-top:14px;
-  margin-bottom:6px;
-  font-weight:bold;
-  font-size:14px;
+  font-weight:700;
+  margin:12px 0 6px;
 }
 
-input,
-textarea,
-select{
+input,textarea,select{
   width:100%;
-  padding:13px;
-  border:1px solid #d5dde5;
-  border-radius:12px;
-  font-size:16px;
-  background:#fbfdff;
+  padding:12px;
+  border:1px solid #c9dce0;
+  border-radius:11px;
   outline:none;
+  background:#fbfeff;
 }
 
-input:focus,
-textarea:focus,
-select:focus{
+input:focus,textarea:focus,select:focus{
   border-color:#0f766e;
-  box-shadow:0 0 0 3px rgba(15,118,110,.12);
+  box-shadow:0 0 0 3px rgba(15,118,110,.1);
 }
 
 textarea{
-  min-height:105px;
+  min-height:110px;
   resize:vertical;
 }
 
-.grid{
+.vitals{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
 
-.full{
-  grid-column:1/-1;
-}
-
-button{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
+.btn{
   border:0;
   border-radius:12px;
-  background:#0f766e;
-  color:white;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
+  padding:12px 16px;
+  font-weight:700;
+  margin-top:10px;
   transition:.2s;
-  box-shadow:0 4px 12px rgba(15,118,110,.18);
 }
 
-button:hover{
+.btn:hover{
   transform:translateY(-1px);
 }
 
-button:active{
-  transform:scale(.99);
+.primary{
+  background:#0f766e;
+  color:white;
 }
 
-.blue{background:#2563eb;}
-.purple{background:#7c3aed;}
-.red{background:#dc2626;}
-.gray{background:#475569;}
-.orange{background:#ea580c;}
-.green{background:#16a34a;}
+.blue{
+  background:#075985;
+  color:white;
+}
 
-.status{
-  padding:13px;
-  margin-top:12px;
-  background:#f1f5f9;
-  border-radius:12px;
-  line-height:1.5;
+.red{
+  background:#dc2626;
+  color:white;
+}
+
+.orange{
+  background:#ea580c;
+  color:white;
+}
+
+.green{
+  background:#15803d;
+  color:white;
+}
+
+.gray{
+  background:#e8f0f2;
+  color:#16323a;
+}
+
+.full{
+  width:100%;
+}
+
+.voice-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
 .result{
-  padding:16px;
-  border-radius:16px;
-  margin-top:16px;
-}
-
-.critical{
-  background:#fff1f2;
-  border:2px solid #dc2626;
-}
-
-.urgent{
-  background:#fff7ed;
-  border:2px solid #f97316;
-}
-
-.normal{
-  background:#f0fdf4;
-  border:2px solid #16a34a;
-}
-
-.priority{
-  text-align:center;
-  font-size:25px;
-  font-weight:900;
-  margin-bottom:12px;
-}
-
-.item{
-  padding:13px;
-  margin-top:8px;
-  background:#f8fafc;
-  border-radius:12px;
-  line-height:1.6;
-}
-
-.explanation{
-  margin-top:12px;
-  padding:16px;
-  background:#fffbeb;
-  border:2px solid #fde68a;
-  border-radius:15px;
-  line-height:1.65;
-}
-
-.explanation h3{
-  margin-top:0;
-  color:#92400e;
-}
-
-.term{
-  margin-top:10px;
-  padding:13px;
-  background:white;
-  border-radius:12px;
-  border:1px solid #fde68a;
-}
-
-.action-box{
-  margin-top:12px;
-  padding:16px;
-  background:#ecfdf5;
-  border:2px solid #86efac;
-  border-radius:15px;
-  line-height:1.7;
-}
-
-.emergency-help{
-  margin-top:12px;
-  padding:16px;
-  background:#fff1f2;
-  border:2px solid #fca5a5;
-  border-radius:15px;
-  line-height:1.7;
-}
-
-/* STAY WITH ME */
-
-.stay-box{
-  margin-top:15px;
-  padding:18px;
-  border-radius:17px;
-  background:#f8fafc;
-  border:1px solid #dbeafe;
-}
-
-.voice-active{
-  background:#eff6ff;
-  border:2px solid #2563eb;
-}
-
-.emergency-mode{
-  background:#fff1f2;
-  border:2px solid #dc2626;
-}
-
-.stay-title{
-  font-size:23px;
-  font-weight:900;
-  margin-bottom:8px;
-}
-
-.question{
-  margin-top:16px;
+  display:none;
+  margin-top:18px;
+  border-radius:18px;
   padding:20px;
-  background:#eff6ff;
-  border:2px solid #2563eb;
-  border-radius:17px;
-  font-size:19px;
-  font-weight:bold;
-  line-height:1.5;
-  text-align:center;
+  border:2px solid transparent;
 }
 
-.question-number{
+.result.show{
+  display:block;
+}
+
+.result.critical{
+  background:#fff1f2;
+  border-color:#dc2626;
+}
+
+.result.urgent{
+  background:#fff7ed;
+  border-color:#ea580c;
+}
+
+.result.stable{
+  background:#f0fdf4;
+  border-color:#16a34a;
+}
+
+.badge{
   display:inline-block;
-  background:#2563eb;
-  color:white;
-  padding:6px 11px;
-  border-radius:50px;
+  padding:7px 12px;
+  border-radius:20px;
   font-size:12px;
+  font-weight:800;
   margin-bottom:10px;
 }
 
-.answer-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+.badge.red{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-.answer-yes{
-  background:#16a34a;
+.badge.orange{
+  background:#ffedd5;
+  color:#9a3412;
 }
 
-.answer-no{
-  background:#dc2626;
+.badge.green{
+  background:#dcfce7;
+  color:#166534;
 }
 
-.voice-listening{
-  padding:15px;
-  margin-top:12px;
-  border-radius:14px;
-  background:#dbeafe;
-  color:#1d4ed8;
-  text-align:center;
-  font-weight:bold;
-  animation:pulse 1.5s infinite;
+.alert{
+  padding:14px;
+  border-radius:12px;
+  background:#fff7ed;
+  border-left:5px solid #ea580c;
+  margin:10px 0;
 }
 
-@keyframes pulse{
-  0%{opacity:.6;}
-  50%{opacity:1;}
-  100%{opacity:.6;}
+.danger{
+  background:#fff1f2;
+  border-left-color:#dc2626;
+}
+
+.info{
+  background:#eff6ff;
+  border-left:5px solid #2563eb;
+}
+
+.success{
+  background:#f0fdf4;
+  border-left:5px solid #16a34a;
 }
 
 .step{
-  margin-top:15px;
-  padding:20px;
-  background:#eff6ff;
-  border:2px solid #2563eb;
-  border-radius:16px;
-  font-size:18px;
-  line-height:1.6;
+  background:#f7fbfc;
+  border:1px solid #dcebed;
+  border-radius:13px;
+  padding:13px;
+  margin:9px 0;
 }
 
-.emergency-banner{
-  padding:16px;
-  background:#dc2626;
+.step-number{
+  display:inline-flex;
+  width:30px;
+  height:30px;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#0f766e;
   color:white;
-  border-radius:15px;
-  text-align:center;
-  font-weight:900;
-  font-size:20px;
-  margin-bottom:12px;
+  font-weight:bold;
+  margin-right:7px;
 }
 
-.success-banner{
-  padding:16px;
-  background:#16a34a;
-  color:white;
-  border-radius:15px;
-  text-align:center;
-  font-weight:900;
-  font-size:18px;
-  margin-top:12px;
+.term{
+  border:1px solid #cde3e6;
+  background:#f7fcfd;
+  border-radius:14px;
+  padding:14px;
+  margin:10px 0;
 }
 
-.hospital-box{
-  margin-top:14px;
-  padding:15px;
-  background:#eff6ff;
-  border-left:5px solid #2563eb;
-  border-radius:12px;
-  line-height:1.6;
+.term-title{
+  font-weight:800;
+  color:#075985;
+  font-size:17px;
 }
 
-.warning{
-  text-align:center;
-  color:#64748b;
+.small{
   font-size:12px;
-  line-height:1.6;
-  padding:3px 15px 20px;
+  color:#637b82;
 }
 
-@media(max-width:600px){
+.action-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
 
-  body{
-    padding:8px;
-  }
+.action-box{
+  padding:14px;
+  border-radius:13px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+}
 
-  .grid,
-  .answer-grid{
+.action-box.do{
+  border-left:5px solid #16a34a;
+}
+
+.action-box.dont{
+  border-left:5px solid #dc2626;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin-bottom:16px;
+}
+
+.tab{
+  white-space:nowrap;
+  border:0;
+  background:white;
+  padding:11px 15px;
+  border-radius:12px;
+  font-weight:700;
+  color:#31545d;
+}
+
+.tab.active{
+  background:#075985;
+  color:white;
+}
+
+.module{
+  display:none;
+}
+
+.module.active{
+  display:block;
+}
+
+.resource{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:14px;
+  border:1px solid #dbe9eb;
+  border-radius:13px;
+  margin:9px 0;
+  background:#fbfeff;
+}
+
+.resource a{
+  color:#075985;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.resource a:hover{
+  text-decoration:underline;
+}
+
+.timeline{
+  border-left:3px solid #0f766e;
+  padding-left:15px;
+}
+
+.timeline-item{
+  margin-bottom:14px;
+  position:relative;
+}
+
+.timeline-item strong{
+  display:block;
+}
+
+.mode{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.mode button{
+  padding:12px;
+  border:2px solid #dbe9eb;
+  background:white;
+  border-radius:12px;
+  font-weight:700;
+}
+
+.mode button.active{
+  border-color:#0f766e;
+  background:#ecfdf5;
+}
+
+.cpr-counter{
+  font-size:48px;
+  text-align:center;
+  font-weight:900;
+  color:#dc2626;
+  margin:15px 0;
+}
+
+.cpr-phase{
+  text-align:center;
+  font-size:22px;
+  font-weight:800;
+  margin:10px;
+}
+
+.timer{
+  text-align:center;
+  font-size:30px;
+  font-weight:bold;
+}
+
+footer{
+  text-align:center;
+  color:#6b8188;
+  padding:30px 15px;
+  font-size:12px;
+}
+
+@media(max-width:750px){
+  .grid{
     grid-template-columns:1fr;
   }
 
-  .full{
-    grid-column:auto;
+  .vitals{
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .card{
-    padding:16px;
-    border-radius:17px;
+  .action-grid{
+    grid-template-columns:1fr;
   }
 
-  .brand{
-    font-size:28px;
+  .mode{
+    grid-template-columns:1fr;
   }
 
-  .logo{
-    font-size:38px;
+  .hero h1{
+    font-size:24px;
   }
 
-  header{
-    padding:25px 15px;
-    border-radius:20px;
+  .header-inner{
+    align-items:flex-start;
   }
 
+  .status{
+    display:none;
+  }
 }
-
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
-
 <header>
-
-<div class="logo">🏥</div>
-
-<div class="brand">
-TriageAI 🤖
-</div>
-
-<p>
-Smart Emergency Care Assistant
-</p>
-
-<div class="tagline">
-🚑 Stay with you when every second matters
-</div>
-
+  <div class="header-inner">
+    <div>
+      <div class="logo">🚑 TriageAI</div>
+      <div class="subtitle">Smart Emergency Care Assistant</div>
+    </div>
+    <div class="status">● Safety-first prototype</div>
+  </div>
 </header>
 
+<div class="container">
 
-<!-- PATIENT ASSESSMENT -->
+<section class="hero">
+  <h1>Emergency assessment made simple.</h1>
+  <p>
+    TriageAI helps organize symptoms, vital signs, red flags and first-aid
+    information. It does not replace emergency professionals or provide a
+    definitive diagnosis.
+  </p>
+
+  <div class="voice-row">
+    <select id="language">
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="ar">العربية</option>
+    </select>
+
+    <button class="btn primary" onclick="speakText(currentLanguageText('welcome'))">
+      🔊 Read
+    </button>
+
+    <button class="btn red" onclick="showModule('emergency')">
+      🆘 Emergency Mode
+    </button>
+  </div>
+</section>
+
+<div class="tabs">
+  <button class="tab active" onclick="showModule('patient',this)">👤 Patient</button>
+  <button class="tab" onclick="showModule('assessment',this)">🧭 Assessment</button>
+  <button class="tab" onclick="showModule('firstaid',this)">🆘 First Aid</button>
+  <button class="tab" onclick="showModule('cpr',this)">❤️ CPR</button>
+  <button class="tab" onclick="showModule('resources',this)">📚 Sources</button>
+  <button class="tab" onclick="showModule('handover',this)">📄 Handover</button>
+  <button class="tab" onclick="showModule('training',this)">🎓 Training</button>
+</div>
+
+
+<!-- PATIENT -->
+<section id="patient" class="module active">
+
+<div class="grid">
 
 <div class="card">
+<h2>👤 Patient Information</h2>
 
-<h2>👤 Patient Assessment</h2>
-
-<p class="subtitle">
-Enter the patient's information for a preliminary triage assessment.
-</p>
-
-<div class="grid">
-
-<div>
-
-<label>Patient Name</label>
-
-<input
-id="patientName"
-type="text"
-placeholder="Enter patient name"
->
-
-</div>
-
-<div>
+<label>Patient name</label>
+<input id="patientName" placeholder="Example: Ahmed">
 
 <label>Age</label>
+<input id="age" type="number" min="0" max="120" placeholder="Age">
 
-<input
-id="patientAge"
-type="number"
-min="0"
-max="120"
-placeholder="Age"
->
+<label>Weight — optional</label>
+<input id="weight" type="number" min="0" placeholder="kg">
 
-</div>
-
-<div class="full">
-
-<label>Symptoms</label>
-
-<textarea
-id="patientSymptoms"
-placeholder="Describe the patient's symptoms..."
-></textarea>
-
-</div>
-
-</div>
-
-
-<label>🎤 Voice Assistant Language</label>
-
-<select id="voiceLanguage">
-
-<option value="en-US">
-🇬🇧 English
-</option>
-
-<option value="fr-FR">
-🇫🇷 Français
-</option>
-
-<option value="ar-SA">
-🇹🇳 العربية
-</option>
-
+<label>Sex</label>
+<select id="sex">
+<option value="">Not specified</option>
+<option>Male</option>
+<option>Female</option>
 </select>
 
-<div class="grid">
+<label>Symptoms</label>
+<textarea id="symptoms"
+placeholder="Example: chest pain, difficulty breathing, dizziness..."></textarea>
 
-<button
-class="purple"
-onclick="startVoice()"
->
-🎤 Start Voice Assistant
-</button>
+<div class="voice-row">
+<button class="btn blue" onclick="startVoice()">🎤 Speak symptoms</button>
+<button class="btn gray" onclick="clearPatient()">Clear</button>
+</div>
 
-<button
-class="gray"
-onclick="stopVoice()"
->
-⏹ Stop Voice
-</button>
+<div id="voiceStatus" class="small"></div>
 
 </div>
 
-<div
-id="voiceStatus"
-class="status"
->
-🎤 Voice assistant ready.
-</div>
 
+<div class="card">
+<h2>🩺 Vital Signs</h2>
 
-<div class="grid">
+<div class="vitals">
 
 <div>
-
-<label>Pain Level (0–10)</label>
-
-<input
-id="pain"
-type="number"
-min="0"
-max="10"
-placeholder="0 - 10"
->
-
+<label>Heart rate</label>
+<input id="hr" type="number" placeholder="bpm">
 </div>
 
 <div>
-
-<label>Heart Rate</label>
-
-<input
-id="heartRate"
-type="number"
-placeholder="BPM"
->
-
+<label>SpO₂</label>
+<input id="spo2" type="number" placeholder="%">
 </div>
 
 <div>
-
 <label>Temperature</label>
-
-<input
-id="temperature"
-type="number"
-step="0.1"
-placeholder="°C"
->
-
+<input id="temp" type="number" step="0.1" placeholder="°C">
 </div>
 
 <div>
+<label>Respiratory rate</label>
+<input id="rr" type="number" placeholder="/min">
+</div>
 
-<label>Oxygen Saturation</label>
+<div>
+<label>Systolic BP</label>
+<input id="sbp" type="number" placeholder="mmHg">
+</div>
 
-<input
-id="oxygen"
-type="number"
-min="0"
-max="100"
-placeholder="%"
->
-
+<div>
+<label>Pain 0–10</label>
+<input id="pain" type="number" min="0" max="10" placeholder="0-10">
 </div>
 
 </div>
 
-<button onclick="analyzePatient()">
-🔍 Analyze Patient
+<button class="btn primary full" onclick="analyzePatient()">
+🧠 Analyze Patient
 </button>
 
-<button
-class="gray"
-onclick="newPatient()"
->
-➕ New Patient
-</button>
+</div>
+</div>
 
-<div id="result"></div>
+<div id="triageResult" class="result"></div>
+
+<div class="card">
+<h2>📝 Important questions</h2>
+
+<div class="grid">
+
+<div>
+<label>Is the patient conscious?</label>
+<select id="conscious">
+<option value="">I don't know</option>
+<option value="yes">Yes</option>
+<option value="no">No</option>
+</select>
+</div>
+
+<div>
+<label>Is the patient breathing normally?</label>
+<select id="breathing">
+<option value="">I don't know</option>
+<option value="yes">Yes</option>
+<option value="no">No / abnormal</option>
+</select>
+</div>
+
+<div>
+<label>When did symptoms start?</label>
+<input id="onset" type="datetime-local">
+</div>
+
+<div>
+<label>Major bleeding?</label>
+<select id="bleeding">
+<option value="">I don't know</option>
+<option value="no">No</option>
+<option value="yes">Yes</option>
+</select>
+</div>
 
 </div>
+</div>
+
+</section>
+
+
+<!-- ASSESSMENT -->
+<section id="assessment" class="module">
+
+<div class="card">
+<h2>🧭 ABCDE Primary Assessment</h2>
+
+<div class="info">
+<strong>ABCDE</strong> is a structured way of looking for immediately
+life-threatening problems. It is not a diagnosis.
+</div>
+
+<div class="step">
+<span class="step-number">A</span>
+<strong>Airway</strong>
+<p>Is the airway open? Can the patient speak normally?</p>
+<button class="btn gray" onclick="speakText('Airway means checking whether air can pass freely into the lungs. If the person cannot speak or the airway seems blocked, seek emergency help immediately.')">🔊 Explain</button>
+</div>
+
+<div class="step">
+<span class="step-number">B</span>
+<strong>Breathing</strong>
+<p>Look at the chest and check whether breathing is normal.</p>
+<button class="btn gray" onclick="speakText('Breathing means checking whether the person is breathing normally. Occasional gasping is not normal breathing.')">🔊 Explain</button>
+</div>
+
+<div class="step">
+<span class="step-number">C</span>
+<strong>Circulation</strong>
+<p>Look for major bleeding and signs of poor circulation.</p>
+</div>
+
+<div class="step">
+<span class="step-number">D</span>
+<strong>Disability</strong>
+<p>Check responsiveness and important neurological signs.</p>
+</div>
+
+<div class="step">
+<span class="step-number">E</span>
+<strong>Exposure</strong>
+<p>Look for important injuries or visible problems while protecting privacy and warmth.</p>
+</div>
+
+<button class="btn primary full" onclick="runABCDE()">
+🧠 Run simple ABCDE checklist
+</button>
+
+<div id="abcdeResult"></div>
+
+</div>
+
+<div class="card">
+<h2>🚨 Red Flag Engine</h2>
+<p class="small">
+Red flags can make a case urgent even when a simple numerical score looks low.
+</p>
+
+<button class="btn red full" onclick="detectRedFlags()">
+🚨 Check Red Flags
+</button>
+
+<div id="redFlags"></div>
+</div>
+
+</section>
 
 
 <!-- FIRST AID -->
+<section id="firstaid" class="module">
 
 <div class="card">
-
 <h2>🆘 First Aid Guide</h2>
 
-<p class="subtitle">
-Choose a condition. TriageAI will explain medical terms in simple language.
-</p>
-
-<label>Emergency Condition</label>
-
-<select id="condition">
-
-<option value="">
--- Select Condition --
-</option>
-
-<option value="bleeding">🩸 Severe Bleeding</option>
-<option value="choking">🫁 Choking</option>
-<option value="burn">🔥 Burns</option>
-<option value="stroke">🧠 Stroke</option>
-<option value="breathing">😮‍💨 Difficulty Breathing</option>
-<option value="cardiac">❤️ Cardiac Arrest</option>
-<option value="unconscious">😵 Unconsciousness</option>
-<option value="fracture">🦴 Fracture</option>
-<option value="snake">🐍 Snake Bite</option>
-<option value="scorpion">🦂 Scorpion Sting</option>
-
+<label>Select situation</label>
+<select id="condition" onchange="showFirstAid()">
+<option value="">Choose...</option>
+<option value="cardiac">❤️ Cardiac arrest</option>
+<option value="choking">😮 Choking</option>
+<option value="bleeding">🩸 Severe bleeding</option>
+<option value="stroke">🧠 Possible stroke</option>
+<option value="breathing">🫁 Severe breathing difficulty</option>
+<option value="burn">🔥 Burn</option>
+<option value="unconscious">😴 Unconscious person</option>
+<option value="seizure">⚡ Seizure</option>
+<option value="fracture">🦴 Suspected fracture</option>
+<option value="snake">🐍 Snake bite</option>
+<option value="scorpion">🦂 Scorpion sting</option>
 </select>
 
-<button onclick="showGuide()">
-📖 Show First Aid
-</button>
-
-<div id="guide"></div>
-
+<div id="firstAidContent"></div>
 </div>
 
-
-<!-- STAY WITH ME -->
-
-<div class="card feature">
-
-<div class="feature-badge">
-⭐ TRIAGEAI SIGNATURE FEATURE
-</div>
-
-<h2>
-🫶 Stay With Me 2.0
-</h2>
-
-<p class="subtitle">
-TriageAI asks questions by voice, listens to the answer and guides the user step by step.
-</p>
-
-<button onclick="startStay()">
-🫶 Start Stay With Me
-</button>
-
-<div id="stay"></div>
-
-</div>
+</section>
 
 
-<!-- HOSPITALS -->
+<!-- CPR -->
+<section id="cpr" class="module">
 
 <div class="card">
+<h2>❤️ CPR Assistant</h2>
 
-<h2>
-📍 Nearby Emergency Hospitals
-</h2>
+<div class="danger alert">
+<strong>Important:</strong>
+CPR instructions apply when a person is unresponsive and not breathing
+normally. If you are unsure, seek emergency help immediately.
+</div>
 
-<p class="subtitle">
-Use your GPS location to search for nearby emergency hospitals.
-</p>
+<div id="cprAgeInfo" class="info alert">
+Enter the patient's age in the Patient section.
+</div>
 
-<button
-class="blue"
-onclick="findHospital()"
->
-📍 Find Nearby Emergency Hospitals
+<div class="cpr-phase" id="cprPhase">Ready</div>
+<div class="cpr-counter" id="compressionCounter">0</div>
+
+<button class="btn red full" onclick="startCPR()">
+❤️ Start compression trainer
 </button>
 
-<div
-id="hospitalStatus"
-class="hospital-box"
->
-📍 Press the button to search for nearby hospitals.
+<button class="btn gray full" onclick="compression()">
+PRESS — compression
+</button>
+
+<button class="btn orange full" onclick="stopCPR()">
+⏹ Stop
+</button>
+
+<div id="cprInstructions"></div>
+
+</div>
+
+</section>
+
+
+<!-- RESOURCES -->
+<section id="resources" class="module">
+
+<div class="card">
+<h2>📚 Trusted Medical Resources</h2>
+
+<div class="info">
+TriageAI should use official or high-quality clinical references for
+medical protocols. These links open the original source.
+</div>
+
+<div class="resource">
+<div>
+<strong>WHO — Interagency Integrated Triage Tool</strong>
+<p class="small">Adult and child triage resources</p>
+</div>
+<a href="https://www.who.int/tools/triage" target="_blank">Open ↗</a>
+</div>
+
+<div class="resource">
+<div>
+<strong>WHO — Emergency Care Toolkit</strong>
+<p class="small">Triage, checklists, referral and emergency care tools</p>
+</div>
+<a href="https://www.who.int/teams/integrated-health-services/clinical-services-and-systems/emergency-and-critical-care/emergency-care-toolkit" target="_blank">Open ↗</a>
+</div>
+
+<div class="resource">
+<div>
+<strong>WHO/ICRC — Basic Emergency Care</strong>
+<p class="small">ABCDE, acute illness, trauma and handover</p>
+</div>
+<a href="https://www.who.int/publications/i/item/basic-emergency-care-approach-to-the-acutely-ill-and-injured" target="_blank">Open ↗</a>
+</div>
+
+<div class="resource">
+<div>
+<strong>WHO — Prehospital Emergency Care</strong>
+<p class="small">Prehospital assessment, protocols and handover</p>
+</div>
+<a href="https://www.who.int/teams/integrated-health-services/clinical-services-and-systems/emergency-and-critical-care/prehospital-toolkit" target="_blank">Open ↗</a>
+</div>
+
+<div class="resource">
+<div>
+<strong>AHA — CPR & ECC Guidelines</strong>
+<p class="small">Resuscitation guidelines and scientific updates</p>
+</div>
+<a href="https://cpr.heart.org/en/resuscitation-science/cpr-and-ecc-guidelines" target="_blank">Open ↗</a>
+</div>
+
+<div class="resource">
+<div>
+<strong>WHO — Medical Emergency Checklist</strong>
+<p class="small">Structured emergency assessment</p>
+</div>
+<a href="https://www.who.int/publications/i/item/who-medical-emergency-checklist" target="_blank">Open ↗</a>
 </div>
 
 </div>
+
+</section>
+
+
+<!-- HANDOVER -->
+<section id="handover" class="module">
+
+<div class="card">
+<h2>📄 Emergency Handover</h2>
+
+<p class="small">
+This follows the idea of structured SBAR communication: Situation,
+Background, Assessment and Recommendation.
+</p>
+
+<button class="btn primary full" onclick="generateHandover()">
+📄 Generate Handover
+</button>
+
+<div id="handoverOutput"></div>
+
+<button id="copyHandoverBtn"
+class="btn blue full"
+style="display:none"
+onclick="copyHandover()">
+📋 Copy report
+</button>
+
+</div>
+
+</section>
+
+
+<!-- TRAINING -->
+<section id="training" class="module">
+
+<div class="card">
+<h2>🎓 Training Mode</h2>
+
+<p>
+Practice emergency decision-making without using a real patient.
+</p>
+
+<button class="btn blue full" onclick="trainingCase('cardiac')">
+❤️ Cardiac arrest
+</button>
+
+<button class="btn orange full" onclick="trainingCase('stroke')">
+🧠 Stroke
+</button>
+
+<button class="btn red full" onclick="trainingCase('bleeding')">
+🩸 Severe bleeding
+</button>
+
+<button class="btn primary full" onclick="trainingCase('choking')">
+😮 Choking
+</button>
+
+<div id="trainingOutput"></div>
+
+</div>
+
+</section>
 
 
 <!-- EMERGENCY -->
+<section id="emergency" class="module">
 
 <div class="card">
+<h2>🆘 Emergency Mode</h2>
 
-<h2>
-🚑 Emergency Assistance
-</h2>
+<div class="danger alert">
+<strong>If this is a real emergency:</strong>
+contact local emergency services and follow instructions from trained
+professionals.
+</div>
 
-<p class="subtitle">
-For a real emergency, contact professional emergency services immediately.
-</p>
+<button class="btn red full" onclick="emergencyCardiac()">
+❤️ Possible cardiac arrest
+</button>
 
-<button
-class="red"
-onclick="callEmergency()"
->
-📞 Call Emergency Services
+<button class="btn red full" onclick="showModule('firstaid');setTimeout(()=>{document.getElementById('condition').value='choking';showFirstAid()},100)">
+😮 Choking
+</button>
+
+<button class="btn red full" onclick="showModule('firstaid');setTimeout(()=>{document.getElementById('condition').value='bleeding';showFirstAid()},100)">
+🩸 Severe bleeding
+</button>
+
+<button class="btn orange full" onclick="showModule('firstaid');setTimeout(()=>{document.getElementById('condition').value='stroke';showFirstAid()},100)">
+🧠 Possible stroke
 </button>
 
 </div>
 
+</section>
 
-<p class="warning">
 
-⚠️ TriageAI is an educational prototype and preliminary decision-support tool.
-
-<br>
-
-It does not diagnose disease and does not replace professional medical assessment.
-
-<br>
-
-For a real emergency, contact emergency services.
-
-</p>
+<footer>
+TriageAI — Educational emergency-care prototype.<br>
+Not a substitute for professional medical assessment.
+</footer>
 
 </div>
 
 
 <script>
 
-/* =====================================================
-HELPERS
-===================================================== */
+/* =========================
+   GLOBAL STATE
+========================= */
 
-function escapeHTML(value){
+let currentLang="en";
+let currentTriage="";
+let compressionCount=0;
+let compressionTimer=null;
+let timeline=[];
 
-return String(value || "")
-.replace(/[&<>"']/g,function(character){
-
-return {
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[character];
-
+document.getElementById("language").addEventListener("change",e=>{
+  currentLang=e.target.value;
 });
 
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function showModule(id,button=null){
+
+  document.querySelectorAll(".module").forEach(m=>{
+    m.classList.remove("active");
+  });
+
+  const target=document.getElementById(id);
+  if(target) target.classList.add("active");
+
+  if(button){
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    button.classList.add("active");
+  }
+
+  window.scrollTo({
+    top:document.querySelector(".tabs").offsetTop-80,
+    behavior:"smooth"
+  });
 }
 
+
+/* =========================
+   LANGUAGE
+========================= */
+
+const translations={
+  en:{
+    welcome:"Welcome to TriageAI. Enter the patient's information and follow the emergency instructions.",
+    critical:"This situation may be an emergency. Seek immediate professional help.",
+    urgent:"This situation needs urgent medical assessment.",
+    stable:"No major emergency red flag was detected by this simple prototype assessment."
+  },
+  fr:{
+    welcome:"Bienvenue dans TriageAI. Entrez les informations du patient et suivez les instructions d'urgence.",
+    critical:"Cette situation peut être une urgence. Demandez immédiatement une aide professionnelle.",
+    urgent:"Cette situation nécessite une évaluation médicale urgente.",
+    stable:"Aucun signe majeur d'urgence n'a été détecté par cette évaluation simplifiée."
+  },
+  ar:{
+    welcome:"مرحبا بك في TriageAI. أدخل معلومات المريض واتبع تعليمات الطوارئ.",
+    critical:"هذه الحالة يمكن أن تكون حالة طارئة. اطلب المساعدة الطبية فوراً.",
+    urgent:"هذه الحالة تحتاج إلى تقييم طبي عاجل.",
+    stable:"لم يتم اكتشاف علامة طوارئ رئيسية بواسطة هذا التقييم المبسط."
+  }
+};
+
+function currentLanguageText(key){
+  return translations[currentLang][key] || translations.en[key];
+}
+
+
+/* =========================
+   VOICE
+========================= */
 
 function speakText(text){
 
-if(!("speechSynthesis" in window)){
+  if(!("speechSynthesis" in window)){
+    alert("Voice reading is not supported by this browser.");
+    return;
+  }
 
-alert("Voice reading is not supported by this browser.");
+  speechSynthesis.cancel();
 
-return;
+  const u=new SpeechSynthesisUtterance(text);
 
-}
+  u.lang=
+    currentLang==="ar" ? "ar-TN" :
+    currentLang==="fr" ? "fr-FR" :
+    "en-US";
 
-window.speechSynthesis.cancel();
+  u.rate=.92;
+  u.pitch=1;
 
-const speech =
-new SpeechSynthesisUtterance(text);
-
-speech.lang =
-document.getElementById("voiceLanguage").value;
-
-speech.rate=.9;
-speech.pitch=1;
-speech.volume=1;
-
-const voices =
-window.speechSynthesis.getVoices();
-
-const shortLang =
-speech.lang.substring(0,2).toLowerCase();
-
-const voice =
-voices.find(function(v){
-
-return v.lang &&
-v.lang.toLowerCase().startsWith(shortLang);
-
-});
-
-if(voice){
-speech.voice=voice;
-}
-
-window.speechSynthesis.speak(speech);
-
+  speechSynthesis.speak(u);
 }
 
 
-function currentLang(){
+/* =========================
+   VOICE RECOGNITION
+========================= */
 
-const value =
-document.getElementById("voiceLanguage").value;
+function startVoice(){
 
-if(value.indexOf("fr")===0){
-return "fr";
+  const SpeechRecognition=
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SpeechRecognition){
+    alert("Voice recognition is not supported by this browser.");
+    return;
+  }
+
+  const rec=new SpeechRecognition();
+
+  rec.lang=
+    currentLang==="ar" ? "ar-TN" :
+    currentLang==="fr" ? "fr-FR" :
+    "en-US";
+
+  rec.interimResults=false;
+
+  document.getElementById("voiceStatus").textContent=
+    "🎤 Listening...";
+
+  rec.start();
+
+  rec.onresult=e=>{
+    const text=e.results[0][0].transcript;
+
+    document.getElementById("symptoms").value=
+      (document.getElementById("symptoms").value+" "+text).trim();
+
+    document.getElementById("voiceStatus").textContent=
+      "✅ Voice captured.";
+  };
+
+  rec.onerror=()=>{
+    document.getElementById("voiceStatus").textContent=
+      "❌ Voice recognition error.";
+  };
 }
 
-if(value.indexOf("ar")===0){
-return "ar";
+
+/* =========================
+   AGE GROUP
+========================= */
+
+function ageGroup(age){
+
+  age=Number(age);
+
+  if(!Number.isFinite(age)) return "unknown";
+  if(age<1) return "infant";
+  if(age<12) return "child";
+  if(age<18) return "adolescent";
+  if(age>=65) return "olderAdult";
+
+  return "adult";
 }
 
-return "en";
+function ageLabel(age){
 
+  const g=ageGroup(age);
+
+  return {
+    infant:"👶 Infant",
+    child:"🧒 Child",
+    adolescent:"🧑 Adolescent",
+    adult:"🧑 Adult",
+    olderAdult:"👴 Older adult",
+    unknown:"Age unknown"
+  }[g];
 }
 
 
-/* =====================================================
-MEDICAL GLOSSARY
-===================================================== */
+/* =========================
+   SYMPTOM NORMALIZATION
+========================= */
+
+function normalize(text){
+
+  return (text||"")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[أإآ]/g,"ا")
+    .replace(/ة/g,"ه")
+    .replace(/[^\p{L}\p{N}\s]/gu," ");
+}
+
+
+/* =========================
+   RED FLAGS
+========================= */
+
+function detectRedFlags(){
+
+  const symptoms=normalize(document.getElementById("symptoms").value);
+  const conscious=document.getElementById("conscious").value;
+  const breathing=document.getElementById("breathing").value;
+  const bleeding=document.getElementById("bleeding").value;
+
+  const hr=Number(document.getElementById("hr").value);
+  const spo2=Number(document.getElementById("spo2").value);
+  const rr=Number(document.getElementById("rr").value);
+  const sbp=Number(document.getElementById("sbp").value);
+
+  let flags=[];
+
+  if(conscious==="no")
+    flags.push("Unresponsive / unconscious patient.");
+
+  if(breathing==="no")
+    flags.push("Abnormal or absent normal breathing.");
+
+  if(bleeding==="yes")
+    flags.push("Major bleeding reported.");
+
+  if(Number.isFinite(spo2) && spo2>0 && spo2<90)
+    flags.push("Very low oxygen saturation reading.");
+
+  if(Number.isFinite(sbp) && sbp>0 && sbp<90)
+    flags.push("Low systolic blood pressure reading.");
+
+  if(Number.isFinite(hr) && (hr<50 || hr>130))
+    flags.push("Markedly abnormal heart rate reading.");
+
+  if(
+    /chest pain|pain in chest|وجيعه في الصدر|الم في الصدر|douleur thoracique|douleur poitrine/.test(symptoms)
+    &&
+    /breath|breathing|dyspnea|ضيق نفس|صعوبه في التنفس|essoufflement/.test(symptoms)
+  ){
+    flags.push("Chest pain combined with breathing difficulty.");
+  }
+
+  if(
+    /stroke|avc|face droop|weakness|speech|paralys|وجه|يد ما تتحركش|ما ينجمش يحكي|صعوبه الكلام/.test(symptoms)
+  ){
+    flags.push("Possible stroke warning signs.");
+  }
+
+  if(
+    /not breathing|no breathing|ما يتنفسش|فاقد الوعي|مغمى|cardiac arrest|arret cardiaque|arret respiratoire/.test(symptoms)
+  ){
+    flags.push("Possible cardiac or respiratory arrest.");
+  }
+
+  let html="";
+
+  if(flags.length===0){
+    html=`
+      <div class="success alert">
+        🟢 No major red flag detected from the information entered.
+        This does NOT rule out a medical problem.
+      </div>`;
+  }else{
+
+    html=`
+      <div class="danger alert">
+        <strong>🚨 RED FLAGS DETECTED</strong>
+        <ul style="margin:10px 0 0 20px">
+          ${flags.map(f=>`<li>${f}</li>`).join("")}
+        </ul>
+        <br>
+        <strong>Seek urgent professional medical assessment.</strong>
+      </div>`;
+  }
+
+  document.getElementById("redFlags").innerHTML=html;
+
+  addTimeline("Red flag assessment completed");
+
+  speakText(
+    flags.length
+    ? "Red flags were detected. Seek urgent professional medical help."
+    : "No major red flag was detected by this simple assessment."
+  );
+}
+
+
+/* =========================
+   TRIAGE
+========================= */
+
+function analyzePatient(){
+
+  const age=Number(document.getElementById("age").value);
+  const symptoms=normalize(document.getElementById("symptoms").value);
+
+  const pain=Number(document.getElementById("pain").value);
+  const hr=Number(document.getElementById("hr").value);
+  const spo2=Number(document.getElementById("spo2").value);
+  const temp=Number(document.getElementById("temp").value);
+  const rr=Number(document.getElementById("rr").value);
+  const sbp=Number(document.getElementById("sbp").value);
+
+  let score=0;
+  let reasons=[];
+
+  if(pain>=8){
+    score+=3;
+    reasons.push("Severe pain reported.");
+  }else if(pain>=5){
+    score+=1;
+    reasons.push("Moderate pain reported.");
+  }
+
+  if(Number.isFinite(spo2) && spo2>0){
+
+    if(spo2<90){
+      score+=5;
+      reasons.push("Very low SpO₂ reading.");
+    }else if(spo2<94){
+      score+=3;
+      reasons.push("Low SpO₂ reading.");
+    }
+  }
+
+  if(Number.isFinite(hr) && hr>0){
+
+    if(hr<50 || hr>130){
+      score+=3;
+      reasons.push("Markedly abnormal heart rate.");
+    }else if(hr<60 || hr>100){
+      score+=1;
+    }
+  }
+
+  if(Number.isFinite(temp) && temp>0){
+
+    if(temp>=39.5){
+      score+=3;
+      reasons.push("High fever reading.");
+    }else if(temp>=38.5){
+      score+=1;
+    }
+  }
+
+  if(Number.isFinite(rr) && rr>0){
+
+    if(rr<8 || rr>30){
+      score+=3;
+      reasons.push("Markedly abnormal respiratory rate.");
+    }
+  }
+
+  if(Number.isFinite(sbp) && sbp>0 && sbp<90){
+    score+=4;
+    reasons.push("Low systolic blood pressure.");
+  }
+
+  if(age>=65 || age<1){
+    score+=1;
+  }
+
+  const emergencyPatterns=[
+    "cardiac arrest",
+    "not breathing",
+    "no breathing",
+    "ما يتنفسش",
+    "فاقد الوعي",
+    "مغمى",
+    "severe bleeding",
+    "نزيف شديد",
+    "bleeding heavily",
+    "choking",
+    "اختناق",
+    "ضيق نفس شديد",
+    "صعوبة شديدة في التنفس"
+  ];
+
+  if(emergencyPatterns.some(x=>symptoms.includes(normalize(x)))){
+    score+=6;
+    reasons.push("Possible emergency symptom detected.");
+  }
+
+  const conscious=document.getElementById("conscious").value;
+  const breathing=document.getElementById("breathing").value;
+
+  if(conscious==="no"){
+    score+=6;
+    reasons.push("Patient reported unresponsive.");
+  }
+
+  if(breathing==="no"){
+    score+=8;
+    reasons.push("Abnormal/absent normal breathing reported.");
+  }
+
+  let level="stable";
+  let title="🟢 NON-URGENT / MONITOR";
+
+  if(score>=7){
+    level="critical";
+    title="🔴 CRITICAL / EMERGENCY";
+  }else if(score>=3){
+    level="urgent";
+    title="🟠 URGENT";
+  }
+
+  /*
+    Safety override:
+    unresponsive + abnormal/absent normal breathing
+    => emergency mode.
+  */
+
+  if(conscious==="no" && breathing==="no"){
+    level="critical";
+    title="🔴 POSSIBLE CARDIAC ARREST";
+  }
+
+  currentTriage=level;
+
+  let condition=detectCondition();
+
+  let action="Monitor the patient and seek medical assessment if symptoms persist or worsen.";
+
+  if(level==="critical"){
+    action="Seek immediate professional emergency help. Do not leave the patient alone.";
+  }else if(level==="urgent"){
+    action="Arrange urgent medical assessment and continue monitoring.";
+  }
+
+  let reasonHTML=reasons.length
+    ? `<ul>${reasons.map(r=>`<li>${r}</li>`).join("")}</ul>`
+    : `<p>No major risk factor detected by this simple scoring system.</p>`;
+
+  let emergencyButton="";
+
+  if(level==="critical"){
+    emergencyButton=`
+      <button class="btn red full"
+      onclick="showModule('emergency')">
+      🆘 Open Emergency Mode
+      </button>`;
+  }
+
+  const result=document.getElementById("triageResult");
+
+  result.className=`result show ${level}`;
+
+  result.innerHTML=`
+    <span class="badge ${level==="critical"?"red":level==="urgent"?"orange":"green"}">
+      ${title}
+    </span>
+
+    <h2>${ageLabel(age)}</h2>
+
+    <p><strong>Prototype score:</strong> ${score}</p>
+
+    <div class="alert ${level==="critical"?"danger":level==="urgent"?"":"success"}">
+      <strong>What this means:</strong><br>
+      ${action}
+    </div>
+
+    <h3>Why?</h3>
+    ${reasonHTML}
+
+    ${condition ? `
+      <div class="info alert">
+        <strong>Possible situation detected:</strong>
+        ${condition.label}
+        <br>
+        This is NOT a diagnosis.
+      </div>
+    `:""}
+
+    ${emergencyButton}
+
+    <button class="btn blue"
+    onclick="speakText('${escapeSpeech(title+". "+action)}')">
+    🔊 Read result
+    </button>
+  `;
+
+  addTimeline("Patient triage assessment completed");
+
+  if(level==="critical"){
+    speakText(currentLanguageText("critical"));
+  }else if(level==="urgent"){
+    speakText(currentLanguageText("urgent"));
+  }else{
+    speakText(currentLanguageText("stable"));
+  }
+
+  buildMedicalExplanation(condition);
+}
+
+
+/* =========================
+   CONDITION DETECTION
+========================= */
+
+function detectCondition(){
+
+  const text=normalize(document.getElementById("symptoms").value);
+
+  const conditions=[
+    {
+      key:"cardiac",
+      label:"Possible cardiac arrest",
+      words:["cardiac arrest","arret cardiaque","not breathing","ما يتنفسش","فاقد الوعي","مغمى"]
+    },
+    {
+      key:"choking",
+      label:"Possible choking",
+      words:["choking","اختناق","foreign body","corps etranger","شرق"]
+    },
+    {
+      key:"bleeding",
+      label:"Significant bleeding",
+      words:["severe bleeding","heavy bleeding","نزيف شديد","نزيف","hemorragie"]
+    },
+    {
+      key:"stroke",
+      label:"Possible stroke",
+      words:["stroke","avc","paralysis","paralysie","وجه","speech difficulty","صعوبة الكلام"]
+    },
+    {
+      key:"breathing",
+      label:"Breathing difficulty",
+      words:["difficulty breathing","shortness of breath","dyspnea","ضيق نفس","صعوبة في التنفس","essoufflement"]
+    },
+    {
+      key:"burn",
+      label:"Burn",
+      words:["burn","brulure","حرق"]
+    },
+    {
+      key:"unconscious",
+      label:"Unconsciousness",
+      words:["unconscious","inconscient","فاقد الوعي","مغمى"]
+    },
+    {
+      key:"seizure",
+      label:"Possible seizure",
+      words:["seizure","convulsion","تشنج","convulsions"]
+    },
+    {
+      key:"fracture",
+      label:"Possible fracture",
+      words:["fracture","broken bone","كسر","عظم مكسور"]
+    },
+    {
+      key:"snake",
+      label:"Snake bite",
+      words:["snake bite","morsure serpent","لدغة افعى","افعى"]
+    },
+    {
+      key:"scorpion",
+      label:"Scorpion sting",
+      words:["scorpion","piqure scorpion","عقرب","لسعة عقرب"]
+    }
+  ];
+
+  return conditions.find(c=>
+    c.words.some(w=>text.includes(normalize(w)))
+  );
+}
+
+
+/* =========================
+   MEDICAL GLOSSARY
+========================= */
 
 const glossary={
 
 RCP:{
-
-en:{
 term:"RCP / CPR",
-meaning:"Cardiopulmonary resuscitation. It means repeatedly pressing the center of the chest when a person is unresponsive and not breathing normally.",
-action:"Call emergency services, start chest compressions and use an AED if available."
-},
-
-fr:{
-term:"RCP",
-meaning:"Réanimation cardio-pulmonaire. Cela signifie appuyer de façon répétée au centre de la poitrine lorsque la personne ne répond pas et ne respire pas normalement.",
-action:"Appelez les secours, commencez les compressions thoraciques et utilisez un DAE s'il est disponible."
-},
-
-ar:{
-term:"RCP / الإنعاش القلبي الرئوي",
-meaning:"هو الضغط بشكل متكرر على وسط صدر الشخص عندما يكون غير مستجيب ولا يتنفس بشكل طبيعي.",
-action:"اتصل بالطوارئ، ابدأ الضغط على وسط الصدر واستعمل جهاز الصدمات إذا كان متوفراً."
-}
-
+meaning:"Cardiopulmonary resuscitation. Chest compressions used when a person is unresponsive and not breathing normally.",
+action:"For a real emergency, call for emergency help, start appropriate CPR and use an AED if available.",
+listen:"CPR means cardiopulmonary resuscitation. It uses chest compressions to help circulate blood when a person is unresponsive and not breathing normally."
 },
 
 AED:{
-
-en:{
-term:"AED",
-meaning:"Automated External Defibrillator. A device that checks the heart rhythm and can give an electrical shock when necessary.",
-action:"Turn it on and follow its spoken instructions."
-},
-
-fr:{
-term:"DAE",
-meaning:"Défibrillateur automatisé externe. Il analyse le rythme cardiaque et peut délivrer un choc électrique si nécessaire.",
-action:"Allumez-le et suivez ses instructions vocales."
-},
-
-ar:{
-term:"AED / DAE / جهاز الصدمات",
-meaning:"جهاز يقوم بتحليل نظم القلب ويمكنه إعطاء صدمة كهربائية عند الحاجة.",
-action:"شغله واتبع التعليمات الصوتية للجهاز."
-}
-
+term:"AED / DAE",
+meaning:"Automated external defibrillator. A device that analyzes heart rhythm and may deliver a shock when appropriate.",
+action:"Turn it on and follow its spoken/visual instructions. Keep everyone away when the device tells you to.",
+listen:"AED means automated external defibrillator. Turn it on and follow the device instructions."
 },
 
 SpO2:{
-
-en:{
 term:"SpO₂",
-meaning:"Oxygen saturation: an estimate of how much oxygen is carried in the blood.",
-action:"A low reading can be serious, especially with breathing difficulty."
+meaning:"Oxygen saturation measured by a pulse oximeter.",
+action:"Interpret the number together with the patient's symptoms and overall condition.",
+listen:"SpO2 is an estimate of oxygen saturation measured by a pulse oximeter."
 },
 
-fr:{
-term:"SpO₂",
-meaning:"Saturation en oxygène : estimation de la quantité d'oxygène transportée dans le sang.",
-action:"Une valeur basse peut être grave, surtout en cas de difficulté respiratoire."
-},
-
-ar:{
-term:"SpO₂ / نسبة الأكسجين",
-meaning:"هي نسبة تقريبية لكمية الأكسجين الموجودة في الدم.",
-action:"انخفاضها قد يكون خطيراً خاصة إذا كان المريض يعاني من صعوبة في التنفس."
-}
-
-},
-
-dyspnea:{
-
-en:{
-term:"Dyspnea",
-meaning:"Difficulty breathing or feeling short of breath.",
-action:"Keep the patient comfortable and seek emergency help if severe or worsening."
-},
-
-fr:{
-term:"Dyspnée",
-meaning:"Difficulté à respirer ou sensation de manque d'air.",
-action:"Gardez le patient dans une position confortable et demandez une aide urgente si elle est sévère ou s'aggrave."
-},
-
-ar:{
-term:"Dyspnée / ضيق التنفس",
-meaning:"صعوبة في التنفس أو الإحساس بنقص الهواء.",
-action:"اجعل المريض في وضعية مريحة واطلب المساعدة العاجلة إذا كانت الصعوبة شديدة أو تزداد."
-}
-
-},
-
-tachycardia:{
-
-en:{
-term:"Tachycardia",
-meaning:"A heart rate that is faster than expected.",
-action:"It can have many causes. A very fast heart rate with serious symptoms needs urgent assessment."
-},
-
-fr:{
-term:"Tachycardie",
-meaning:"Fréquence cardiaque plus rapide que prévu.",
-action:"Elle peut avoir plusieurs causes. Une fréquence très élevée avec des symptômes graves nécessite une évaluation urgente."
-},
-
-ar:{
-term:"Tachycardia / تسارع القلب",
-meaning:"نبض القلب يكون أسرع من المتوقع.",
-action:"يمكن أن تكون له أسباب عديدة. إذا كان النبض سريعاً جداً مع أعراض خطيرة يلزم تقييم عاجل."
-}
-
-},
-
-bradycardia:{
-
-en:{
-term:"Bradycardia",
-meaning:"A heart rate that is slower than expected.",
-action:"If it causes fainting, severe weakness, chest pain or breathing problems, seek urgent help."
-},
-
-fr:{
-term:"Bradycardie",
-meaning:"Fréquence cardiaque plus lente que prévu.",
-action:"Si elle provoque malaise, grande faiblesse, douleur thoracique ou problème respiratoire, demandez une aide urgente."
-},
-
-ar:{
-term:"Bradycardia / بطء القلب",
-meaning:"نبض القلب يكون أبطأ من المتوقع.",
-action:"إذا صاحبه إغماء أو ضعف شديد أو ألم في الصدر أو صعوبة تنفس، اطلب المساعدة العاجلة."
-}
-
-},
-
-hemorrhage:{
-
-en:{
-term:"Hemorrhage",
-meaning:"Heavy or severe bleeding.",
-action:"Apply firm direct pressure and seek emergency help for severe bleeding."
-},
-
-fr:{
-term:"Hémorragie",
-meaning:"Saignement important ou abondant.",
-action:"Exercez une pression directe ferme et demandez une aide urgente en cas de saignement sévère."
-},
-
-ar:{
-term:"Hemorrhage / نزيف شديد",
-meaning:"نزيف قوي أو غزير.",
-action:"اضغط بقوة وباستمرار مباشرة على مكان النزيف واطلب المساعدة العاجلة."
-}
-
-},
-
-unconscious:{
-
-en:{
-term:"Unresponsive / unconscious",
-meaning:"The person does not respond normally when you speak to or gently stimulate them.",
-action:"Check normal breathing and call emergency services."
-},
-
-fr:{
-term:"Inconscient / ne répond pas",
-meaning:"La personne ne répond pas normalement lorsqu'on lui parle ou la stimule doucement.",
-action:"Vérifiez la respiration normale et appelez les secours."
-},
-
-ar:{
-term:"فاقد الوعي / لا يستجيب",
-meaning:"الشخص لا يستجيب بشكل طبيعي عند مناداته أو محاولة إيقاظه بلطف.",
-action:"تحقق من التنفس الطبيعي واتصل بالطوارئ."
-}
-
-},
-
-fracture:{
-
-en:{
-term:"Fracture",
-meaning:"A broken or cracked bone.",
-action:"Keep the injured area still and do not try to straighten it."
-},
-
-fr:{
-term:"Fracture",
-meaning:"Os cassé ou fissuré.",
-action:"Gardez la zone immobile et n'essayez pas de remettre l'os en place."
-},
-
-ar:{
-term:"Fracture / كسر",
-meaning:"عظم مكسور أو متشقق.",
-action:"ثبت المنطقة المصابة ولا تحاول تقويم العظم."
-}
-
-},
-
-immobilization:{
-
-en:{
-term:"Immobilization",
-meaning:"Keeping an injured body part still to reduce movement and further injury.",
-action:"Support the injured area in the position found."
-},
-
-fr:{
-term:"Immobilisation",
-meaning:"Maintenir une partie blessée sans mouvement pour éviter une aggravation.",
-action:"Soutenez la zone blessée في الوضعية الموجودة."
-},
-
-ar:{
-term:"Immobilization / تثبيت",
-meaning:"منع المنطقة المصابة من الحركة لتقليل خطر زيادة الإصابة.",
-action:"ادعم المنطقة المصابة وثبتها في الوضعية التي وجدتها عليها."
-}
-
-},
-
-recovery:{
-
-en:{
-term:"Recovery position",
-meaning:"A safe side position for an unconscious person who is breathing normally.",
-action:"It helps keep the airway open while waiting for professional help."
-},
-
-fr:{
-term:"PLS / Position latérale de sécurité",
-meaning:"Position sur le côté utilisée chez une personne inconsciente qui respire normalement.",
-action:"Elle aide à maintenir les voies respiratoires ouvertes en attendant les secours."
-},
-
-ar:{
-term:"PLS / وضعية الأمان الجانبية",
-meaning:"وضعية على الجانب تستعمل للشخص فاقد الوعي الذي يتنفس بشكل طبيعي.",
-action:"تساعد على إبقاء مجرى التنفس مفتوحاً أثناء انتظار المساعدة."
-}
-
-},
-
-stroke:{
-
-en:{
-term:"Stroke",
-meaning:"A sudden problem with blood flow or bleeding in the brain that can cause neurological symptoms.",
-action:"Treat it as an emergency and record when symptoms started."
-},
-
-fr:{
-term:"AVC",
-meaning:"Problème soudain de circulation sanguine ou saignement dans le cerveau pouvant provoquer des signes neurologiques.",
-action:"Considérez-le comme une urgence et notez l'heure de début des symptômes."
-},
-
-ar:{
-term:"AVC / سكتة دماغية",
-meaning:"مشكلة مفاجئة في وصول الدم إلى الدماغ أو نزيف داخل الدماغ، ويمكن أن تسبب أعراضاً عصبية.",
-action:"اعتبرها حالة طارئة وسجل وقت بداية الأعراض."
-}
-
+ABCDE:{
+term:"ABCDE",
+meaning:"A structured emergency assessment: Airway, Breathing, Circulation, Disability and Exposure.",
+action:"Check life-threatening problems first and reassess when the patient's condition changes.",
+listen:"ABCDE means airway, breathing, circulation, disability and exposure. It is a structured emergency assessment."
 },
 
 FAST:{
-
-en:{
 term:"FAST",
-meaning:"Face, Arm, Speech, Time. It helps recognize warning signs of stroke.",
-action:"Check for facial weakness, arm weakness and speech problems, then seek emergency help immediately."
+meaning:"A quick way to remember common stroke warning signs: Face, Arm, Speech and Time.",
+action:"If stroke is suspected, seek urgent emergency assessment and note when symptoms started or when the person was last known well.",
+listen:"FAST is a way to remember face, arm, speech and time in suspected stroke."
 },
 
-fr:{
-term:"FAST",
-meaning:"Face, Arm, Speech, Time : visage, bras, parole, temps.",
-action:"Recherchez une asymétrie du visage, une faiblesse du bras ou un trouble de la parole et demandez immédiatement une aide urgente."
-},
-
-ar:{
-term:"FAST",
-meaning:"الوجه، الذراع، الكلام، الوقت. طريقة بسيطة للمساعدة على اكتشاف علامات السكتة الدماغية.",
-action:"راقب اعوجاج الوجه، ضعف الذراع أو اضطراب الكلام واطلب المساعدة الطارئة فوراً."
-}
-
-},
-
-airway:{
-
-en:{
-term:"Airway",
-meaning:"The passage through which air travels from the mouth and nose to the lungs.",
-action:"A blocked airway can prevent normal breathing and can be life-threatening."
-},
-
-fr:{
-term:"Voies respiratoires",
-meaning:"Passage par lequel l'air arrive de la bouche et du nez vers les poumons.",
-action:"Une obstruction peut empêcher la respiration normale et être grave."
-},
-
-ar:{
-term:"Airway / مجرى التنفس",
-meaning:"الممر الذي يمر عبره الهواء من الفم والأنف إلى الرئتين.",
-action:"انسداد مجرى التنفس يمكن أن يمنع التنفس الطبيعي ويكون خطيراً."
-}
-
-},
-
-directPressure:{
-
-en:{
-term:"Direct pressure",
-meaning:"Pressing firmly on the bleeding area with clean material.",
-action:"Keep continuous pressure and do not repeatedly remove the material to check the wound."
-},
-
-fr:{
-term:"Pression directe",
-meaning:"Appuyer fermement sur la zone qui saigne avec un matériau propre.",
-action:"Maintenez une pression continue et évitez de retirer constamment le matériau pour vérifier la plaie."
-},
-
-ar:{
-term:"Direct pressure / الضغط المباشر",
-meaning:"الضغط بقوة على مكان النزيف باستعمال قطعة نظيفة إن أمكن.",
-action:"واصل الضغط باستمرار ولا ترفع القطعة كل مرة لمعاينة الجرح."
-}
-
-},
-
-seizure:{
-
-en:{
-term:"Seizure",
-meaning:"A sudden episode of abnormal electrical activity in the brain that may cause shaking or altered awareness.",
-action:"Protect the person from injury, do not put anything in their mouth and seek emergency help when appropriate."
-},
-
-fr:{
-term:"Crise convulsive",
-meaning:"Épisode soudain d'activité électrique anormale du cerveau pouvant provoquer des mouvements involontaires ou une altération de la conscience.",
-action:"Protégez la personne des blessures, ne mettez rien dans sa bouche et demandez une aide urgente si nécessaire."
-},
-
-ar:{
-term:"Seizure / تشنج",
-meaning:"نوبة مفاجئة ناتجة عن نشاط كهربائي غير طبيعي في الدماغ وقد تسبب اهتزازاً أو تغيراً في الوعي.",
-action:"احم الشخص من الإصابة ولا تضع أي شيء في فمه واطلب المساعدة عند الحاجة."
-}
-
-}
-
-};
-
-
-/* =====================================================
-SHOW TERM
-===================================================== */
-
-function glossaryBox(key){
-
-const lang=currentLang();
-
-const data=glossary[key];
-
-if(!data || !data[lang]){
-return "";
-}
-
-const item=data[lang];
-
-return `
-
-<div class="term">
-
-<strong>💡 ${escapeHTML(item.term)}</strong>
-
-<br><br>
-
-${escapeHTML(item.meaning)}
-
-<br><br>
-
-<strong>👉 What does the user do?</strong>
-
-<br>
-
-${escapeHTML(item.action)}
-
-<br>
-
-<button
-class="purple"
-onclick="speakText(${JSON.stringify(item.term+" . "+item.meaning+" . "+item.action)})"
->
-🔊 Listen
-</button>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-TRIAGE
-===================================================== */
-
-function analyzePatient(){
-
-const name =
-document.getElementById("patientName").value.trim()
-|| "Unknown Patient";
-
-const age =
-Number(document.getElementById("patientAge").value);
-
-const rawSymptoms =
-document.getElementById("patientSymptoms").value.trim();
-
-const symptoms =
-rawSymptoms.toLowerCase();
-
-const pain =
-Number(document.getElementById("pain").value);
-
-const heart =
-Number(document.getElementById("heartRate").value);
-
-const temperature =
-Number(document.getElementById("temperature").value);
-
-const oxygen =
-Number(document.getElementById("oxygen").value);
-
-let score=0;
-let reasons=[];
-let detectedTerms=[];
-
-
-if(pain>=8){
-
-score+=4;
-reasons.push("Severe pain");
-
-}
-else if(pain>=5){
-
-score+=2;
-reasons.push("Moderate pain");
-
-}
-
-
-if(oxygen>0 && oxygen<90){
-
-score+=5;
-reasons.push("Very low oxygen saturation");
-detectedTerms.push("SpO2");
-
-}
-else if(oxygen>0 && oxygen<94){
-
-score+=3;
-reasons.push("Low oxygen saturation");
-detectedTerms.push("SpO2");
-
-}
-
-
-if(
-heart>0 &&
-(heart<50 || heart>120)
-){
-
-score+=3;
-reasons.push("Abnormal heart rate");
-
-if(heart>120){
-detectedTerms.push("tachycardia");
-}
-else{
-detectedTerms.push("bradycardia");
-}
-
-}
-
-
-if(temperature>=39.5){
-
-score+=3;
-reasons.push("High temperature");
-
-}
-else if(temperature>=38.5){
-
-score+=1;
-reasons.push("Fever");
-
-}
-
-
-if(
-age>=65 ||
-(age>0 && age<5)
-){
-
-score+=1;
-reasons.push("Age-related risk");
-
-}
-
-
-const emergencyWords=[
-
-"chest pain",
-"difficulty breathing",
-"shortness of breath",
-"severe bleeding",
-"heavy bleeding",
-"unconscious",
-"seizure",
-"stroke",
-"choking",
-"cardiac arrest",
-"not breathing",
-"gasping",
-"snake bite",
-"scorpion sting",
-
-"douleur thoracique",
-"saignement",
-"étouffement",
-"avc",
-"essoufflement",
-"inconscient",
-
-"ألم الصدر",
-"وجيعة في الصدر",
-"ألم في الصدر",
-"نزيف",
-"نزيف قوي",
-"اختناق",
-"جلطة",
-"سكتة",
-"ضيق التنفس",
-"ضيق نفس",
-"صعوبة التنفس",
-"صعوبة في التنفس",
-"فاقد الوعي",
-"مغمى عليه",
-"تشنج",
-"ما يتنفسش",
-"لا يتنفس"
-
-];
-
-
-for(let word of emergencyWords){
-
-if(symptoms.includes(word)){
-
-score+=5;
-
-reasons.push(
-"Emergency symptom: "+word
-);
-
-break;
-
-}
-
-}
-
-
-let priority;
-let css;
-
-if(score>=7){
-
-priority="🔴 CRITICAL";
-css="critical";
-
-}
-else if(score>=3){
-
-priority="🟠 URGENT";
-css="urgent";
-
-}
-else{
-
-priority="🟢 NON-URGENT";
-css="normal";
-
-}
-
-
-const condition =
-detectConditionFromSymptoms(symptoms);
-
-
-if(condition){
-
-document.getElementById("condition").value=condition;
-
-}
-
-
-if(
-symptoms.includes("chest pain") ||
-symptoms.includes("douleur thoracique") ||
-symptoms.includes("ألم الصدر") ||
-symptoms.includes("وجيعة في الصدر")
-){
-
-detectedTerms.push("RCP");
-
-}
-
-
-if(
-condition==="stroke"
-){
-
-detectedTerms.push("stroke");
-detectedTerms.push("FAST");
-
-}
-
-
-if(
-condition==="bleeding"
-){
-
-detectedTerms.push("hemorrhage");
-detectedTerms.push("directPressure");
-
-}
-
-
-if(
-condition==="breathing"
-){
-
-detectedTerms.push("dyspnea");
-
-}
-
-
-if(
-condition==="cardiac" ||
-condition==="unconscious"
-){
-
-detectedTerms.push("RCP");
-detectedTerms.push("AED");
-detectedTerms.push("unconscious");
-
-}
-
-
-if(condition==="fracture"){
-
-detectedTerms.push("fracture");
-detectedTerms.push("immobilization");
-
-}
-
-
-if(condition==="seizure"){
-
-detectedTerms.push("seizure");
-
-}
-
-
-detectedTerms=[
-...new Set(detectedTerms)
-];
-
-
-let explanationHTML="";
-
-if(detectedTerms.length){
-
-explanationHTML=`
-
-<div class="explanation">
-
-<h3>
-💡 Medical Terms Explained
-</h3>
-
-<p>
-TriageAI detected terms that may be unfamiliar.
-Here is what they mean in simple language:
-</p>
-
-${detectedTerms.map(function(term){
-
-return glossaryBox(term);
-
-}).join("")}
-
-</div>
-
-`;
-
-}
-
-
-let actionHTML="";
-
-
-if(condition){
-
-actionHTML=buildSimpleAction(condition);
-
-}
-
-
-const result =
-document.getElementById("result");
-
-
-result.className =
-"result "+css;
-
-
-const spokenText =
-priority+
-". Patient "+name+
-". "+
-(age ? "Age "+age+". " : "")+
-"Symptoms: "+(rawSymptoms || "not provided")+
-". Triage score "+score+
-". "+
-(reasons.join(". ") || "No major risk factor detected.");
-
-
-result.innerHTML = `
-
-<div class="priority">
-${priority}
-</div>
-
-<div class="item">
-<strong>👤 Patient:</strong>
-${escapeHTML(name)}
-</div>
-
-<div class="item">
-<strong>🎂 Age:</strong>
-${age || "Not provided"}
-</div>
-
-<div class="item">
-<strong>🩺 Symptoms:</strong>
-${escapeHTML(rawSymptoms) || "Not provided"}
-</div>
-
-<div class="item">
-
-<strong>❤️ Vital Signs</strong>
-
-<br><br>
-
-Heart Rate:
-${heart || "N/A"} BPM
-
-<br>
-
-Temperature:
-${temperature || "N/A"} °C
-
-<br>
-
-Oxygen Saturation:
-${oxygen || "N/A"} %
-
-</div>
-
-<div class="item">
-
-<strong>📊 Triage Score:</strong>
-
-${score}
-
-</div>
-
-<div class="item">
-
-<strong>⚠️ Reasons:</strong>
-
-<br>
-
-${
-reasons.length
-?
-reasons.map(escapeHTML).join("<br>")
-:
-"No major risk factor detected."
-}
-
-</div>
-
-${actionHTML}
-
-${explanationHTML}
-
-<button
-class="purple"
-onclick="speakText(${JSON.stringify(spokenText)})"
->
-🔊 Read Triage Result
-</button>
-
-`;
-
-
-if(score>=7 && condition){
-
-showGuide();
-
-}
-
-}
-
-
-/* =====================================================
-SIMPLE ACTION
-===================================================== */
-
-function buildSimpleAction(condition){
-
-const lang=currentLang();
-
-const actions={
-
-bleeding:{
-
-en:"🩸 If bleeding is severe: press firmly and continuously on the bleeding area. Call emergency services.",
-fr:"🩸 Si le saignement est important : appuyez fermement et continuellement sur la zone qui saigne. Appelez les secours.",
-ar:"🩸 إذا كان النزيف شديداً: اضغط بقوة وباستمرار على مكان النزيف. اتصل بالطوارئ."
-
-},
-
-choking:{
-
-en:"🫁 If the person cannot cough, speak or breathe normally, treat it as a serious emergency and call for help.",
-fr:"🫁 Si la personne ne peut pas tousser, parler ou respirer normalement, considérez cela comme une urgence et appelez les secours.",
-ar:"🫁 إذا كان الشخص لا يستطيع السعال أو الكلام أو التنفس بشكل طبيعي، اعتبرها حالة طارئة واتصل بالطوارئ."
-
-},
-
-burn:{
-
-en:"🔥 Cool the burn with cool running water. Do not use ice, toothpaste, butter or oil.",
-fr:"🔥 Refroidissez la brûlure avec de l'eau courante fraîche. N'utilisez pas de glace, dentifrice, beurre ou huile.",
-ar:"🔥 برد الحرق بالماء الجاري البارد. لا تستعمل الثلج أو معجون الأسنان أو الزبدة أو الزيت."
-
-},
-
-stroke:{
-
-en:"🧠 Possible stroke: remember FAST and seek emergency help immediately. Record the time symptoms started.",
-fr:"🧠 AVC possible : pensez FAST et demandez immédiatement une aide urgente. Notez l'heure de début des symptômes.",
-ar:"🧠 احتمال سكتة دماغية: تذكر FAST واطلب المساعدة الطارئة فوراً. سجل وقت بداية الأعراض."
-
-},
-
-breathing:{
-
-en:"🫁 Help the person stay comfortable and monitor breathing. Severe or worsening breathing difficulty needs emergency help.",
-fr:"🫁 Aidez la personne à rester dans une position confortable et surveillez sa respiration. Une difficulté respiratoire sévère ou qui s'aggrave nécessite une aide urgente.",
-ar:"🫁 ساعد الشخص على البقاء في وضعية مريحة وراقب تنفسه. صعوبة التنفس الشديدة أو التي تزداد تحتاج إلى مساعدة طارئة."
-
-},
-
-cardiac:{
-
-en:"❤️ If the person is unresponsive and not breathing normally, call emergency services, start CPR and use an AED if available.",
-fr:"❤️ Si la personne ne répond pas et ne respire pas normalement, appelez les secours, commencez la RCP et utilisez un DAE s'il est disponible.",
-ar:"❤️ إذا كان الشخص لا يستجيب ولا يتنفس بشكل طبيعي، اتصل بالطوارئ وابدأ الإنعاش القلبي الرئوي واستعمل جهاز الصدمات إذا كان متوفراً."
-
+dyspnea:{
+term:"Dyspnea",
+meaning:"Difficulty or uncomfortable breathing.",
+action:"Severe breathing difficulty can be an emergency.",
+listen:"Dyspnea means difficulty breathing."
 },
 
 unconscious:{
-
-en:"😵 Check responsiveness and normal breathing. If not breathing normally, start CPR. If breathing normally, place the person in the recovery position when appropriate.",
-fr:"😵 Vérifiez la réponse et la respiration normale. Si la personne ne respire pas normalement, commencez la RCP. Si elle respire normalement, utilisez la PLS lorsque c'est approprié.",
-ar:"😵 تحقق من الاستجابة والتنفس الطبيعي. إذا لم يكن يتنفس بشكل طبيعي ابدأ الإنعاش القلبي الرئوي. إذا كان يتنفس طبيعياً، استعمل وضعية الأمان الجانبية عندما تكون مناسبة."
-
+term:"Unresponsive",
+meaning:"The person does not respond normally when spoken to or stimulated appropriately.",
+action:"Check breathing. If the person is unresponsive and not breathing normally, emergency CPR instructions may apply.",
+listen:"Unresponsive means the person does not respond normally."
 },
 
-fracture:{
-
-en:"🦴 Keep the injured area still. Do not try to straighten it. Seek medical assessment.",
-fr:"🦴 Gardez la zone blessée immobile. N'essayez pas de la redresser. Demandez une évaluation médicale.",
-ar:"🦴 حافظ على ثبات المنطقة المصابة. لا تحاول تقويمها. اطلب تقييماً طبياً."
-
+hemorrhage:{
+term:"Hemorrhage",
+meaning:"Significant or severe bleeding.",
+action:"Major bleeding requires urgent action and professional medical help.",
+listen:"Hemorrhage means significant bleeding."
 },
 
-snake:{
-
-en:"🐍 Keep the person calm and still and seek urgent medical care. Do not cut or suck the bite.",
-fr:"🐍 Gardez la personne calme et immobile et demandez des soins médicaux urgents. Ne coupez pas et ne sucez pas la morsure.",
-ar:"🐍 اجعل الشخص هادئاً وثابتاً واطلب رعاية طبية عاجلة. لا تقطع مكان اللدغة ولا تمص السم."
-
+immobilization:{
+term:"Immobilization",
+meaning:"Keeping an injured body part from unnecessary movement.",
+action:"Avoid unnecessary movement when a serious injury is suspected.",
+listen:"Immobilization means keeping an injured body part from unnecessary movement."
 },
 
-scorpion:{
-
-en:"🦂 Keep the person calm, clean the area, use a cool compress and seek medical assessment.",
-fr:"🦂 Gardez la personne calme, nettoyez la zone, utilisez une compresse fraîche et demandez une évaluation médicale.",
-ar:"🦂 اجعل الشخص هادئاً، نظف المنطقة، استعمل كمادة باردة واطلب تقييماً طبياً."
-
+seizure:{
+term:"Seizure",
+meaning:"A temporary episode caused by abnormal electrical activity in the brain.",
+action:"Protect the person from nearby hazards, do not put anything in their mouth and monitor breathing.",
+listen:"A seizure is a temporary episode caused by abnormal electrical activity in the brain."
 }
 
 };
 
-return `
+function glossaryBox(key){
 
-<div class="action-box">
+  const g=glossary[key];
 
-<strong>👉 What should you do now?</strong>
+  if(!g) return "";
 
-<br><br>
+  return `
+  <div class="term">
+    <div class="term-title">${g.term}</div>
 
-${escapeHTML(actions[condition][lang])}
+    <p><strong>Simple meaning:</strong> ${g.meaning}</p>
 
-<br>
+    <p><strong>What to do:</strong> ${g.action}</p>
 
-<button
-class="green"
-onclick="speakText(${JSON.stringify(actions[condition][lang])})"
->
-🔊 Listen to Instructions
-</button>
+    <button class="btn gray"
+    onclick="speakText('${escapeSpeech(g.listen)}')">
+    🔊 Listen
+    </button>
+  </div>`;
+}
 
-</div>
+function escapeSpeech(text){
+  return String(text).replace(/'/g,"");
+}
 
-`;
+function buildMedicalExplanation(condition){
 
+  if(!condition) return;
+
+  let keys=[];
+
+  if(condition.key==="cardiac") keys=["RCP","AED"];
+  if(condition.key==="stroke") keys=["FAST"];
+  if(condition.key==="breathing") keys=["dyspnea","SpO2"];
+  if(condition.key==="bleeding") keys=["hemorrhage"];
+  if(condition.key==="unconscious") keys=["unconscious","RCP","AED"];
+  if(condition.key==="seizure") keys=["seizure"];
+  if(condition.key==="fracture") keys=["immobilization"];
+
+  if(!keys.length) return;
+
+  const box=document.createElement("div");
+
+  box.className="card";
+
+  box.innerHTML=`
+    <h2>📖 Medical terms explained</h2>
+    ${keys.map(glossaryBox).join("")}
+  `;
+
+  document.getElementById("triageResult").after(box);
 }
 
 
-/* =====================================================
-NEW PATIENT
-===================================================== */
+/* =========================
+   FIRST AID
+========================= */
 
-function newPatient(){
+function showFirstAid(){
 
-[
-"patientName",
-"patientAge",
-"patientSymptoms",
-"pain",
-"heartRate",
-"temperature",
-"oxygen"
-]
-.forEach(function(id){
+  const c=document.getElementById("condition").value;
 
-document.getElementById(id).value="";
+  const data={
 
-});
-
-document.getElementById("result").innerHTML="";
-document.getElementById("result").className="";
-
-document.getElementById("guide").innerHTML="";
-
-document.getElementById("condition").value="";
-
-}
-
-
-/* =====================================================
-GENERAL VOICE
-===================================================== */
-
-let recognition=null;
-
-function startVoice(){
-
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-const status =
-document.getElementById("voiceStatus");
-
-if(!SpeechRecognition){
-
-status.innerHTML =
-"❌ Voice recognition is not supported. Please use Google Chrome.";
-
-return;
-
-}
-
-if(recognition){
-
-try{
-recognition.stop();
-}catch(e){}
-
-}
-
-recognition =
-new SpeechRecognition();
-
-recognition.lang =
-document.getElementById("voiceLanguage").value;
-
-recognition.continuous=false;
-recognition.interimResults=false;
-recognition.maxAlternatives=1;
-
-recognition.onstart=function(){
-
-status.innerHTML =
-"🎤 Listening... Speak now.";
-
-};
-
-recognition.onresult=function(event){
-
-const text =
-event.results[0][0].transcript;
-
-document.getElementById(
-"patientSymptoms"
-).value=text;
-
-status.innerHTML =
-"✅ Heard: "+
-escapeHTML(text);
-
-detectCondition(
-text.toLowerCase()
-);
-
-};
-
-recognition.onerror=function(event){
-
-status.innerHTML =
-"❌ Voice error: "+event.error;
-
-};
-
-recognition.onend=function(){
-
-status.innerHTML =
-"🎤 Voice assistant ready.";
-
-};
-
-try{
-
-recognition.start();
-
-}
-catch(e){
-
-status.innerHTML =
-"❌ Could not start microphone.";
-
-}
-
-}
-
-
-function stopVoice(){
-
-if(recognition){
-
-try{
-recognition.stop();
-}catch(e){}
-
-}
-
-document.getElementById(
-"voiceStatus"
-).innerHTML =
-"⏹ Voice stopped.";
-
-}
-
-
-/* =====================================================
-FIRST AID GUIDES
-===================================================== */
-
-const guides={
-
-bleeding:{
-title:"🩸 Severe Bleeding",
-terms:["hemorrhage","directPressure"],
-
-steps:[
-"Call for emergency medical help if bleeding is severe.",
-"Apply firm direct pressure to the bleeding area.",
-"Keep the pressure continuous.",
-"Do not remove an object embedded in the wound.",
-"Keep monitoring the person until professional help arrives."
-]
-
+cardiac:{
+title:"❤️ Possible Cardiac Arrest",
+intro:"If the person is unresponsive and not breathing normally, this is an immediate emergency.",
+do:[
+"Call for emergency help or ask another person to call.",
+"Place the person on a firm, flat surface if possible.",
+"Start CPR if the person is unresponsive and not breathing normally.",
+"Use an AED/DAE if available and follow its instructions.",
+"Continue until trained help takes over or the person shows signs of normal breathing."
+],
+dont:[
+"Do not delay emergency help while trying to diagnose the cause.",
+"Do not stop CPR just because the person is not immediately responding."
+],
+terms:["RCP","AED","unconscious"]
 },
 
 choking:{
-title:"🫁 Choking",
-terms:["airway","RCP"],
-
-steps:[
-"If the person can cough effectively, encourage them to cough.",
-"If they cannot cough, speak or breathe normally, treat it as a serious emergency.",
-"Call emergency services.",
-"If the person becomes unresponsive and is not breathing normally, start CPR."
-]
-
+title:"😮 Possible Choking",
+intro:"If the person cannot breathe, speak or cough effectively, this can be a life-threatening airway emergency.",
+do:[
+"Encourage effective coughing if the person can cough and breathe.",
+"If the obstruction becomes severe, follow the appropriate choking first-aid sequence for the person's age.",
+"Call emergency help for severe choking or if the person becomes unresponsive.",
+"If the person becomes unresponsive, begin CPR according to current guidance."
+],
+dont:[
+"Do not blindly put your fingers into the mouth.",
+"Do not give food or drink to a person with severe choking."
+],
+terms:["RCP"]
 },
 
-burn:{
-title:"🔥 Burns",
-terms:[],
-
-steps:[
-"Move the person away from the heat source.",
-"Cool the burn with cool running water.",
-"Remove rings, watches or tight items if possible before swelling develops.",
-"Do not put ice directly on the burn.",
-"Do not use toothpaste, butter or oil.",
-"Seek medical help for serious or extensive burns."
-]
-
+bleeding:{
+title:"🩸 Severe Bleeding",
+intro:"Major bleeding can become life-threatening quickly.",
+do:[
+"Call for emergency help.",
+"Apply firm direct pressure to the bleeding area using cloth, gauze or a suitable dressing.",
+"Keep pressure continuous while waiting for help.",
+"If blood soaks through, add more material without repeatedly removing the first layer.",
+"Monitor the person's condition and keep them warm."
+],
+dont:[
+"Do not repeatedly lift the dressing to check the wound.",
+"Do not delay emergency help for severe bleeding."
+],
+terms:["hemorrhage"]
 },
 
 stroke:{
 title:"🧠 Possible Stroke",
-terms:["stroke","FAST"],
-
-steps:[
-"Think FAST: Face, Arm, Speech, Time.",
-"Check for facial weakness, arm weakness or speech difficulty.",
-"Call emergency services immediately.",
-"Record the exact time symptoms started, or when the person was last known well.",
-"Do not let the person drive themselves."
-]
-
+intro:"Stroke is time-sensitive. Rapid medical assessment is important.",
+do:[
+"Note the time symptoms started, or the last time the person was known to be well.",
+"Check for facial asymmetry, arm weakness and speech problems.",
+"Call emergency medical help urgently if stroke is suspected.",
+"Keep the person safe and monitored while waiting."
+],
+dont:[
+"Do not give food or drink if swallowing may be impaired.",
+"Do not drive the patient yourself if emergency transport is available and advised."
+],
+terms:["FAST"]
 },
 
 breathing:{
-title:"😮‍💨 Difficulty Breathing",
-terms:["dyspnea","SpO2"],
-
-steps:[
-"Keep the person in a comfortable position.",
-"Stay calm and reassure them.",
-"Monitor breathing and consciousness.",
-"Help with prescribed treatment if appropriate and available.",
-"Severe or worsening breathing difficulty requires emergency help."
-]
-
+title:"🫁 Severe Breathing Difficulty",
+intro:"Severe breathing difficulty can be life-threatening.",
+do:[
+"Help the person into a position that makes breathing easier, if safe.",
+"Call emergency help if breathing is severely difficult or worsening.",
+"Monitor responsiveness and breathing.",
+"Use prescribed emergency medication only if it is the person's own prescribed treatment and according to their plan."
+],
+dont:[
+"Do not force the person to lie flat if this makes breathing worse.",
+"Do not leave a severely breathless person alone."
+],
+terms:["dyspnea","SpO2"]
 },
 
-cardiac:{
-title:"❤️ Cardiac Arrest",
-terms:["RCP","AED"],
-
-steps:[
-"Check if the person responds.",
-"Check whether they are breathing normally.",
-"If they are unresponsive and not breathing normally, call emergency services.",
-"Start CPR.",
-"If an AED is available, switch it on and follow its voice instructions.",
-"Continue until professional help arrives or the person shows normal breathing."
-]
-
+burn:{
+title:"🔥 Burn",
+intro:"First aid depends on the type and severity of the burn.",
+do:[
+"Remove the person from the source of heat if safe.",
+"Cool the burn with cool running water for an appropriate period.",
+"Remove jewellery or clothing near the area if it is not stuck to the skin.",
+"Seek medical assessment for serious, extensive or deep burns."
+],
+dont:[
+"Do not apply ice directly to the burn.",
+"Do not peel clothing stuck to the skin.",
+"Do not apply household chemicals or unknown substances."
+],
+terms:[]
 },
 
 unconscious:{
-title:"😵 Unconsciousness",
-terms:["unconscious","recovery","RCP"],
+title:"😴 Unresponsive Person",
+intro:"First determine whether the person is breathing normally.",
+do:[
+"Try to get a response and call for emergency help.",
+"Check whether the person is breathing normally.",
+"If unresponsive and not breathing normally, start CPR and use an AED if available.",
+"If unresponsive but breathing normally, follow appropriate recovery-position guidance and monitor breathing while waiting for help."
+],
+dont:[
+"Do not leave an unresponsive person alone.",
+"Do not give food, drink or medication by mouth."
+],
+terms:["unconscious","RCP","AED"]
+},
 
-steps:[
-"Check whether the person responds.",
-"Check normal breathing.",
-"Call emergency services if the person is unresponsive.",
-"If they are breathing normally, use the recovery position when appropriate.",
-"If they are not breathing normally, start CPR."
-]
-
+seizure:{
+title:"⚡ Seizure",
+intro:"Most seizures stop by themselves, but some require emergency help.",
+do:[
+"Protect the person from nearby objects and injury.",
+"Place something soft under the head if possible.",
+"Time the seizure.",
+"After the seizure, monitor breathing and responsiveness.",
+"Seek emergency help for a prolonged seizure, repeated seizures without recovery, serious injury, breathing problems or other concerning circumstances."
+],
+dont:[
+"Do not restrain the person's movements.",
+"Do not put anything in their mouth.",
+"Do not give food or drink until they are fully alert."
+],
+terms:["seizure"]
 },
 
 fracture:{
-title:"🦴 Possible Fracture",
-terms:["fracture","immobilization"],
-
-steps:[
-"Keep the injured area still.",
-"Support the injured limb in the position found.",
-"Do not try to straighten it.",
-"Control severe bleeding if present.",
+title:"🦴 Suspected Fracture",
+intro:"A suspected fracture needs appropriate medical assessment, especially after significant trauma.",
+do:[
+"Keep the injured area as still as reasonably possible.",
+"Support the injured area in a comfortable position.",
+"Monitor for severe bleeding or changes in sensation/circulation.",
 "Seek medical assessment."
-]
-
+],
+dont:[
+"Do not force the bone back into position.",
+"Do not unnecessarily move the injured area."
+],
+terms:["immobilization"]
 },
 
 snake:{
 title:"🐍 Snake Bite",
-terms:[],
-
-steps:[
-"Move away from the snake.",
-"Keep the person calm and still.",
-"Keep the affected limb still.",
-"Remove rings and watches if possible.",
-"Do not cut the bite.",
-"Do not suck venom from the wound.",
-"Seek urgent medical care."
-]
-
+intro:"Snake bites can cause serious poisoning depending on the species.",
+do:[
+"Move away from the snake and keep the person calm and still.",
+"Seek emergency medical assessment urgently.",
+"Note the time and, only from a safe distance, the appearance of the snake.",
+"Remove rings or tight items near the affected limb if swelling is expected."
+],
+dont:[
+"Do not attempt to catch the snake.",
+"Do not cut the wound or suck the venom.",
+"Do not apply a dangerous improvised treatment."
+],
+terms:[]
 },
 
 scorpion:{
 title:"🦂 Scorpion Sting",
-terms:[],
-
-steps:[
+intro:"Most stings are painful, but some can cause serious systemic symptoms.",
+do:[
 "Move away from the scorpion.",
-"Keep the person calm.",
-"Clean the area with soap and water.",
-"Use a cool compress.",
-"Monitor breathing and consciousness.",
-"Seek medical assessment, especially if symptoms become severe."
-]
-
+"Keep the person calm and monitor them.",
+"Seek medical assessment if severe symptoms develop or if the person is a child or otherwise vulnerable.",
+"Call emergency help for breathing problems, altered consciousness or severe deterioration."
+],
+dont:[
+"Do not attempt risky home procedures.",
+"Do not delay professional assessment when serious symptoms appear."
+],
+terms:[]
 }
 
 };
 
+  if(!c){
+    document.getElementById("firstAidContent").innerHTML="";
+    return;
+  }
 
-function showGuide(){
+  const d=data[c];
 
-const condition =
-document.getElementById("condition").value;
+  document.getElementById("firstAidContent").innerHTML=`
+    <div class="card" style="box-shadow:none;border:1px solid #dbe9eb;margin-top:15px">
+      <h2>${d.title}</h2>
 
-const guide =
-document.getElementById("guide");
+      <div class="info alert">
+        ${d.intro}
+      </div>
 
-if(!condition){
+      <div class="action-grid">
 
-guide.innerHTML=`
+        <div class="action-box do">
+          <h3>✅ What to do</h3>
+          <ol>
+            ${d.do.map(x=>`<li style="margin:8px 0">${x}</li>`).join("")}
+          </ol>
+        </div>
 
-<div class="item">
-⚠️ Please select a condition first.
-</div>
+        <div class="action-box dont">
+          <h3>🛑 What NOT to do</h3>
+          <ol>
+            ${d.dont.map(x=>`<li style="margin:8px 0">${x}</li>`).join("")}
+          </ol>
+        </div>
 
+      </div>
+
+      ${d.terms.length
+        ? `<h3 style="margin-top:18px">📖 Terms explained</h3>
+           ${d.terms.map(glossaryBox).join("")}`
+        :""
+      }
+
+      <button class="btn blue"
+      onclick="speakFirstAid('${c}')">
+      🔊 Read instructions
+      </button>
+
+      <div class="small" style="margin-top:15px">
+        Educational guidance. For real emergencies, follow local emergency
+        service instructions and current professional guidelines.
+      </div>
+    </div>
+  `;
+
+  addTimeline("First aid guide opened: "+d.title);
+}
+
+
+function speakFirstAid(c){
+
+  const select=document.getElementById("condition");
+
+  const text=select.options[select.selectedIndex].text;
+
+  speakText(
+    text+
+    ". Read the instructions on screen carefully. "+
+    "If this is a serious or life-threatening emergency, seek professional emergency help immediately."
+  );
+}
+
+
+/* =========================
+   CPR
+========================= */
+
+function updateCPRAge(){
+
+  const age=Number(document.getElementById("age").value);
+
+  if(!Number.isFinite(age)){
+    document.getElementById("cprAgeInfo").innerHTML=
+      "Enter the patient's age in the Patient section.";
+    return;
+  }
+
+  const g=ageGroup(age);
+
+  let info="";
+
+  if(g==="infant"){
+    info=`
+      <strong>👶 INFANT CPR</strong><br>
+      Age: under 1 year.<br>
+      CPR technique and compression depth differ from adults.
+      Follow current pediatric guidance and emergency-dispatch instructions.
+      `;
+  }else if(g==="child"){
+    info=`
+      <strong>🧒 CHILD CPR</strong><br>
+      Age: 1–11 years.<br>
+      Use pediatric CPR technique appropriate for the child's size and current guidance.
+      `;
+  }else{
+    info=`
+      <strong>🧑 ADULT / ADOLESCENT CPR</strong><br>
+      Age: ${age} years.<br>
+      Use adult/adolescent guidance when appropriate.
+      `;
+  }
+
+  document.getElementById("cprAgeInfo").innerHTML=info;
+}
+
+document.getElementById("age").addEventListener("input",updateCPRAge);
+
+
+function startCPR(){
+
+  const conscious=document.getElementById("conscious").value;
+  const breathing=document.getElementById("breathing").value;
+
+  if(conscious==="yes"){
+    alert("CPR is not normally started on a responsive person. Reassess the situation and seek professional help if needed.");
+    return;
+  }
+
+  compressionCount=0;
+
+  document.getElementById("compressionCounter").textContent="0";
+  document.getElementById("cprPhase").textContent=
+    "❤️ COMPRESSIONS — 100–120/min";
+
+  addTimeline("CPR compression trainer started");
+
+  if(compressionTimer) clearInterval(compressionTimer);
+
+  compressionTimer=setInterval(()=>{
+
+    /*
+      Approximate metronome.
+      It is a training aid, not a clinical monitor.
+    */
+
+    if(navigator.vibrate){
+      navigator.vibrate(40);
+    }
+
+  },550);
+
+  speakText(
+    "Start chest compressions at a rate of one hundred to one hundred and twenty compressions per minute. Follow emergency professional instructions."
+  );
+}
+
+
+function compression(){
+
+  compressionCount++;
+
+  document.getElementById("compressionCounter").textContent=
+    compressionCount;
+
+  if(compressionCount>=30){
+
+    document.getElementById("cprPhase").textContent=
+      "😮 2 BREATHS — if trained and willing";
+
+    if(compressionCount===30){
+      speakText(
+        "Thirty compressions. If you are trained and willing to provide rescue breaths, give two breaths, then return to compressions."
+      );
+    }
+
+    if(compressionCount>=32){
+
+      compressionCount=0;
+
+      document.getElementById("compressionCounter").textContent="0";
+
+      document.getElementById("cprPhase").textContent=
+        "❤️ COMPRESSIONS — repeat";
+
+    }
+  }
+}
+
+
+function stopCPR(){
+
+  if(compressionTimer){
+    clearInterval(compressionTimer);
+    compressionTimer=null;
+  }
+
+  compressionCount=0;
+
+  document.getElementById("compressionCounter").textContent="0";
+
+  document.getElementById("cprPhase").textContent="Stopped";
+
+  addTimeline("CPR trainer stopped");
+}
+
+
+/* =========================
+   EMERGENCY CARDIAC
+========================= */
+
+function emergencyCardiac(){
+
+  showModule("cpr");
+
+  const age=Number(document.getElementById("age").value);
+
+  let text=`
+    <div class="danger alert">
+      <strong>🚨 POSSIBLE CARDIAC ARREST</strong><br><br>
+
+      If the person is unresponsive and not breathing normally:
+      <br><br>
+
+      1️⃣ Call emergency help.<br>
+      2️⃣ Start CPR.<br>
+      3️⃣ Use an AED/DAE if available.<br>
+      4️⃣ Follow emergency-dispatch and AED instructions.
+    </div>
+  `;
+
+  if(Number.isFinite(age)){
+    text+=`
+      <div class="info alert">
+        Patient age: ${age} years — ${ageLabel(age)}.
+        <br>
+        Use age-appropriate CPR guidance.
+      </div>
+    `;
+  }
+
+  document.getElementById("cprInstructions").innerHTML=text;
+
+  speakText(
+    "Possible cardiac arrest. If the person is unresponsive and not breathing normally, call for emergency help, start CPR and use an AED if available."
+  );
+}
+
+
+/* =========================
+   ABCDE
+========================= */
+
+function runABCDE(){
+
+  const checks=[
+    ["A — Airway","Can the patient speak or is there an obvious airway problem?"],
+    ["B — Breathing","Is breathing normal? Look, listen and observe the chest."],
+    ["C — Circulation","Look for major bleeding and signs of poor circulation."],
+    ["D — Disability","Check responsiveness and important neurological changes."],
+    ["E — Exposure","Look for important injuries while maintaining dignity and warmth."]
+  ];
+
+  document.getElementById("abcdeResult").innerHTML=`
+    <div class="card" style="box-shadow:none">
+      ${checks.map((x,i)=>`
+        <div class="step">
+          <strong>${x[0]}</strong>
+          <p>${x[1]}</p>
+          <label>
+            <input type="checkbox" style="width:auto">
+            Checked
+          </label>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  addTimeline("ABCDE checklist opened");
+}
+
+
+/* =========================
+   HANDOVER / SBAR
+========================= */
+
+function generateHandover(){
+
+  const name=document.getElementById("patientName").value || "Not specified";
+  const age=document.getElementById("age").value || "Not specified";
+  const sex=document.getElementById("sex").value || "Not specified";
+  const symptoms=document.getElementById("symptoms").value || "Not specified";
+
+  const report=`
+
+TRIAGEAI — EMERGENCY HANDOVER
+
+S — SITUATION
+Patient: ${name}
+Age: ${age}
+Sex: ${sex}
+Main problem: ${symptoms}
+
+B — BACKGROUND
+Symptoms onset: ${document.getElementById("onset").value || "Not specified"}
+Relevant history: Not entered
+Medication/allergies: Not entered
+
+A — ASSESSMENT
+Triage level: ${currentTriage || "Not assessed"}
+Heart rate: ${document.getElementById("hr").value || "Not recorded"}
+SpO₂: ${document.getElementById("spo2").value || "Not recorded"}
+Temperature: ${document.getElementById("temp").value || "Not recorded"}
+Respiratory rate: ${document.getElementById("rr").value || "Not recorded"}
+Systolic BP: ${document.getElementById("sbp").value || "Not recorded"}
+Pain: ${document.getElementById("pain").value || "Not recorded"}
+
+Consciousness: ${document.getElementById("conscious").value || "Unknown"}
+Breathing: ${document.getElementById("breathing").value || "Unknown"}
+Major bleeding: ${document.getElementById("bleeding").value || "Unknown"}
+
+R — RECOMMENDATION
+Urgency should be determined by qualified medical professionals.
+Continue monitoring and communicate any deterioration.
+
+DISCLAIMER
+TriageAI is an educational prototype and does not provide a definitive diagnosis.
 `;
 
-return;
+  document.getElementById("handoverOutput").innerHTML=`
+    <textarea id="handoverText" style="min-height:420px;margin-top:15px">${report.trim()}</textarea>
+  `;
 
-}
+  document.getElementById("copyHandoverBtn").style.display="block";
 
-const data=guides[condition];
-
-let termsHTML="";
-
-if(data.terms.length){
-
-termsHTML=`
-
-<div class="explanation">
-
-<h3>
-💡 Medical Terms Explained
-</h3>
-
-${data.terms.map(function(term){
-
-return glossaryBox(term);
-
-}).join("")}
-
-</div>
-
-`;
-
-}
-
-const lang=currentLang();
-
-const stepsText=data.steps.join(". ");
-
-guide.innerHTML=`
-
-<div class="item">
-
-<h3>
-${data.title}
-</h3>
-
-<ol>
-
-${data.steps.map(function(step){
-
-return "<li>"+escapeHTML(step)+"</li>";
-
-}).join("")}
-
-</ol>
-
-</div>
-
-${termsHTML}
-
-<div class="action-box">
-
-<strong>🧑‍⚕️ Simple explanation:</strong>
-
-<br><br>
-
-The instructions above are written for a person without medical training.
-
-<br>
-
-<strong>⚠️ If the condition is severe or the person is deteriorating, seek emergency medical help.</strong>
-
-<br>
-
-<button
-class="green"
-onclick="speakText(${JSON.stringify(data.title+". "+stepsText)})"
->
-🔊 Read First Aid Guide
-</button>
-
-</div>
-
-`;
-
+  addTimeline("Emergency handover report generated");
 }
 
 
-/* =====================================================
-CONDITION DETECTION
-===================================================== */
+function copyHandover(){
 
-function detectCondition(text){
+  const text=document.getElementById("handoverText").value;
 
-const condition =
-detectConditionFromSymptoms(text);
-
-if(condition){
-
-document.getElementById("condition").value =
-condition;
-
-showGuide();
-
-}
-
+  navigator.clipboard.writeText(text)
+    .then(()=>{
+      alert("✅ Handover copied.");
+    })
+    .catch(()=>{
+      alert("Copy failed. Select and copy the text manually.");
+    });
 }
 
 
-function detectConditionFromSymptoms(text){
+/* =========================
+   TRAINING
+========================= */
 
-text=text.toLowerCase();
+function trainingCase(type){
 
-if(
-text.includes("bleeding") ||
-text.includes("blood") ||
-text.includes("saignement") ||
-text.includes("sang") ||
-text.includes("نزيف") ||
-text.includes("دم")
-){
-
-return "bleeding";
-
-}
-
-if(
-text.includes("choking") ||
-text.includes("étouffement") ||
-text.includes("اختناق")
-){
-
-return "choking";
-
-}
-
-if(
-text.includes("burn") ||
-text.includes("brûlure") ||
-text.includes("حرق")
-){
-
-return "burn";
-
-}
-
-if(
-text.includes("stroke") ||
-text.includes("avc") ||
-text.includes("جلطة") ||
-text.includes("سكتة") ||
-text.includes("اعوجاج الفم") ||
-text.includes("ضعف في اليد")
-){
-
-return "stroke";
-
-}
-
-if(
-text.includes("breathing") ||
-text.includes("respiration") ||
-text.includes("essoufflement") ||
-text.includes("dyspnea") ||
-text.includes("ضيق التنفس") ||
-text.includes("ضيق نفس") ||
-text.includes("صعوبة التنفس") ||
-text.includes("صعوبة في التنفس")
-){
-
-return "breathing";
-
-}
-
-if(
-text.includes("cardiac arrest") ||
-text.includes("arrêt cardiaque") ||
-text.includes("توقف القلب") ||
-text.includes("ما يتنفسش")
-){
-
-return "cardiac";
-
-}
-
-if(
-text.includes("unconscious") ||
-text.includes("inconscient") ||
-text.includes("فاقد الوعي") ||
-text.includes("مغمى عليه") ||
-text.includes("مغمى")
-){
-
-return "unconscious";
-
-}
-
-if(
-text.includes("fracture") ||
-text.includes("cassure") ||
-text.includes("كسر")
-){
-
-return "fracture";
-
-}
-
-if(
-text.includes("snake") ||
-text.includes("serpent") ||
-text.includes("ثعبان") ||
-text.includes("أفعى") ||
-text.includes("لدغة ثعبان")
-){
-
-return "snake";
-
-}
-
-if(
-text.includes("scorpion") ||
-text.includes("عقرب")
-){
-
-return "scorpion";
-
-}
-
-return "";
-
-}
-
-
-/* =====================================================
-STAY WITH ME
-===================================================== */
-
-let stayCondition="";
-let stayQuestionIndex=0;
-let stayStopped=false;
-let stayVoiceRecognition=null;
-
-
-const stayFlows={
+  const cases={
 
 cardiac:{
-
-intro:{
-en:"Possible cardiac arrest. Stay with the patient and act quickly.",
-fr:"Possible arrêt cardiaque. Restez avec le patient et agissez rapidement.",
-ar:"قد يكون هناك توقف في القلب. ابق مع المريض وتصرف بسرعة."
+title:"❤️ Training Case — Cardiac Arrest",
+case:"A 58-year-old person suddenly collapses. They do not respond and are not breathing normally.",
+question:"What should happen first?",
+answers:[
+"Start appropriate CPR and activate emergency help.",
+"Give water.",
+"Ask them to walk around."
+],
+correct:0
 },
-
-questions:[
-
-{
-q:{
-en:"Is the patient responsive?",
-fr:"Est-ce que le patient répond ?",
-ar:"هل المريض يستجيب؟"
-},
-
-yes:{
-en:"The patient responds. Continue monitoring and seek urgent medical assessment.",
-fr:"Le patient répond. Continuez à le surveiller et demandez une évaluation médicale urgente.",
-ar:"المريض يستجيب. واصل مراقبته واطلب تقييماً طبياً عاجلاً."
-},
-
-no:{
-en:"The patient is unresponsive. Call emergency services immediately.",
-fr:"Le patient ne répond pas. Appelez immédiatement les secours.",
-ar:"المريض لا يستجيب. اتصل بالطوارئ فوراً."
-},
-
-nextYes:"finish",
-nextNo:1
-
-},
-
-{
-q:{
-en:"Is the patient breathing normally?",
-fr:"Est-ce que le patient respire normalement ?",
-ar:"هل المريض يتنفس بشكل طبيعي؟"
-},
-
-yes:{
-en:"Continue monitoring and follow professional emergency instructions.",
-fr:"Continuez la surveillance et suivez les instructions des professionnels.",
-ar:"واصل المراقبة واتبع تعليمات المختصين."
-},
-
-no:{
-en:"Start CPR now. CPR means repeated chest compressions in the center of the chest. Use an AED if available and follow its voice instructions.",
-fr:"Commencez la RCP maintenant. La RCP signifie effectuer des compressions répétées au centre de la poitrine. Utilisez un DAE s'il est disponible et suivez ses instructions vocales.",
-ar:"ابدأ الإنعاش القلبي الرئوي الآن. الإنعاش القلبي الرئوي يعني الضغط بشكل متكرر على وسط الصدر. استعمل جهاز الصدمات إذا كان متوفراً واتبع تعليماته الصوتية."
-},
-
-nextYes:"finish",
-nextNo:"emergency"
-
-}
-
-]
-
-},
-
-
-unconscious:{
-
-intro:{
-en:"The patient may be unconscious. Stay with me and check one thing at a time.",
-fr:"Le patient peut être inconscient. Restez avec moi et vérifions une chose à la fois.",
-ar:"قد يكون المريض فاقداً للوعي. ابق معي وسنتحقق خطوة بخطوة."
-},
-
-questions:[
-
-{
-q:{
-en:"Is the patient responsive?",
-fr:"Est-ce que le patient répond ?",
-ar:"هل المريض يستجيب؟"
-},
-
-yes:{
-en:"Good. Continue monitoring the patient and seek medical assessment.",
-fr:"Très bien. Continuez à surveiller le patient et demandez une évaluation médicale.",
-ar:"جيد. واصل مراقبة المريض واطلب تقييماً طبياً."
-},
-
-no:{
-en:"The patient is unresponsive. Call emergency services.",
-fr:"Le patient ne répond pas. Appelez les secours.",
-ar:"المريض لا يستجيب. اتصل بالطوارئ."
-},
-
-nextYes:"finish",
-nextNo:1
-
-},
-
-{
-q:{
-en:"Is the patient breathing normally?",
-fr:"Est-ce que le patient respire normalement ?",
-ar:"هل المريض يتنفس بشكل طبيعي؟"
-},
-
-yes:{
-en:"If appropriate, place the person in the recovery position and continue monitoring breathing.",
-fr:"Si cela est approprié, placez la personne en position latérale de sécurité et continuez à surveiller sa respiration.",
-ar:"إذا كان ذلك مناسباً، ضع الشخص في وضعية الأمان الجانبية وواصل مراقبة تنفسه."
-},
-
-no:{
-en:"Start CPR. CPR means repeated chest compressions in the center of the chest. Use an AED if available.",
-fr:"Commencez la RCP. La RCP signifie effectuer des compressions répétées au centre de la poitrine. Utilisez un DAE s'il est disponible.",
-ar:"ابدأ الإنعاش القلبي الرئوي. يعني الضغط المتكرر على وسط الصدر. استعمل جهاز الصدمات إذا كان متوفراً."
-},
-
-nextYes:"finish",
-nextNo:"emergency"
-
-}
-
-]
-
-},
-
-
-breathing:{
-
-intro:{
-en:"Breathing difficulty can become serious. Stay with the patient.",
-fr:"Une difficulté respiratoire peut devenir grave. Restez avec le patient.",
-ar:"صعوبة التنفس قد تصبح خطيرة. ابق مع المريض."
-},
-
-questions:[
-
-{
-q:{
-en:"Is the breathing difficulty severe or getting worse?",
-fr:"La difficulté respiratoire est-elle sévère ou s'aggrave-t-elle ?",
-ar:"هل صعوبة التنفس شديدة أو تزداد سوءاً؟"
-},
-
-yes:{
-en:"Call emergency services immediately. Keep the patient comfortable and monitor breathing.",
-fr:"Appelez immédiatement les secours. Gardez le patient dans une position confortable et surveillez sa respiration.",
-ar:"اتصل بالطوارئ فوراً. اجعل المريض في وضعية مريحة وراقب تنفسه."
-},
-
-no:{
-en:"Continue monitoring and seek medical assessment if symptoms continue.",
-fr:"Continuez à surveiller et demandez une évaluation médicale si les symptômes persistent.",
-ar:"واصل المراقبة واطلب تقييماً طبياً إذا استمرت الأعراض."
-},
-
-nextYes:"emergency",
-nextNo:"finish"
-
-}
-
-]
-
-},
-
 
 stroke:{
-
-intro:{
-en:"Possible stroke. Time matters. Stay with the patient.",
-fr:"AVC possible. Le temps est important. Restez avec le patient.",
-ar:"قد تكون هناك سكتة دماغية. الوقت مهم. ابق مع المريض."
+title:"🧠 Training Case — Possible Stroke",
+case:"A 67-year-old suddenly develops facial asymmetry, one-sided arm weakness and difficulty speaking.",
+question:"What is the priority?",
+answers:[
+"Wait until tomorrow.",
+"Recognize possible stroke and seek urgent emergency assessment.",
+"Give food and drink."
+],
+correct:1
 },
-
-questions:[
-
-{
-q:{
-en:"Did the symptoms start suddenly?",
-fr:"Les symptômes ont-ils commencé soudainement ?",
-ar:"هل بدأت الأعراض فجأة؟"
-},
-
-yes:{
-en:"Call emergency services immediately and record the exact time symptoms started.",
-fr:"Appelez immédiatement les secours et notez l'heure exacte du début des symptômes.",
-ar:"اتصل بالطوارئ فوراً وسجل الوقت الدقيق لبداية الأعراض."
-},
-
-no:{
-en:"New neurological symptoms still need urgent medical assessment.",
-fr:"De nouveaux symptômes neurologiques nécessitent toujours une évaluation médicale urgente.",
-ar:"الأعراض العصبية الجديدة تحتاج أيضاً إلى تقييم طبي عاجل."
-},
-
-nextYes:"emergency",
-nextNo:"emergency"
-
-}
-
-]
-
-},
-
 
 bleeding:{
-
-intro:{
-en:"Severe bleeding can be life-threatening. Stay with the patient.",
-fr:"Une hémorragie importante peut être grave. Restez avec le patient.",
-ar:"النزيف الشديد يمكن أن يكون خطيراً. ابق مع المريض."
-},
-
-questions:[
-
-{
-q:{
-en:"Is the bleeding severe or difficult to control?",
-fr:"Le saignement est-il important ou difficile à contrôler ?",
-ar:"هل النزيف شديد أو يصعب إيقافه؟"
-},
-
-yes:{
-en:"Call emergency services and apply firm continuous direct pressure.",
-fr:"Appelez les secours et exercez une pression directe ferme et continue.",
-ar:"اتصل بالطوارئ واضغط بقوة وباستمرار مباشرة على مكان النزيف."
-},
-
-no:{
-en:"Continue appropriate direct pressure and monitor the patient.",
-fr:"Continuez la pression directe appropriée et surveillez le patient.",
-ar:"واصل الضغط المباشر المناسب وراقب المريض."
-},
-
-nextYes:"emergency",
-nextNo:"finish"
-
-}
-
-]
-
+title:"🩸 Training Case — Severe Bleeding",
+case:"A person has heavy bleeding from an injury.",
+question:"What is an important immediate action?",
+answers:[
+"Apply firm direct pressure and seek emergency help.",
+"Wash the wound for a long time before doing anything else.",
+"Leave the person alone."
+],
+correct:0
 },
 
 choking:{
-
-intro:{
-en:"Possible choking emergency. Stay with the patient.",
-fr:"Possible étouffement. Restez avec le patient.",
-ar:"قد تكون هناك حالة اختناق. ابق مع المريض."
-},
-
-questions:[
-
-{
-q:{
-en:"Is the patient conscious?",
-fr:"Est-ce que le patient est conscient ?",
-ar:"هل المريض واعي؟"
-},
-
-yes:{
-en:"If the person can cough effectively, encourage coughing.",
-fr:"Si la personne peut tousser efficacement, encouragez-la à tousser.",
-ar:"إذا كان الشخص يستطيع السعال بشكل فعال، شجعه على السعال."
-},
-
-no:{
-en:"The patient is unconscious. Call emergency services immediately.",
-fr:"Le patient est inconscient. Appelez immédiatement les secours.",
-ar:"المريض فاقد الوعي. اتصل بالطوارئ فوراً."
-},
-
-nextYes:1,
-nextNo:"emergency"
-
-},
-
-{
-q:{
-en:"Is the patient breathing normally?",
-fr:"Est-ce que le patient respire normalement ?",
-ar:"هل المريض يتنفس بشكل طبيعي؟"
-},
-
-yes:{
-en:"Continue monitoring the patient.",
-fr:"Continuez à surveiller le patient.",
-ar:"واصل مراقبة المريض."
-},
-
-no:{
-en:"Call emergency services immediately and start CPR if the patient is not breathing normally.",
-fr:"Appelez immédiatement les secours et commencez la RCP si le patient ne respire pas normalement.",
-ar:"اتصل بالطوارئ فوراً وابدأ الإنعاش القلبي الرئوي إذا كان المريض لا يتنفس بشكل طبيعي."
-},
-
-nextYes:"finish",
-nextNo:"emergency"
-
-}
-
-]
-
+title:"😮 Training Case — Choking",
+case:"An adult cannot speak or breathe effectively because of a suspected airway obstruction.",
+question:"What should you do?",
+answers:[
+"Treat it as a potential life-threatening choking emergency and follow current choking guidance.",
+"Give them food.",
+"Tell them to lie down and wait."
+],
+correct:0
 }
 
 };
 
+  const c=cases[type];
 
-/* =====================================================
-START STAY
-===================================================== */
+  document.getElementById("trainingOutput").innerHTML=`
+    <div class="card" style="margin-top:15px">
+      <h2>${c.title}</h2>
 
-function startStay(){
+      <div class="info alert">
+        ${c.case}
+      </div>
 
-const condition =
-document.getElementById("condition").value;
+      <h3>${c.question}</h3>
 
-const stay =
-document.getElementById("stay");
+      ${c.answers.map((a,i)=>`
+        <button class="btn gray full"
+        onclick="trainingAnswer(${i},${c.correct})">
+        ${a}
+        </button>
+      `).join("")}
 
-if(!condition){
-
-stay.innerHTML =
-'<div class="item">⚠️ Please select an emergency condition first.</div>';
-
-return;
-
-}
-
-if(!stayFlows[condition]){
-
-stay.innerHTML =
-'<div class="item">⚠️ Voice mode is not available for this condition yet.</div>';
-
-return;
-
-}
-
-stopStayRecognition();
-
-if("speechSynthesis" in window){
-
-window.speechSynthesis.cancel();
-
-}
-
-stayCondition=condition;
-stayQuestionIndex=0;
-stayStopped=false;
-
-const lang=currentLang();
-
-const intro=
-stayFlows[condition].intro[lang];
-
-stay.innerHTML=`
-
-<div class="stay-box voice-active">
-
-<div class="stay-title">
-🫶 Stay With Me — Voice Mode
-</div>
-
-<div class="status">
-${escapeHTML(intro)}
-</div>
-
-<div class="question">
-
-<div class="question-number">
-VOICE MODE
-</div>
-
-<br>
-
-🎤 TriageAI will ask automatically.
-
-<br><br>
-
-👂 Answer YES or NO.
-
-</div>
-
-<div id="stayVoiceStatus" class="status">
-🔊 Preparing voice...
-</div>
-
-<button
-class="gray"
-onclick="stopStay()"
->
-⏹ Stop
-</button>
-
-</div>
-
-`;
-
-setTimeout(function(){
-
-speakStayText(
-intro,
-function(){
-
-if(!stayStopped){
-
-setTimeout(
-askStayQuestion,
-700
-);
-
-}
-
-});
-
-},500);
-
-}
-
-
-/* =====================================================
-ASK QUESTION
-===================================================== */
-
-function askStayQuestion(){
-
-if(stayStopped){
-return;
-}
-
-const flow=
-stayFlows[stayCondition];
-
-if(!flow){
-return;
-}
-
-if(stayQuestionIndex>=flow.questions.length){
-
-finishStayVoice();
-return;
-
-}
-
-const lang=currentLang();
-
-const question=
-flow.questions[stayQuestionIndex].q[lang];
-
-renderVoiceQuestion(question);
-
-setTimeout(function(){
-
-if(stayStopped){
-return;
-}
-
-speakStayText(
-question,
-function(){
-
-if(!stayStopped){
-
-setTimeout(
-listenForStayAnswer,
-600
-);
-
-}
-
-});
-
-},300);
-
-}
-
-
-/* =====================================================
-QUESTION
-===================================================== */
-
-function renderVoiceQuestion(question){
-
-const stay=
-document.getElementById("stay");
-
-const total=
-stayFlows[stayCondition].questions.length;
-
-stay.innerHTML=`
-
-<div class="stay-box voice-active">
-
-<div class="stay-title">
-🫶 Stay With Me
-</div>
-
-<div class="status">
-🎤 Listen and answer by voice.
-</div>
-
-<div class="question">
-
-<div class="question-number">
-QUESTION ${stayQuestionIndex+1} / ${total}
-</div>
-
-<br>
-
-${escapeHTML(question)}
-
-</div>
-
-<div id="stayVoiceStatus"
-class="voice-listening">
-🔊 Speaking...
-</div>
-
-<div id="backupArea"></div>
-
-<button
-class="purple"
-onclick="repeatStayQuestion()"
->
-🔊 Repeat Question
-</button>
-
-<button
-class="gray"
-onclick="stopStay()"
->
-⏹ Stop
-</button>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-LISTEN
-===================================================== */
-
-function listenForStayAnswer(){
-
-if(stayStopped){
-return;
-}
-
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-const status =
-document.getElementById("stayVoiceStatus");
-
-if(!SpeechRecognition){
-
-showBackupButtons();
-
-if(status){
-
-status.className="status";
-
-status.innerHTML=
-"❌ Voice recognition is not supported. Use YES / NO.";
-
-}
-
-return;
-
-}
-
-stopStayRecognition();
-
-stayVoiceRecognition=
-new SpeechRecognition();
-
-stayVoiceRecognition.lang=
-document.getElementById("voiceLanguage").value;
-
-stayVoiceRecognition.continuous=false;
-stayVoiceRecognition.interimResults=false;
-stayVoiceRecognition.maxAlternatives=5;
-
-if(status){
-
-status.className="voice-listening";
-status.innerHTML="🎤 Listening... Say YES or NO.";
-
-}
-
-stayVoiceRecognition.onresult=
-function(event){
-
-const transcript=
-event.results[0][0].transcript;
-
-const answer=
-understandYesNo(transcript);
-
-if(answer){
-
-if(status){
-
-status.className="status";
-
-status.innerHTML=
-"👂 Heard: "+escapeHTML(transcript);
-
-}
-
-handleStayAnswer(answer);
-
-}
-else{
-
-handleUnknownAnswer();
-
-}
-
-};
-
-stayVoiceRecognition.onerror=
-function(event){
-
-if(event.error==="not-allowed" ||
-event.error==="permission-denied"){
-
-showBackupButtons();
-
-if(status){
-
-status.className="status";
-
-status.innerHTML=
-"❌ Microphone permission denied. Use YES / NO.";
-
-}
-
-return;
-
-}
-
-if(event.error==="no-speech"){
-
-if(status){
-
-status.className="status";
-
-status.innerHTML=
-"⚠️ I didn't hear you. Listening again...";
-
-}
-
-setTimeout(
-listenForStayAnswer,
-700
-);
-
-return;
-
-}
-
-showBackupButtons();
-
-if(status){
-
-status.className="status";
-
-status.innerHTML=
-"❌ Microphone error. Use YES / NO buttons.";
-
-}
-
-};
-
-try{
-
-stayVoiceRecognition.start();
-
-}
-catch(error){
-
-showBackupButtons();
-
-}
-
-}
-
-
-/* =====================================================
-YES / NO
-===================================================== */
-
-function understandYesNo(text){
-
-const t=
-text.toLowerCase().trim();
-
-const yesWords=[
-"yes",
-"yeah",
-"yep",
-"oui",
-"ouais",
-"si",
-"نعم",
-"اي",
-"إي",
-"أيوة",
-"ايوة",
-"آه",
-"اه",
-"أجل",
-"إيه"
-];
-
-const noWords=[
-"no",
-"nope",
-"non",
-"لا",
-"لأ",
-"موش",
-"مش",
-"مو",
-"كلا"
-];
-
-for(let word of yesWords){
-
-if(t===word ||
-t.startsWith(word+" ") ||
-t.endsWith(" "+word) ||
-t.includes(" "+word+" ")){
-
-return "yes";
-
-}
-
-}
-
-for(let word of noWords){
-
-if(t===word ||
-t.startsWith(word+" ") ||
-t.endsWith(" "+word) ||
-t.includes(" "+word+" ")){
-
-return "no";
-
-}
-
-}
-
-return null;
-
-}
-
-
-/* =====================================================
-UNKNOWN
-===================================================== */
-
-function handleUnknownAnswer(){
-
-const lang=currentLang();
-
-let message;
-
-if(lang==="fr"){
-
-message=
-"Je n'ai pas compris. Répondez simplement oui ou non.";
-
-}
-else if(lang==="ar"){
-
-message=
-"لم أفهم الإجابة. أجب فقط بنعم أو لا.";
-
-}
-else{
-
-message=
-"I didn't understand. Please answer yes or no.";
-
-}
-
-const status=
-document.getElementById("stayVoiceStatus");
-
-if(status){
-
-status.className="status";
-
-status.innerHTML=
-"⚠️ "+escapeHTML(message);
-
-}
-
-speakStayText(
-message,
-function(){
-
-if(!stayStopped){
-
-setTimeout(
-listenForStayAnswer,
-600
-);
-
-}
-
-});
-
-}
-
-
-/* =====================================================
-HANDLE ANSWER
-===================================================== */
-
-function handleStayAnswer(answer){
-
-if(stayStopped){
-return;
-}
-
-stopStayRecognition();
-
-const flow=
-stayFlows[stayCondition];
-
-const question=
-flow.questions[stayQuestionIndex];
-
-const lang=currentLang();
-
-const response=
-answer==="yes"
-?
-question.yes[lang]
-:
-question.no[lang];
-
-const next=
-answer==="yes"
-?
-question.nextYes
-:
-question.nextNo;
-
-renderStayResponse(
-response,
-answer
-);
-
-setTimeout(function(){
-
-if(stayStopped){
-return;
-}
-
-speakStayText(
-response,
-function(){
-
-if(stayStopped){
-return;
-}
-
-setTimeout(function(){
-
-if(next==="emergency"){
-
-renderEmergencyVoice();
-
-}
-else if(next==="finish"){
-
-finishStayVoice();
-
-}
-else{
-
-stayQuestionIndex=next;
-
-askStayQuestion();
-
-}
-
-},700);
-
-});
-
-},300);
-
-}
-
-
-/* =====================================================
-RESPONSE
-===================================================== */
-
-function renderStayResponse(response,answer){
-
-const stay=
-document.getElementById("stay");
-
-stay.innerHTML=`
-
-<div class="stay-box voice-active">
-
-<div class="stay-title">
-🫶 Stay With Me
-</div>
-
-<div class="status">
-
-👂 Answer received:
-
-<strong>
-
-${
-answer==="yes"
-?
-"YES 🟢"
-:
-"NO 🔴"
-}
-
-</strong>
-
-</div>
-
-<div class="step">
-
-${escapeHTML(response)}
-
-</div>
-
-<div id="stayVoiceStatus"
-class="status">
-🔊 Processing next step...
-</div>
-
-<button
-class="purple"
-onclick="speakText(${JSON.stringify(response)})"
->
-🔊 Explain Again
-</button>
-
-<button
-class="gray"
-onclick="stopStay()"
->
-⏹ Stop
-</button>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-BACKUP
-===================================================== */
-
-function showBackupButtons(){
-
-const area=
-document.getElementById("backupArea");
-
-if(!area){
-return;
-}
-
-area.innerHTML=`
-
-<div class="answer-grid">
-
-<button
-class="answer-yes"
-onclick="handleStayAnswer('yes')"
->
-🟢 YES
-</button>
-
-<button
-class="answer-no"
-onclick="handleStayAnswer('no')"
->
-🔴 NO
-</button>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-EMERGENCY MODE
-===================================================== */
-
-function renderEmergencyVoice(){
-
-if(stayStopped){
-return;
-}
-
-stopStayRecognition();
-
-const lang=currentLang();
-
-let title;
-let message;
-let rcpText="";
-
-if(lang==="fr"){
-
-title="MODE URGENCE";
-
-message=
-"Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient.";
-
-rcpText=
-"Si le patient ne répond pas et ne respire pas normalement, commencez la RCP. La RCP signifie appuyer de façon répétée au centre de la poitrine. Si un DAE est disponible, allumez-le et suivez ses instructions.";
-
-}
-else if(lang==="ar"){
-
-title="وضعية الطوارئ";
-
-message=
-"تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض.";
-
-rcpText=
-"إذا كان المريض لا يستجيب ولا يتنفس بشكل طبيعي، ابدأ الإنعاش القلبي الرئوي. الإنعاش القلبي الرئوي يعني الضغط بشكل متكرر على وسط الصدر. إذا كان جهاز الصدمات متوفراً، شغله واتبع تعليماته.";
-
-}
-else{
-
-title="EMERGENCY MODE";
-
-message=
-"A potentially serious emergency has been identified. Contact emergency services and stay with the patient.";
-
-rcpText=
-"If the patient is unresponsive and not breathing normally, start CPR. CPR means repeated chest compressions in the center of the chest. If an AED is available, turn it on and follow its instructions.";
-
-}
-
-const stay=
-document.getElementById("stay");
-
-stay.innerHTML=`
-
-<div class="stay-box emergency-mode">
-
-<div class="emergency-banner">
-
-🔴 ${escapeHTML(title)}
-
-</div>
-
-<div class="emergency-help">
-
-<strong>
-🚨 ${escapeHTML(message)}
-</strong>
-
-<br><br>
-
-${escapeHTML(rcpText)}
-
-</div>
-
-<div id="stayVoiceStatus"
-class="status">
-🔊 Speaking...
-</div>
-
-<button
-class="red"
-onclick="callEmergency()"
->
-📞 Call Emergency Services
-</button>
-
-<button
-class="blue"
-onclick="findHospital()"
->
-📍 Find Emergency Hospital
-</button>
-
-<button
-class="purple"
-onclick="repeatEmergencyMessage()"
->
-🔊 Read Again
-</button>
-
-<button
-class="gray"
-onclick="stopStay()"
->
-⏹ Stop
-</button>
-
-</div>
-
-`;
-
-setTimeout(function(){
-
-speakStayText(
-message+" "+rcpText
-);
-
-},400);
-
-}
-
-
-/* =====================================================
-REPEAT EMERGENCY
-===================================================== */
-
-function repeatEmergencyMessage(){
-
-const lang=currentLang();
-
-let message;
-
-if(lang==="fr"){
-
-message=
-"Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient. Si le patient ne répond pas et ne respire pas normalement, commencez la RCP. La RCP signifie appuyer de façon répétée au centre de la poitrine. Si un DAE est disponible, allumez-le et suivez ses instructions.";
-
-}
-else if(lang==="ar"){
-
-message=
-"تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض. إذا كان المريض لا يستجيب ولا يتنفس بشكل طبيعي، ابدأ الإنعاش القلبي الرئوي. الإنعاش القلبي الرئوي يعني الضغط بشكل متكرر على وسط الصدر. إذا كان جهاز الصدمات متوفراً، شغله واتبع تعليماته.";
-
-}
-else{
-
-message=
-"A potentially serious emergency has been identified. Contact emergency services and stay with the patient. If the patient is unresponsive and not breathing normally, start CPR. CPR means repeated chest compressions in the center of the chest. If an AED is available, turn it on and follow its instructions.";
-
-}
-
-speakStayText(message);
-
-}
-
-
-/* =====================================================
-FINISH
-===================================================== */
-
-function finishStayVoice(){
-
-if(stayStopped){
-return;
-}
-
-stopStayRecognition();
-
-const lang=currentLang();
-
-let message;
-
-if(lang==="fr"){
-
-message=
-"Les étapes de Stay With Me sont terminées. Continuez à surveiller le patient et suivez les instructions des professionnels de santé.";
-
-}
-else if(lang==="ar"){
-
-message=
-"انتهت خطوات Stay With Me. واصل مراقبة المريض واتبع تعليمات المختصين في الرعاية الصحية.";
-
-}
-else{
-
-message=
-"Stay With Me guidance is complete. Continue monitoring the patient and follow professional medical instructions.";
-
-}
-
-const stay=
-document.getElementById("stay");
-
-stay.innerHTML=`
-
-<div class="stay-box">
-
-<div class="success-banner">
-
-✅ STAY WITH ME COMPLETE
-
-</div>
-
-<div class="item">
-
-🫶 ${escapeHTML(message)}
-
-</div>
-
-<div id="stayVoiceStatus"
-class="status">
-🔊 Speaking...
-</div>
-
-<button
-class="blue"
-onclick="startStay()"
->
-🔄 Restart Stay With Me
-</button>
-
-<button
-class="purple"
-onclick="repeatFinishMessage()"
->
-🔊 Read Again
-</button>
-
-<button
-class="gray"
-onclick="stopStay()"
->
-⏹ Close
-</button>
-
-</div>
-
-`;
-
-setTimeout(function(){
-
-speakStayText(message);
-
-},400);
-
-}
-
-
-/* =====================================================
-REPEAT FINISH
-===================================================== */
-
-function repeatFinishMessage(){
-
-const lang=currentLang();
-
-let message;
-
-if(lang==="fr"){
-
-message=
-"Les étapes de Stay With Me sont terminées. Continuez à surveiller le patient et suivez les instructions des professionnels de santé.";
-
-}
-else if(lang==="ar"){
-
-message=
-"انتهت خطوات Stay With Me. واصل مراقبة المريض واتبع تعليمات المختصين في الرعاية الصحية.";
-
-}
-else{
-
-message=
-"Stay With Me guidance is complete. Continue monitoring the patient and follow professional medical instructions.";
-
-}
-
-speakStayText(message);
-
-}
-
-
-/* =====================================================
-SPEAK STAY
-===================================================== */
-
-function speakStayText(text,callback){
-
-if(stayStopped){
-return;
-}
-
-if(!("speechSynthesis" in window)){
-
-if(callback){
-callback();
-}
-
-return;
-
-}
-
-window.speechSynthesis.cancel();
-
-const speech=
-new SpeechSynthesisUtterance(text);
-
-speech.lang=
-document.getElementById("voiceLanguage").value;
-
-speech.rate=.9;
-speech.pitch=1;
-speech.volume=1;
-
-const voices=
-window.speechSynthesis.getVoices();
-
-const shortLang=
-speech.lang.substring(0,2).toLowerCase();
-
-const voice=
-voices.find(function(v){
-
-return v.lang &&
-v.lang.toLowerCase().startsWith(shortLang);
-
-});
-
-if(voice){
-speech.voice=voice;
-}
-
-const status=
-document.getElementById("stayVoiceStatus");
-
-if(status){
-
-status.className="status";
-status.innerHTML="🔊 Speaking...";
-
-}
-
-speech.onend=function(){
-
-if(status){
-
-status.innerHTML="🎤 Listening...";
-
-}
-
-if(callback){
-callback();
+      <div id="trainingFeedback"></div>
+    </div>
+  `;
 }
 
-};
 
-speech.onerror=function(){
+function trainingAnswer(answer,correct){
 
-if(callback){
-callback();
-}
-
-};
-
-window.speechSynthesis.speak(speech);
-
-}
-
-
-/* =====================================================
-STOP STAY
-===================================================== */
-
-function stopStay(){
-
-stayStopped=true;
-
-stopStayRecognition();
-
-if("speechSynthesis" in window){
-
-window.speechSynthesis.cancel();
-
-}
-
-document.getElementById("stay").innerHTML=`
-
-<div class="status">
-
-⏹ Stay With Me stopped.
-
-</div>
-
-`;
-
-}
-
-
-function stopStayRecognition(){
-
-if(stayVoiceRecognition){
-
-try{
-
-stayVoiceRecognition.onresult=null;
-stayVoiceRecognition.onerror=null;
-stayVoiceRecognition.onend=null;
-
-stayVoiceRecognition.stop();
-
-}
-catch(e){}
-
-stayVoiceRecognition=null;
-
-}
+  const box=document.getElementById("trainingFeedback");
 
-
-/* =====================================================
-REPEAT QUESTION
-===================================================== */
-
-}
-
-function repeatStayQuestion(){
-
-if(stayStopped){
-return;
+  if(answer===correct){
+    box.innerHTML=`
+      <div class="success alert">
+        ✅ Correct direction.
+        <br>
+        In a real emergency, follow current professional/emergency-dispatch guidance.
+      </div>
+    `;
+  }else{
+    box.innerHTML=`
+      <div class="danger alert">
+        ❌ Not the safest choice.
+        <br>
+        Review the emergency principles and seek professional help when needed.
+      </div>
+    `;
+  }
 }
-
-stopStayRecognition();
-
-const flow=
-stayFlows[stayCondition];
-
-const question=
-flow.questions[stayQuestionIndex].q[currentLang()];
 
-speakStayText(
-question,
-function(){
 
-if(!stayStopped){
+/* =========================
+   TIMELINE
+========================= */
 
-setTimeout(
-listenForStayAnswer,
-600
-);
+function addTimeline(event){
 
-}
-
-});
+  timeline.push({
+    time:new Date().toLocaleTimeString(),
+    event
+  });
 
+  renderTimeline();
 }
-
-
-/* =====================================================
-HOSPITAL
-===================================================== */
-
-function findHospital(){
-
-const status=
-document.getElementById("hospitalStatus");
-
-status.innerHTML=
-"📍 Getting your location...";
-
-if(!navigator.geolocation){
 
-status.innerHTML=
-"❌ Location is not supported by this browser.";
+function renderTimeline(){
 
-return;
-
+  /*
+    Timeline is included in the report indirectly through state.
+    We keep it lightweight in the prototype.
+  */
 }
-
-navigator.geolocation.getCurrentPosition(
-
-function(position){
-
-const lat=
-position.coords.latitude;
-
-const lon=
-position.coords.longitude;
-
-const mapsURL=
-"https://www.google.com/maps/search/emergency+hospital/@"+
-lat+
-","+
-lon+
-",14z";
-
-status.innerHTML=
-"📍 Location found.<br><br>Opening nearby emergency hospitals...";
-
-window.open(
-mapsURL,
-"_blank"
-);
 
-},
 
-function(){
+/* =========================
+   CLEAR
+========================= */
 
-status.innerHTML=
-"❌ Unable to get your location.<br><br>Please allow location permission and try again.";
+function clearPatient(){
 
-window.open(
-"https://www.google.com/maps/search/emergency+hospital+near+me",
-"_blank"
-);
+  [
+    "patientName",
+    "age",
+    "weight",
+    "symptoms",
+    "hr",
+    "spo2",
+    "temp",
+    "rr",
+    "sbp",
+    "pain",
+    "onset"
+  ].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.value="";
+  });
 
-},
+  document.getElementById("conscious").value="";
+  document.getElementById("breathing").value="";
+  document.getElementById("bleeding").value="";
 
-{
-enableHighAccuracy:true,
-timeout:10000,
-maximumAge:0
-}
-
-);
-
-}
+  document.getElementById("triageResult").className="result";
 
+  document.getElementById("triageResult").innerHTML="";
 
-/* =====================================================
-CALL EMERGENCY
-===================================================== */
+  document.getElementById("redFlags").innerHTML="";
 
-function callEmergency(){
+  document.getElementById("abcdeResult").innerHTML="";
 
-window.location.href="tel:198";
+  timeline=[];
 
+  updateCPRAge();
 }
 
 
-/* =====================================================
-VOICE LOADING
-===================================================== */
+/* =========================
+   INITIALIZATION
+========================= */
 
-if("speechSynthesis" in window){
-
-window.speechSynthesis.onvoiceschanged=
-function(){
-
-window.speechSynthesis.getVoices();
-
-};
-
-}
+updateCPRAge();
 
 </script>
 
