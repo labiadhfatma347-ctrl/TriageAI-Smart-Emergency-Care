@@ -7,20 +7,24 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,Tahoma,sans-serif;
   background:#f4f7fb;
   color:#172033;
 }
-button,input,textarea{font:inherit}
+
+button,input{font:inherit}
 button{cursor:pointer}
+
 .app{
   max-width:1000px;
   margin:auto;
   min-height:100vh;
-  background:white;
+  background:#fff;
 }
+
 header{
   padding:18px 20px;
   background:linear-gradient(135deg,#0b7285,#087f5b);
@@ -28,11 +32,16 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
 }
+
 .logo{font-size:24px;font-weight:800}
 .sub{font-size:12px;opacity:.85}
-.header-actions{display:flex;gap:7px}
+
+.header-actions{
+  display:flex;
+  gap:7px;
+}
+
 .small-btn{
   border:0;
   border-radius:12px;
@@ -48,6 +57,7 @@ header{
   text-align:center;
   padding:30px 10px 20px;
 }
+
 .hero-icon{font-size:65px}
 .hero h1{font-size:34px;margin:8px 0}
 .hero p{color:#617083;line-height:1.7}
@@ -69,7 +79,10 @@ header{
   margin:7px 0;
   outline:none;
 }
-.input:focus{border-color:#0b7285}
+
+.input:focus{
+  border-color:#0b7285;
+}
 
 .primary{
   width:100%;
@@ -81,12 +94,14 @@ header{
   font-weight:700;
   margin-top:10px;
 }
+
 .secondary{
   border:1px solid #d7e0e8;
   background:white;
   padding:12px 15px;
   border-radius:13px;
 }
+
 .danger{
   background:#c92a2a;
   color:white;
@@ -95,12 +110,14 @@ header{
   border-radius:14px;
   font-weight:700;
 }
+
 .warning{
   background:#fff3bf;
   border:1px solid #ffe066;
   padding:14px;
   border-radius:15px;
 }
+
 .safe{
   background:#d3f9d8;
   border:1px solid #8ce99a;
@@ -113,16 +130,24 @@ header{
   grid-template-columns:repeat(2,1fr);
   gap:12px;
 }
+
 .menu-btn{
   border:1px solid #e1e7ed;
   background:white;
   border-radius:18px;
   padding:20px 10px;
   text-align:center;
-  box-shadow:0 4px 15px rgba(0,0,0,.04);
 }
-.menu-btn .icon{font-size:32px;display:block;margin-bottom:8px}
-.menu-btn strong{display:block}
+
+.menu-btn .icon{
+  font-size:32px;
+  display:block;
+  margin-bottom:8px;
+}
+
+.menu-btn strong{
+  display:block;
+}
 
 .chat{
   min-height:420px;
@@ -132,6 +157,7 @@ header{
   background:#f8fafc;
   border-radius:20px;
 }
+
 .msg{
   max-width:85%;
   padding:13px 15px;
@@ -140,29 +166,31 @@ header{
   line-height:1.65;
   white-space:pre-wrap;
 }
+
 .ai{
   background:white;
   border:1px solid #e5eaf0;
   margin-left:auto;
   margin-right:0;
 }
+
 .user{
   background:#087f5b;
   color:white;
   margin-left:0;
   margin-right:auto;
 }
-.msg small{
-  display:block;
-  opacity:.65;
-  margin-top:5px;
-}
+
 .chat-tools{
   display:flex;
   gap:8px;
   margin-top:10px;
 }
-.chat-tools input{flex:1}
+
+.chat-tools input{
+  flex:1;
+}
+
 .mic{
   width:52px;
   border:0;
@@ -171,12 +199,14 @@ header{
   color:white;
   font-size:20px;
 }
+
 .quick{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
   margin-top:10px;
 }
+
 .quick button{
   border:1px solid #b8c4cf;
   background:white;
@@ -184,16 +214,16 @@ header{
   padding:8px 13px;
 }
 
-.section-title{
-  margin-top:5px;
-  margin-bottom:12px;
-}
 .action-row{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
 }
-.action-row button{flex:1;min-width:140px}
+
+.action-row button{
+  flex:1;
+  min-width:140px;
+}
 
 .firstaid{
   border:1px solid #e3e8ed;
@@ -201,14 +231,13 @@ header{
   border-radius:17px;
   margin-bottom:10px;
 }
-.firstaid h3{margin-top:0}
-.firstaid ol{padding-right:22px;line-height:1.8}
 
-.emergency-banner{
-  position:sticky;
-  bottom:10px;
-  z-index:10;
-  margin-top:15px;
+.firstaid h3{margin-top:0}
+
+.firstaid ol,
+.firstaid ul{
+  padding-right:22px;
+  line-height:1.8;
 }
 
 .explain{
@@ -218,6 +247,28 @@ header{
   border-radius:12px;
   margin-top:10px;
   font-size:14px;
+}
+
+.result{
+  padding:16px;
+  border-radius:16px;
+  margin-top:12px;
+  line-height:1.8;
+}
+
+.result-red{
+  background:#ffe3e3;
+  border:1px solid #ff8787;
+}
+
+.result-yellow{
+  background:#fff3bf;
+  border:1px solid #ffd43b;
+}
+
+.result-green{
+  background:#d3f9d8;
+  border:1px solid #8ce99a;
 }
 
 footer{
@@ -230,13 +281,13 @@ footer{
 @media(max-width:600px){
   .screen{padding:14px}
   .hero h1{font-size:28px}
-  .menu-grid{grid-template-columns:1fr 1fr}
   .msg{max-width:92%}
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <header>
@@ -244,70 +295,117 @@ footer{
     <div class="logo">🩺 TriageAI</div>
     <div class="sub">Smart Emergency Care</div>
   </div>
+
   <div class="header-actions">
     <button class="small-btn" onclick="goHome()">🏠</button>
     <button class="small-btn" onclick="setLang()">🌐</button>
   </div>
 </header>
 
+
 <!-- START -->
+
 <section id="startScreen" class="screen">
+
   <div class="hero">
     <div class="hero-icon">🩺</div>
+
     <h1>TriageAI</h1>
+
     <p>
       مساعد صحي تفاعلي يساعدك تفهم الأعراض،
-      يطرح عليك أسئلة بسيطة، ويوجهك للإجراء المناسب.
+      يسألك خطوة بخطوة، ويعطيك تقييمًا أوليًا
+      ويوجهك للخطوة المناسبة.
     </p>
   </div>
 
   <div class="card">
+
     <h3>👤 قبل ما نبدأ</h3>
 
     <label>شنوة اسمك؟</label>
-    <input id="name" class="input" placeholder="مثال: Ahmed">
+
+    <input
+      id="name"
+      class="input"
+      placeholder="مثال: Ahmed"
+    >
 
     <label>العمر</label>
-    <input id="age" class="input" type="number" min="0" max="120" placeholder="العمر">
 
-    <button class="primary" onclick="startApp()">
+    <input
+      id="age"
+      class="input"
+      type="number"
+      min="0"
+      max="120"
+      placeholder="العمر"
+    >
+
+    <button
+      class="primary"
+      onclick="startApp()"
+    >
       🎙️ ابدأ واحكي مع TriageAI
     </button>
+
   </div>
 
   <div class="warning">
-    ⚠️ <b>مهم:</b> TriageAI يعمل كتقييم أولي وتوجيه صحي،
+    ⚠️ <b>مهم:</b>
+    TriageAI يعمل كتقييم أولي وتوجيه صحي،
     وما يعوّضش الطبيب أو خدمات الطوارئ.
   </div>
+
 </section>
 
+
 <!-- HOME -->
+
 <section id="homeScreen" class="screen hidden">
+
   <div class="card">
+
     <h2 id="welcome"></h2>
+
     <p>كيفاش تحب تبدأ؟</p>
 
     <div class="menu-grid">
 
-      <button class="menu-btn" onclick="openChat()">
+      <button
+        class="menu-btn"
+        onclick="openChat()"
+      >
         <span class="icon">🎙️</span>
         <strong>احكي مع TriageAI</strong>
         <small>احكي على مشكلتك</small>
       </button>
 
-      <button class="menu-btn" onclick="openFirstAid()">
+
+      <button
+        class="menu-btn"
+        onclick="openFirstAid()"
+      >
         <span class="icon">🚑</span>
         <strong>First Aid</strong>
         <small>الإسعافات الأولية</small>
       </button>
 
-      <button class="menu-btn" onclick="findHospitals()">
+
+      <button
+        class="menu-btn"
+        onclick="findHospitals()"
+      >
         <span class="icon">🏥</span>
         <strong>مرافق صحية</strong>
         <small>مستشفيات ومصحات قريبة</small>
       </button>
 
-      <button class="menu-btn" onclick="openEmergency()">
+
+      <button
+        class="menu-btn"
+        onclick="openEmergency()"
+      >
         <span class="icon">🆘</span>
         <strong>Emergency Mode</strong>
         <small>حالة استعجالية</small>
@@ -316,86 +414,178 @@ footer{
     </div>
   </div>
 
+
   <div class="card">
+
     <h3>💡 كيف يخدم؟</h3>
+
     <p>
-      تنجم تكتب أو تحكي بالصوت. التطبيق يسألك سؤال واحد في كل مرة،
-      وبعد يجمع المعلومات ويعطيك مستوى استعجال أولي والخطوة التالية.
+      تنجم تكتب أو تحكي بالصوت.
+      التطبيق يسألك سؤال واحد في كل مرة،
+      ويتذكر إجاباتك باش يعمل تقييم أولي.
     </p>
+
   </div>
+
 </section>
 
+
 <!-- CHAT -->
+
 <section id="chatScreen" class="screen hidden">
 
   <div class="card">
+
     <h2>💬 TriageAI</h2>
-    <p>احكيلي شنوّة صار. أنا نسألك خطوة بخطوة.</p>
 
-    <div id="chat" class="chat"></div>
+    <p>
+      احكيلي بطريقتك العادية.
+      أنا باش نسألك سؤال واحد كل مرة.
+    </p>
 
-    <div id="quick" class="quick"></div>
+    <div
+      id="chat"
+      class="chat"
+    ></div>
+
+    <div
+      id="quick"
+      class="quick"
+    ></div>
 
     <div class="chat-tools">
-      <input id="chatInput" class="input"
-             placeholder="اكتب شنوّة تحس..."
-             onkeydown="if(event.key==='Enter')sendMessage()">
-      <button class="mic" onclick="voiceInput()">🎙️</button>
-      <button class="mic" onclick="sendMessage()">➤</button>
+
+      <input
+        id="chatInput"
+        class="input"
+        placeholder="اكتب شنوّة تحس..."
+        onkeydown="if(event.key==='Enter')sendMessage()"
+      >
+
+      <button
+        id="micButton"
+        class="mic"
+        onclick="voiceInput()"
+      >
+        🎙️
+      </button>
+
+      <button
+        class="mic"
+        onclick="sendMessage()"
+      >
+        ➤
+      </button>
+
     </div>
 
-    <div class="action-row" style="margin-top:10px">
-      <button class="secondary" onclick="speakLast()">🔊 اسمع الإجابة</button>
-      <button class="secondary" onclick="openEmergency()">🆘 طوارئ</button>
+
+    <div
+      class="action-row"
+      style="margin-top:10px"
+    >
+
+      <button
+        class="secondary"
+        onclick="speakLast()"
+      >
+        🔊 اسمع الإجابة
+      </button>
+
+      <button
+        class="secondary"
+        onclick="openEmergency()"
+      >
+        🆘 طوارئ
+      </button>
+
     </div>
+
   </div>
+
 </section>
 
+
 <!-- FIRST AID -->
-<section id="firstAidScreen" class="screen hidden">
+
+<section
+  id="firstAidScreen"
+  class="screen hidden"
+>
+
   <div class="card">
+
     <h2>🚑 الإسعافات الأولية</h2>
-    <p>اختار الحالة باش تشوف الخطوات الأساسية.</p>
+
+    <p>
+      معلومات أولية عامة.
+      في الحالات الخطيرة، اطلب المساعدة الطبية.
+    </p>
+
   </div>
 
   <div id="firstAidList"></div>
+
 </section>
 
-<!-- HOSPITALS -->
-<section id="hospitalScreen" class="screen hidden">
+
+<!-- HOSPITAL -->
+
+<section
+  id="hospitalScreen"
+  class="screen hidden"
+>
+
   <div class="card">
+
     <h2>🏥 المرافق الصحية</h2>
+
     <p>
-      نستعمل موقع الهاتف باش نفتحلك بحث عن المرافق الصحية القريبة.
+      نستعمل موقع الهاتف باش نفتحلك بحث
+      عن المرافق الصحية القريبة.
     </p>
 
-    <button class="primary" onclick="findHospitals()">
+    <button
+      class="primary"
+      onclick="findHospitals()"
+    >
       📍 ابحث عن مستشفيات قريبة
     </button>
 
-    <div id="locationStatus" style="margin-top:12px"></div>
+    <div
+      id="locationStatus"
+      style="margin-top:12px"
+    ></div>
 
-    <div class="explain">
-      <b>ملاحظة:</b> النتائج تفتح في الخرائط حسب موقعك.
-      لازم GPS/Location يكون مسموح في الهاتف.
-    </div>
   </div>
+
 </section>
 
+
 <!-- EMERGENCY -->
-<section id="emergencyScreen" class="screen hidden">
+
+<section
+  id="emergencyScreen"
+  class="screen hidden"
+>
 
   <div class="card">
+
     <h2>🆘 Emergency Mode</h2>
 
     <div class="danger">
-      إذا الحالة تهدد الحياة، اطلب خدمات الطوارئ المحلية
-      فورًا ولا تنتظر نتيجة التطبيق.
+
+      إذا الحالة تهدد الحياة،
+      اطلب خدمات الطوارئ المحلية فورًا
+      ولا تنتظر نتيجة التطبيق.
+
     </div>
+
 
     <h3>🔴 علامات خطر</h3>
 
     <ul style="line-height:1.9">
+
       <li>عدم الاستجابة أو فقدان الوعي</li>
       <li>عدم التنفس الطبيعي</li>
       <li>صعوبة تنفس شديدة</li>
@@ -404,35 +594,59 @@ footer{
       <li>علامات سكتة دماغية مفاجئة</li>
       <li>اختناق شديد</li>
       <li>تشنج مستمر أو متكرر</li>
+
     </ul>
 
+
     <div class="action-row">
-      <button class="danger" onclick="findHospitals()">
+
+      <button
+        class="danger"
+        onclick="findHospitals()"
+      >
         🏥 أقرب مرفق صحي
       </button>
 
-      <button class="secondary" onclick="openChat()">
+      <button
+        class="secondary"
+        onclick="openChat()"
+      >
         💬 احكي مع TriageAI
       </button>
+
     </div>
+
   </div>
 
+
   <div class="card">
+
     <h3>🫀 إذا الشخص غير مستجيب</h3>
 
     <ol style="line-height:1.9">
+
       <li>تأكد أن المكان آمن.</li>
-      <li>شوف هل الشخص يستجيب للصوت أو اللمس.</li>
-      <li>راقب هل يتنفس طبيعيًا.</li>
-      <li>إذا ما يتنفسش طبيعيًا، اطلب المساعدة وابدأ CPR حسب التدريب المتاح.</li>
+
+      <li>
+        شوف هل الشخص يستجيب للصوت أو اللمس.
+      </li>
+
+      <li>
+        راقب هل يتنفس طبيعيًا.
+      </li>
+
+      <li>
+        إذا ما يتنفسش طبيعيًا،
+        اطلب المساعدة وابدأ CPR
+        حسب التدريب المتاح.
+      </li>
+
     </ol>
 
-    <div class="explain">
-      <b>CPR / RCP</b> = الإنعاش القلبي الرئوي.
-      هو إسعاف يستعمل عندما يكون الشخص غير مستجيب ولا يتنفس طبيعيًا.
-    </div>
   </div>
+
 </section>
+
 
 <footer>
   TriageAI Prototype · Educational / Emergency Guidance · Not a diagnosis
@@ -440,31 +654,49 @@ footer{
 
 </div>
 
+
 <script>
-/* =========================
-   STATE
-========================= */
+
+/* =====================================================
+   PATIENT
+===================================================== */
 
 let patient = {
   name:"",
-  age:"",
-  symptom:"",
-  conscious:null,
-  breathing:null,
-  severeBreathing:null,
-  chestPain:null,
-  severeBleeding:null,
-  stroke:null
+  age:""
 };
 
-let conversation = [];
+
+/* =====================================================
+   CONVERSATION STATE
+===================================================== */
+
+let chatState = {
+
+  started:false,
+
+  problem:null,
+
+  emergency:false,
+
+  questionIndex:0,
+
+  answers:{},
+
+  history:[]
+
+};
+
+
 let lastAI = "";
 
-/* =========================
+
+/* =====================================================
    NAVIGATION
-========================= */
+===================================================== */
 
 function hideAll(){
+
   [
     "startScreen",
     "homeScreen",
@@ -472,408 +704,1299 @@ function hideAll(){
     "firstAidScreen",
     "hospitalScreen",
     "emergencyScreen"
-  ].forEach(id => document.getElementById(id).classList.add("hidden"));
+  ].forEach(id => {
+
+    document
+      .getElementById(id)
+      .classList.add("hidden");
+
+  });
+
 }
 
+
 function goHome(){
+
   hideAll();
 
   if(!patient.name){
-    document.getElementById("startScreen").classList.remove("hidden");
+
+    document
+      .getElementById("startScreen")
+      .classList.remove("hidden");
+
     return;
   }
 
-  document.getElementById("homeScreen").classList.remove("hidden");
+  document
+    .getElementById("homeScreen")
+    .classList.remove("hidden");
 }
+
 
 function startApp(){
 
-  const name = document.getElementById("name").value.trim();
-  const age = document.getElementById("age").value.trim();
+  const name =
+    document
+      .getElementById("name")
+      .value
+      .trim();
 
-  patient.name = name || "صاحبي";
+  const age =
+    document
+      .getElementById("age")
+      .value
+      .trim();
+
+  patient.name =
+    name || "صاحبي";
+
   patient.age = age || "";
 
-  document.getElementById("welcome").textContent =
-    "أهلا " + patient.name + " 👋";
+  document
+    .getElementById("welcome")
+    .textContent =
+      "أهلا " + patient.name + " 👋";
 
   hideAll();
-  document.getElementById("homeScreen").classList.remove("hidden");
+
+  document
+    .getElementById("homeScreen")
+    .classList.remove("hidden");
+
 }
+
 
 function openChat(){
 
   hideAll();
-  document.getElementById("chatScreen").classList.remove("hidden");
 
-  if(conversation.length === 0){
+  document
+    .getElementById("chatScreen")
+    .classList.remove("hidden");
+
+
+  if(!chatState.started){
+
+    chatState.started = true;
+
     aiMessage(
       "أهلا " + patient.name + " 👋\n\n" +
-      "أنا TriageAI. احكيلي شنوّة صار أو شنوّة تحس توا، " +
-      "بالطريقة اللي تحب عليها. تنجم تكتب أو تستعمل 🎙️."
+      "أنا TriageAI. احكيلي بطريقتك العادية: " +
+      "شنوة صار؟ وشنوة أكثر حاجة مقلقتك توا؟\n\n" +
+      "ما يلزمكش تستعمل كلمات طبية."
     );
+
   }
+
 }
+
 
 function openFirstAid(){
+
   hideAll();
-  document.getElementById("firstAidScreen").classList.remove("hidden");
+
+  document
+    .getElementById("firstAidScreen")
+    .classList.remove("hidden");
+
   renderFirstAid();
+
 }
+
 
 function openEmergency(){
+
   hideAll();
-  document.getElementById("emergencyScreen").classList.remove("hidden");
+
+  document
+    .getElementById("emergencyScreen")
+    .classList.remove("hidden");
+
 }
 
-/* =========================
-   CHAT
-========================= */
 
-function addMessage(text, who="ai"){
+/* =====================================================
+   CHAT UI
+===================================================== */
 
-  const chat = document.getElementById("chat");
+function addMessage(text,who="ai"){
 
-  const div = document.createElement("div");
-  div.className = "msg " + who;
+  const chat =
+    document.getElementById("chat");
+
+  const div =
+    document.createElement("div");
+
+  div.className =
+    "msg " + who;
+
   div.textContent = text;
 
   chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
 
-  if(who === "ai"){
-    lastAI = text;
-  }
+  chat.scrollTop =
+    chat.scrollHeight;
+
 }
+
 
 function aiMessage(text){
+
   addMessage(text,"ai");
+
+  lastAI = text;
+
   speak(text);
+
 }
 
+
 function userMessage(text){
+
   addMessage(text,"user");
+
 }
+
 
 function sendMessage(){
 
-  const input = document.getElementById("chatInput");
-  const text = input.value.trim();
+  const input =
+    document.getElementById("chatInput");
+
+  const text =
+    input.value.trim();
 
   if(!text) return;
 
   input.value = "";
+
   userMessage(text);
 
+  chatState.history.push({
+    role:"user",
+    text:text
+  });
+
   analyzeConversation(text);
+
 }
+
 
 function setQuick(options){
 
-  const box = document.getElementById("quick");
+  const box =
+    document.getElementById("quick");
+
   box.innerHTML = "";
 
   options.forEach(option => {
 
-    const btn = document.createElement("button");
+    const btn =
+      document.createElement("button");
+
     btn.textContent = option;
 
     btn.onclick = () => {
-      document.getElementById("chatInput").value = option;
+
+      document
+        .getElementById("chatInput")
+        .value = option;
+
       sendMessage();
+
     };
 
     box.appendChild(btn);
+
   });
+
 }
 
-/* =========================
-   HEALTH CONVERSATION ENGINE
-   DEMO LOCAL MODE
-========================= */
+
+/* =====================================================
+   TEXT HELPERS
+===================================================== */
 
 function normalize(text){
+
   return text
     .toLowerCase()
-    .replace(/[؟?!.,،؛]/g," ")
+    .replace(/[؟?!.,،؛:]/g," ")
+    .replace(/\s+/g," ")
     .trim();
+
 }
 
-function contains(text, words){
-  return words.some(w => text.includes(w));
+
+function contains(text,words){
+
+  return words.some(
+    word => text.includes(word)
+  );
+
 }
+
+
+function isYes(text){
+
+  return contains(
+    text,
+    [
+      "نعم",
+      "اي",
+      "إي",
+      "آي",
+      "yes",
+      "oui",
+      "اه",
+      "أه",
+      "بالطبيعة"
+    ]
+  );
+
+}
+
+
+function isNo(text){
+
+  return contains(
+    text,
+    [
+      "لا",
+      "موش",
+      "مش",
+      "مانيش",
+      "no",
+      "non"
+    ]
+  );
+
+}
+
+
+function isUnknown(text){
+
+  return contains(
+    text,
+    [
+      "ما نعرفش",
+      "مانعرفش",
+      "مش عارف",
+      "ما نجمش نعرف",
+      "unknown"
+    ]
+  );
+
+}
+
+
+/* =====================================================
+   PROBLEM DETECTION
+===================================================== */
+
+function detectProblem(t){
+
+  if(contains(t,[
+
+    "ما يتنفسش",
+    "ما يتنفس",
+    "لا يتنفس",
+    "ما يجاوبش",
+    "فاقد الوعي",
+    "مغمى عليه",
+    "مغمى",
+    "ما يفيقش",
+    "unconscious",
+    "not responding"
+
+  ])){
+    return "unconscious";
+  }
+
+
+  if(contains(t,[
+
+    "صعوبة في التنفس",
+    "صعيب نتنفس",
+    "صعيب عليا نتنفس",
+    "نفسي مقصوص",
+    "نفسى مقصوص",
+    "ضيق تنفس",
+    "ما نجمش نتنفس",
+    "dyspnée",
+    "difficile de respirer",
+    "difficulty breathing",
+    "can't breathe"
+
+  ])){
+    return "breathing";
+  }
+
+
+  if(contains(t,[
+
+    "وجيعة في الصدر",
+    "وجيعة صدر",
+    "وجيعة بصدري",
+    "ألم في الصدر",
+    "ألم صدر",
+    "صدري يوجع",
+    "chest pain",
+    "douleur thoracique"
+
+  ])){
+    return "chest";
+  }
+
+
+  if(contains(t,[
+
+    "نزيف",
+    "ينزف",
+    "دم برشا",
+    "الدم يخرج",
+    "bleeding",
+    "hémorragie"
+
+  ])){
+    return "bleeding";
+  }
+
+
+  if(contains(t,[
+
+    "اختناق",
+    "شرق",
+    "مشرق",
+    "ما ينجمش يتنفس",
+    "choking",
+    "étouffement"
+
+  ])){
+    return "choking";
+  }
+
+
+  if(contains(t,[
+
+    "فمو مائل",
+    "فمه مائل",
+    "يده ضعفت",
+    "يدو ضعفت",
+    "يده طاحت",
+    "كلامه تبدل",
+    "avc",
+    "stroke",
+    "سكتة"
+
+  ])){
+    return "stroke";
+  }
+
+
+  if(contains(t,[
+
+    "حرق",
+    "حرقت",
+    "حرقني",
+    "burn",
+    "brûlure"
+
+  ])){
+    return "burn";
+  }
+
+
+  return null;
+
+}
+
+
+/* =====================================================
+   MAIN CONVERSATION ENGINE
+===================================================== */
 
 function analyzeConversation(text){
 
   const t = normalize(text);
 
-  conversation.push({
-    user:text,
-    time:new Date().toISOString()
-  });
+  document
+    .getElementById("quick")
+    .innerHTML = "";
 
-  document.getElementById("quick").innerHTML = "";
 
-  /* emergency language detection */
+  /* ---------------------------------------------
+     STEP 1
+     Detect problem only if we don't already have one
+  --------------------------------------------- */
 
-  const breathing =
-    contains(t,[
-      "صعوبة في التنفس",
-      "صعيب نتنفس",
-      "نفسى مقصوص",
-      "نفسي مقصوص",
-      "ما نجمش نتنفس",
-      "ضيق تنفس",
-      "dyspnée",
-      "difficile de respirer",
-      "difficulty breathing",
-      "can't breathe",
-      "cannot breathe"
-    ]);
+  if(!chatState.problem){
 
-  const chest =
-    contains(t,[
-      "وجيعة في الصدر",
-      "وجيعة صدر",
-      "ألم في الصدر",
-      "ألم صدر",
-      "chest pain",
-      "douleur thoracique"
-    ]);
+    const detected =
+      detectProblem(t);
 
-  const unconscious =
-    contains(t,[
-      "فاقد الوعي",
-      "مغمى عليه",
-      "ما يجاوبش",
-      "ما يفيقش",
-      "inconscient",
-      "unconscious",
-      "not responding"
-    ]);
+    if(detected){
 
-  const bleeding =
-    contains(t,[
-      "نزيف",
-      "دم برشا",
-      "ينزف",
-      "bleeding",
-      "hémorragie"
-    ]);
+      chatState.problem = detected;
 
-  const choking =
-    contains(t,[
-      "اختناق",
-      "شرق",
-      "choking",
-      "étouffement"
-    ]);
+      chatState.questionIndex = 0;
 
-  const stroke =
-    contains(t,[
-      "فمو مائل",
-      "يده ضعفت",
-      "يده طاحت",
-      "كلامه تبدل",
-      "avc",
-      "stroke"
-    ]);
+      startProblemFlow(detected);
 
-  if(unconscious){
+      return;
 
-    patient.conscious = false;
+    }
+
+  }
+
+
+  /* ---------------------------------------------
+     STEP 2
+     Continue current problem
+  --------------------------------------------- */
+
+  switch(chatState.problem){
+
+    case "breathing":
+      handleBreathing(t);
+      return;
+
+    case "chest":
+      handleChest(t);
+      return;
+
+    case "unconscious":
+      handleUnconscious(t);
+      return;
+
+    case "bleeding":
+      handleBleeding(t);
+      return;
+
+    case "choking":
+      handleChoking(t);
+      return;
+
+    case "stroke":
+      handleStroke(t);
+      return;
+
+    case "burn":
+      handleBurn(t);
+      return;
+
+  }
+
+
+  /* ---------------------------------------------
+     STEP 3
+     Generic conversation
+  --------------------------------------------- */
+
+  handleGeneric(t);
+
+}
+
+
+/* =====================================================
+   START PROBLEM
+===================================================== */
+
+function startProblemFlow(problem){
+
+  if(problem === "breathing"){
 
     aiMessage(
-      "هذا مهم جدًا. إذا الشخص غير مستجيب، لازم نتحققوا من التنفس الطبيعي بسرعة.\n\n" +
+      "فهمتك. عندك صعوبة في التنفس.\n\n" +
+      "باش نقيّم الاستعجال، نبدأ بسؤال واحد:\n\n" +
+      "الصعوبة شديدة لدرجة إنك ما تنجمش تحكي جملة كاملة من غير ما توقف باش تاخذ نفس؟"
+    );
+
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
+    return;
+  }
+
+
+  if(problem === "chest"){
+
+    aiMessage(
+      "فهمتك، عندك وجيعة في الصدر.\n\n" +
+      "ما نجمش نحدد السبب من الدردشة وحدها، " +
+      "أما نجم نعمل تقييم أولي للاستعجال.\n\n" +
+      "الوجيعة قوية أو بدات فجأة؟"
+    );
+
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
+    return;
+  }
+
+
+  if(problem === "unconscious"){
+
+    chatState.emergency = true;
+
+    aiMessage(
+      "إذا الشخص غير مستجيب، الأولوية هي التنفس.\n\n" +
       "هل الشخص يتنفس بشكل طبيعي؟"
     );
 
-    setQuick(["نعم، يتنفس طبيعي","لا، ما يتنفسش طبيعي","ما نعرفش"]);
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
     return;
   }
 
-  if(breathing){
-    patient.symptom = "breathing difficulty";
+
+  if(problem === "bleeding"){
 
     aiMessage(
-      "فهمتك. صعوبة التنفس معناها إن الشخص يحس إنه ما ياخذش الهواء بسهولة.\n\n" +
-      "باش نحدد درجة الاستعجال: هل صعوبة التنفس شديدة لدرجة إنك ما تنجمش تحكي جملة كاملة من غير ما توقف باش تاخذ نفس؟"
-    );
-
-    setQuick(["نعم","لا","ما نعرفش"]);
-    return;
-  }
-
-  if(chest){
-
-    patient.chestPain = true;
-
-    aiMessage(
-      "فهمتك. وجيعة الصدر تنجم تكون عندها أسباب مختلفة، وما نجمش نشخّص السبب من الدردشة وحدها.\n\n" +
-      "أما نحب نعرف حاجة مهمة: الوجيعة قوية أو بدأت فجأة؟"
-    );
-
-    setQuick(["نعم","لا","ما نعرفش"]);
-    return;
-  }
-
-  if(bleeding){
-
-    patient.severeBleeding = true;
-
-    aiMessage(
-      "إذا فما نزيف، أهم حاجة توا هي نعرفوا شدته.\n\n" +
+      "فهمتك، فما نزيف.\n\n" +
       "هل الدم يخرج بكثرة أو ما يوقفش رغم الضغط المباشر؟"
     );
 
-    setQuick(["نعم","لا","ما نعرفش"]);
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
     return;
   }
 
-  if(choking){
+
+  if(problem === "choking"){
 
     aiMessage(
       "الاختناق ينجم يكون استعجالي.\n\n" +
-      "هل الشخص قادر يتنفس أو يتكلم أو يسعل بقوة؟"
+      "هل الشخص قادر يتنفس، يتكلم، أو يسعل بقوة؟"
     );
 
-    setQuick(["نعم","لا","ما نعرفش"]);
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
     return;
   }
 
-  if(stroke){
 
-    patient.stroke = true;
+  if(problem === "stroke"){
 
     aiMessage(
       "الأعراض اللي وصفتها تنجم تكون علامات سكتة دماغية (AVC).\n\n" +
-      "AVC معناها مشكلة مفاجئة في وصول الدم للدماغ. الوقت مهم جدًا، لذلك يلزم تقييم طبي عاجل.\n\n" +
       "هل الأعراض بدأت فجأة؟"
     );
 
-    setQuick(["نعم","لا","ما نعرفش"]);
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
     return;
   }
 
-  /* follow-up answers */
 
-  if(patient.symptom === "breathing difficulty"){
+  if(problem === "burn"){
 
-    if(contains(t,["نعم","yes","oui"])){
-      patient.severeBreathing = true;
+    aiMessage(
+      "فهمتك، عندك حرق.\n\n" +
+      "الحرق كبير، عميق، أو موجود في الوجه أو اليدين أو منطقة حساسة؟"
+    );
+
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
+  }
+
+}
+
+
+/* =====================================================
+   BREATHING
+===================================================== */
+
+function handleBreathing(t){
+
+  const q =
+    chatState.questionIndex;
+
+
+  if(q === 0){
+
+    if(isYes(t)){
+
+      chatState.answers.severeBreathing = true;
+      chatState.emergency = true;
 
       aiMessage(
-        "بما إن صعوبة التنفس شديدة، هذا ينجم يكون وضع استعجالي.\n\n" +
-        "ما تبقاش وحدك، اطلب المساعدة الطبية العاجلة، وخلي الشخص في وضعية مريحة للتنفس. " +
-        "إذا الحالة تسوء، استعمل Emergency Mode."
+        "بما إن صعوبة التنفس شديدة، هذا يستحق تقييمًا طبيًا عاجلًا.\n\n" +
+        "ما تستناش التطبيق باش يعطيك تشخيص. " +
+        "اطلب المساعدة الطبية العاجلة وخليك في وضعية مريحة للتنفس."
       );
 
       showEmergencyQuick();
+
+      chatState.questionIndex = 1;
+
       return;
     }
 
-    if(contains(t,["لا","no","non"])){
+
+    if(isNo(t) || isUnknown(t)){
+
+      chatState.answers.severeBreathing =
+        isNo(t) ? false : null;
+
+      chatState.questionIndex = 1;
+
       aiMessage(
-        "مريقل. ما زلت نحب نعرف شوية تفاصيل.\n\n" +
-        "هل عندك وجيعة في الصدر في نفس الوقت؟"
+        "مريقل. السؤال الثاني:\n\n" +
+        "هل صعوبة التنفس معاها وجيعة أو ضغط في الصدر؟"
       );
 
-      setQuick(["نعم","لا","ما نعرفش"]);
-      patient.symptom = "breathing_followup";
-      return;
-    }
-  }
+      setQuick([
+        "نعم",
+        "لا",
+        "ما نعرفش"
+      ]);
 
-  if(patient.symptom === "breathing_followup"){
-
-    if(contains(t,["نعم","yes","oui"])){
-
-      aiMessage(
-        "صعوبة التنفس مع وجيعة الصدر تستحق تقييم طبي سريع، خاصة إذا كانت الأعراض جديدة أو قوية.\n\n" +
-        "إذا الأعراض شديدة أو تتفاقم، استعمل Emergency Mode واطلب المساعدة العاجلة."
-      );
-
-      showEmergencyQuick();
       return;
     }
 
-    aiMessage(
-      "تمام. نحب نعرف من وقتاش بدأت المشكلة: اليوم، من مدة أيام، ولا من مدة أطول؟"
-    );
-
-    setQuick(["اليوم","منذ أيام","منذ مدة طويلة"]);
-    patient.symptom = "general_followup";
-    return;
   }
 
-  if(patient.chestPain){
 
-    aiMessage(
-      "مفهوم. هل الوجيعة معاها صعوبة في التنفس، دوخة، تعرق شديد، أو غثيان؟"
-    );
+  if(q === 1){
 
-    setQuick(["نعم","لا","ما نعرفش"]);
-    patient.chestPain = "followup";
-    return;
-  }
+    if(isYes(t)){
 
-  if(patient.chestPain === "followup"){
-
-    if(contains(t,["نعم","yes","oui"])){
+      chatState.answers.chestPain = true;
+      chatState.emergency = true;
 
       aiMessage(
-        "وجود وجيعة صدر مع أعراض أخرى كيما صعوبة التنفس أو الدوخة يستحق تقييم طبي عاجل.\n\n" +
-        "ما نجمش نحدد السبب عن بعد. إذا الأعراض قوية أو تتفاقم، استعمل Emergency Mode."
+        "صعوبة التنفس مع وجيعة أو ضغط في الصدر تستحق تقييمًا طبيًا سريعًا، خاصة إذا الأعراض جديدة أو قوية.\n\n" +
+        "إذا الأعراض شديدة أو قاعدة تزيد، استعمل Emergency Mode واطلب المساعدة العاجلة."
       );
 
       showEmergencyQuick();
+
+      chatState.questionIndex = 2;
+
       return;
     }
 
+
+    chatState.answers.chestPain =
+      isNo(t) ? false : null;
+
+    chatState.questionIndex = 2;
+
     aiMessage(
-      "تمام. هل الوجيعة مازالت موجودة توا؟"
+      "تمام. آخر سؤال مهم في التقييم الأولي:\n\n" +
+      "من وقتاش بدات صعوبة التنفس؟"
     );
 
-    setQuick(["نعم","لا","ما نعرفش"]);
+    setQuick([
+      "منذ دقائق أو ساعات",
+      "منذ أيام",
+      "منذ مدة طويلة"
+    ]);
+
     return;
   }
 
-  /* generic */
 
-  aiMessage(
-    "فهمتك. باش نعاونك بطريقة صحيحة، نحتاج شوية معلومات.\n\n" +
-    "شنوة أكثر حاجة مقلقتك توا؟ وهل المشكلة بدأت فجأة ولا بالتدريج؟"
+  if(q === 2){
+
+    chatState.answers.duration = t;
+
+    finishBreathingAssessment();
+
+  }
+
+}
+
+
+function finishBreathingAssessment(){
+
+  if(chatState.emergency){
+
+    showEmergencyResult(
+      "صعوبة التنفس مع علامات مقلقة",
+      "يلزم تقييم طبي عاجل."
+    );
+
+    return;
+  }
+
+
+  showYellowResult(
+    "تقييم أولي: يحتاج متابعة",
+    "الأعراض تستحق تقييمًا طبيًا، خاصة إذا استمرت أو زادت. إذا ظهرت صعوبة تنفس شديدة، ألم صدر شديد، إغماء، أو تدهور مفاجئ، تعامل معها كحالة استعجالية."
   );
 
-  setQuick(["بدأت فجأة","بدأت بالتدريج","ما نعرفش"]);
 }
+
+
+/* =====================================================
+   CHEST
+===================================================== */
+
+function handleChest(t){
+
+  const q =
+    chatState.questionIndex;
+
+
+  if(q === 0){
+
+    if(isYes(t)){
+
+      chatState.answers.severeChest = true;
+      chatState.emergency = true;
+
+      aiMessage(
+        "بما إن وجيعة الصدر قوية أو بدات فجأة، ما نحبش نطمّنك من غير تقييم طبي.\n\n" +
+        "إذا الوجيعة قوية، جديدة، أو قاعدة تزيد، اطلب تقييمًا طبيًا عاجلًا."
+      );
+
+      showEmergencyQuick();
+
+      chatState.questionIndex = 1;
+
+      return;
+    }
+
+
+    chatState.answers.severeChest =
+      isNo(t) ? false : null;
+
+    chatState.questionIndex = 1;
+
+    aiMessage(
+      "فهمتك. السؤال الثاني:\n\n" +
+      "هل معاها صعوبة في التنفس، دوخة، تعرّق شديد، أو غثيان؟"
+    );
+
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
+    return;
+  }
+
+
+  if(q === 1){
+
+    if(isYes(t)){
+
+      chatState.emergency = true;
+
+      aiMessage(
+        "وجيعة الصدر مع أعراض أخرى مقلقة تستحق تقييمًا طبيًا عاجلًا.\n\n" +
+        "ما نجمش نحدد السبب عن بعد."
+      );
+
+      showEmergencyQuick();
+
+      chatState.questionIndex = 2;
+
+      return;
+    }
+
+
+    chatState.questionIndex = 2;
+
+    aiMessage(
+      "تمام. من وقتاش الوجيعة موجودة؟"
+    );
+
+    setQuick([
+      "منذ دقائق أو ساعات",
+      "منذ أيام",
+      "منذ مدة طويلة"
+    ]);
+
+    return;
+  }
+
+
+  if(q === 2){
+
+    chatState.answers.duration = t;
+
+    if(chatState.emergency){
+
+      showEmergencyResult(
+        "ألم صدر مع علامات مقلقة",
+        "يلزم تقييم طبي عاجل."
+      );
+
+    }else{
+
+      showYellowResult(
+        "تقييم أولي: يحتاج متابعة",
+        "وجيعة الصدر عندها أسباب عديدة. إذا استمرت، تكررت، أو تبدلت طبيعتها، يلزم تقييم طبي."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   UNCONSCIOUS
+===================================================== */
+
+function handleUnconscious(t){
+
+  if(chatState.questionIndex === 0){
+
+    if(isNo(t)){
+
+      chatState.emergency = true;
+
+      aiMessage(
+        "إذا الشخص غير مستجيب وما يتنفسش طبيعيًا، هذه حالة تهدد الحياة.\n\n" +
+        "اطلب خدمات الطوارئ المحلية فورًا، وابدأ CPR حسب التدريب المتاح وتعليمات الطوارئ."
+      );
+
+      showEmergencyQuick();
+
+      chatState.questionIndex = 1;
+
+      return;
+    }
+
+
+    if(isYes(t)){
+
+      chatState.questionIndex = 1;
+
+      aiMessage(
+        "مريقل. إذا الشخص غير مستجيب لكنه يتنفس طبيعيًا، لازم يبقى تحت المراقبة واطلب تقييمًا طبيًا، خاصة إذا سبب فقدان الوعي غير معروف.\n\n" +
+        "هل فاق الشخص توا؟"
+      );
+
+      setQuick([
+        "نعم",
+        "لا",
+        "ما نعرفش"
+      ]);
+
+      return;
+    }
+
+
+    aiMessage(
+      "إذا موش واضح هل يتنفس طبيعيًا، اعتبر الوضع استعجالي واطلب المساعدة الطبية."
+    );
+
+    showEmergencyQuick();
+
+    return;
+  }
+
+
+  if(chatState.questionIndex === 1){
+
+    if(isNo(t)){
+
+      chatState.emergency = true;
+
+      showEmergencyResult(
+        "الشخص مازال غير مستجيب",
+        "يلزم تقييم طبي عاجل."
+      );
+
+      return;
+    }
+
+
+    showYellowResult(
+      "تقييم أولي",
+      "حتى إذا فاق الشخص، فقدان الوعي يستحق معرفة السبب وتقييمه طبيًا."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   BLEEDING
+===================================================== */
+
+function handleBleeding(t){
+
+  if(chatState.questionIndex === 0){
+
+    if(isYes(t)){
+
+      chatState.emergency = true;
+
+      aiMessage(
+        "النزيف الشديد أو اللي ما يوقفش بالضغط المباشر ينجم يكون خطير.\n\n" +
+        "اضغط مباشرة وباستمرار على مكان النزيف بضمادة أو قماش نظيف، واطلب المساعدة الطبية العاجلة."
+      );
+
+      showEmergencyQuick();
+
+      chatState.questionIndex = 1;
+
+      return;
+    }
+
+
+    chatState.questionIndex = 1;
+
+    aiMessage(
+      "مريقل. هل النزيف يخف كي تضغط عليه مباشرة؟"
+    );
+
+    setQuick([
+      "نعم",
+      "لا",
+      "ما نعرفش"
+    ]);
+
+    return;
+  }
+
+
+  if(chatState.questionIndex === 1){
+
+    if(isNo(t)){
+
+      chatState.emergency = true;
+
+      showEmergencyResult(
+        "نزيف لا يستجيب للضغط المباشر",
+        "يلزم تقييم طبي عاجل."
+      );
+
+      return;
+    }
+
+
+    showYellowResult(
+      "تقييم أولي: نزيف يحتاج متابعة",
+      "واصل الضغط المباشر إذا كان ذلك مناسبًا، وراقب النزيف. إذا زاد أو لم يتوقف، اطلب المساعدة الطبية."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   CHOKING
+===================================================== */
+
+function handleChoking(t){
+
+  if(chatState.questionIndex === 0){
+
+    if(isNo(t)){
+
+      chatState.emergency = true;
+
+      aiMessage(
+        "إذا الشخص ما ينجمش يتنفس أو يتكلم أو يسعل بقوة، الاختناق ينجم يكون حالة تهدد الحياة.\n\n" +
+        "اطلب خدمات الطوارئ المحلية فورًا واتبع تعليمات الإسعاف الحالية."
+      );
+
+      showEmergencyQuick();
+
+      return;
+    }
+
+
+    showYellowResult(
+      "تقييم أولي",
+      "إذا الشخص قادر يتنفس ويتكلم ويسعل، راقبه عن قرب. إذا الحالة تتدهور أو ما عادش قادر يتنفس أو يتكلم، تعامل معها كحالة استعجالية."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   STROKE
+===================================================== */
+
+function handleStroke(t){
+
+  if(chatState.questionIndex === 0){
+
+    if(isYes(t)){
+
+      chatState.emergency = true;
+
+      aiMessage(
+        "بداية مفاجئة لأعراض مثل ضعف جهة من الجسم أو اضطراب الكلام يمكن أن تكون علامة سكتة دماغية.\n\n" +
+        "الوقت مهم. اطلب تقييمًا طبيًا عاجلًا فورًا."
+      );
+
+      showEmergencyQuick();
+
+      return;
+    }
+
+
+    showYellowResult(
+      "تقييم أولي",
+      "الأعراض العصبية الجديدة أو غير المعتادة تستحق تقييمًا طبيًا، وإذا ظهرت فجأة أو ساءت بسرعة فالأولوية للطوارئ."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   BURN
+===================================================== */
+
+function handleBurn(t){
+
+  if(chatState.questionIndex === 0){
+
+    if(isYes(t)){
+
+      chatState.emergency = true;
+
+      aiMessage(
+        "الحروق الكبيرة أو العميقة أو الموجودة في مناطق حساسة تستحق تقييمًا طبيًا.\n\n" +
+        "ما تحطش الثلج مباشرة على الجلد وما تفقعش الفقاعات."
+      );
+
+      showEmergencyQuick();
+
+      return;
+    }
+
+
+    showYellowResult(
+      "تقييم أولي: حرق يحتاج متابعة",
+      "برّد المنطقة بماء جارٍ بارد أو فاتر، وتجنب الثلج المباشر وفقع الفقاعات. إذا زادت الخطورة أو كان الحرق كبيرًا، اطلب تقييمًا طبيًا."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   GENERIC
+===================================================== */
+
+function handleGeneric(t){
+
+  const problem =
+    detectProblem(t);
+
+  if(problem){
+
+    chatState.problem = problem;
+    chatState.questionIndex = 0;
+
+    startProblemFlow(problem);
+
+    return;
+  }
+
+
+  if(chatState.history.length === 1){
+
+    aiMessage(
+      "فهمتك. باش نعاونك أكثر، نحب نعرف:\n\n" +
+      "المشكل بدا فجأة ولا بالتدريج؟"
+    );
+
+    setQuick([
+      "بدا فجأة",
+      "بدا بالتدريج",
+      "ما نعرفش"
+    ]);
+
+    return;
+  }
+
+
+  if(chatState.history.length === 2){
+
+    aiMessage(
+      "مريقل. وهل الأعراض قاعدة تزيد، قاعدة كيف كيف، ولا قاعدة تخف؟"
+    );
+
+    setQuick([
+      "قاعدة تزيد",
+      "كيف كيف",
+      "قاعدة تخف"
+    ]);
+
+    return;
+  }
+
+
+  showYellowResult(
+    "تقييم أولي عام",
+    "المعلومات الحالية ما تكفيش باش نحدد درجة الاستعجال بدقة. إذا الأعراض قوية، جديدة، أو قاعدة تسوء، الأفضل تعمل تقييم طبي."
+  );
+
+}
+
+
+/* =====================================================
+   RESULTS
+===================================================== */
+
+function showEmergencyResult(title,text){
+
+  const box =
+    document.getElementById("quick");
+
+  box.innerHTML = "";
+
+  const result =
+    document.createElement("div");
+
+  result.className =
+    "result result-red";
+
+  result.innerHTML =
+    "<strong>🔴 " + title + "</strong><br>" +
+    text;
+
+  box.appendChild(result);
+
+  const button =
+    document.createElement("button");
+
+  button.className =
+    "danger";
+
+  button.textContent =
+    "🆘 افتح Emergency Mode";
+
+  button.onclick =
+    openEmergency;
+
+  box.appendChild(button);
+
+}
+
+
+function showYellowResult(title,text){
+
+  const box =
+    document.getElementById("quick");
+
+  box.innerHTML = "";
+
+  const result =
+    document.createElement("div");
+
+  result.className =
+    "result result-yellow";
+
+  result.innerHTML =
+    "<strong>🟡 " + title + "</strong><br>" +
+    text;
+
+  box.appendChild(result);
+
+
+  const button =
+    document.createElement("button");
+
+  button.className =
+    "secondary";
+
+  button.textContent =
+    "🏥 شوف المرافق الصحية";
+
+  button.onclick =
+    findHospitals;
+
+  box.appendChild(button);
+
+}
+
+
+/* =====================================================
+   EMERGENCY BUTTONS
+===================================================== */
 
 function showEmergencyQuick(){
 
-  const box = document.getElementById("quick");
+  const box =
+    document.getElementById("quick");
+
   box.innerHTML = "";
 
-  const a = document.createElement("button");
-  a.textContent = "🆘 Emergency Mode";
-  a.onclick = openEmergency;
 
-  const b = document.createElement("button");
-  b.textContent = "🏥 أقرب مرفق صحي";
-  b.onclick = findHospitals;
+  const a =
+    document.createElement("button");
+
+  a.textContent =
+    "🆘 Emergency Mode";
+
+  a.onclick =
+    openEmergency;
+
+
+  const b =
+    document.createElement("button");
+
+  b.textContent =
+    "🏥 أقرب مرفق صحي";
+
+  b.onclick =
+    findHospitals;
+
 
   box.appendChild(a);
   box.appendChild(b);
+
 }
 
-/* =========================
+
+/* =====================================================
    VOICE INPUT
-========================= */
+===================================================== */
 
 function voiceInput(){
 
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
+
 
   if(!SpeechRecognition){
 
@@ -884,145 +2007,195 @@ function voiceInput(){
     return;
   }
 
-  const recognition = new SpeechRecognition();
 
-  recognition.lang = "ar-TN";
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
+  const recognition =
+    new SpeechRecognition();
+
+
+  recognition.lang =
+    "ar-TN";
+
+  recognition.interimResults =
+    false;
+
+  recognition.maxAlternatives =
+    1;
+
+
+  const mic =
+    document.getElementById("micButton");
+
 
   recognition.onstart = () => {
-    document.querySelector(".mic").textContent = "🔴";
+
+    mic.textContent = "🔴";
+
   };
+
 
   recognition.onend = () => {
-    document.querySelector(".mic").textContent = "🎙️";
+
+    mic.textContent = "🎙️";
+
   };
 
+
   recognition.onerror = () => {
-    document.querySelector(".mic").textContent = "🎙️";
+
+    mic.textContent = "🎙️";
+
   };
+
 
   recognition.onresult = event => {
 
     const text =
       event.results[0][0].transcript;
 
-    document.getElementById("chatInput").value = text;
+    document
+      .getElementById("chatInput")
+      .value = text;
 
     sendMessage();
+
   };
 
+
   recognition.start();
+
 }
 
-/* =========================
+
+/* =====================================================
    VOICE OUTPUT
-========================= */
+===================================================== */
 
 function speak(text){
 
-  if(!("speechSynthesis" in window)) return;
+  if(!("speechSynthesis" in window))
+    return;
+
 
   window.speechSynthesis.cancel();
+
 
   const utterance =
     new SpeechSynthesisUtterance(text);
 
-  utterance.lang = "ar-TN";
-  utterance.rate = .95;
 
-  window.speechSynthesis.speak(utterance);
+  utterance.lang =
+    "ar-TN";
+
+  utterance.rate =
+    .95;
+
+
+  window.speechSynthesis.speak(
+    utterance
+  );
+
 }
+
 
 function speakLast(){
 
-  if(lastAI) speak(lastAI);
+  if(lastAI)
+    speak(lastAI);
+
 }
 
-/* =========================
+
+/* =====================================================
    FIRST AID
-========================= */
+===================================================== */
 
 const firstAid = [
 
 {
-title:"🫀 توقف التنفس / CPR",
-body:`
-<ol>
-<li>تأكد أن المكان آمن.</li>
-<li>شوف هل الشخص يستجيب.</li>
-<li>إذا ما يستجيبش وما يتنفسش طبيعيًا، اطلب المساعدة.</li>
-<li>ابدأ CPR حسب تدريبك وتوجيه خدمات الطوارئ.</li>
-</ol>
-<div class="explain">
-<b>CPR / RCP:</b> الإنعاش القلبي الرئوي، ويستعمل عند فقدان الاستجابة مع عدم وجود تنفس طبيعي.
-</div>`
+  title:"🫀 توقف التنفس / CPR",
+
+  body:`
+  <ol>
+    <li>تأكد أن المكان آمن.</li>
+    <li>شوف هل الشخص يستجيب.</li>
+    <li>إذا ما يستجيبش وما يتنفسش طبيعيًا، اطلب المساعدة.</li>
+    <li>ابدأ CPR حسب تدريبك وتعليمات خدمات الطوارئ.</li>
+  </ol>
+
+  <div class="explain">
+    <b>CPR / RCP:</b>
+    الإنعاش القلبي الرئوي، ويستعمل عند فقدان الاستجابة مع عدم وجود تنفس طبيعي.
+  </div>
+  `
 },
 
 {
-title:"🩸 نزيف شديد",
-body:`
-<ol>
-<li>استعمل قفازات إذا متوفرة.</li>
-<li>اضغط مباشرة وبقوة على مكان النزيف بضمادة أو قماش نظيف.</li>
-<li>واصل الضغط ولا ترفع الضمادة كل دقيقة للتثبت.</li>
-<li>إذا النزيف شديد، اطلب مساعدة طبية عاجلة.</li>
-</ol>
-<div class="explain">
-<b>Direct pressure:</b> ضغط مباشر ومستمر على مكان النزيف للمساعدة على إيقافه.
-</div>`
+  title:"🩸 نزيف شديد",
+
+  body:`
+  <ol>
+    <li>استعمل قفازات إذا متوفرة.</li>
+    <li>اضغط مباشرة وبقوة على مكان النزيف بضمادة أو قماش نظيف.</li>
+    <li>واصل الضغط ولا ترفع الضمادة باستمرار للتثبت.</li>
+    <li>إذا النزيف شديد أو ما يوقفش، اطلب المساعدة الطبية.</li>
+  </ol>
+  `
 },
 
 {
-title:"😮‍💨 اختناق",
-body:`
-<p>
-إذا الشخص ما ينجمش يتنفس أو يتكلم أو يسعل بقوة، الحالة تنجم تكون استعجالية.
-اطلب المساعدة الطبية واتبع تعليمات الإسعاف الحالية حسب العمر والحالة.
-</p>
-<div class="explain">
-<b>Choking:</b> انسداد مجرى التنفس بجسم أو طعام.
-</div>`
+  title:"😮‍💨 اختناق",
+
+  body:`
+  <p>
+    إذا الشخص ما ينجمش يتنفس أو يتكلم أو يسعل بقوة،
+    الحالة تنجم تكون استعجالية.
+    اطلب المساعدة الطبية واتبع تعليمات الإسعاف الحالية.
+  </p>
+  `
 },
 
 {
-title:"🔥 حرق",
-body:`
-<ol>
-<li>أبعد الشخص عن مصدر الحرارة إذا كان ذلك آمنًا.</li>
-<li>برّد المنطقة بماء جارٍ بارد/فاتر لفترة مناسبة.</li>
-<li>ما تحطش ثلج مباشرة على الجلد.</li>
-<li>ما تفقعش الفقاعات.</li>
-<li>الحروق الكبيرة أو العميقة تستحق تقييم طبي.</li>
-</ol>`
+  title:"🔥 حرق",
+
+  body:`
+  <ol>
+    <li>أبعد الشخص عن مصدر الحرارة إذا كان ذلك آمنًا.</li>
+    <li>برّد المنطقة بماء جارٍ بارد أو فاتر.</li>
+    <li>ما تحطش الثلج مباشرة على الجلد.</li>
+    <li>ما تفقعش الفقاعات.</li>
+    <li>الحروق الكبيرة أو العميقة تستحق تقييمًا طبيًا.</li>
+  </ol>
+  `
 },
 
 {
-title:"🧠 علامات AVC / Stroke",
-body:`
-<ul>
-<li>اعوجاج مفاجئ في الوجه.</li>
-<li>ضعف أو خدر مفاجئ في ذراع أو ساق.</li>
-<li>اضطراب مفاجئ في الكلام.</li>
-<li>ظهور الأعراض فجأة يستوجب تقييمًا عاجلًا.</li>
-</ul>
-<div class="explain">
-<b>AVC / Stroke:</b> مشكلة مفاجئة في وصول الدم إلى جزء من الدماغ.
-</div>`
+  title:"🧠 علامات AVC / Stroke",
+
+  body:`
+  <ul>
+    <li>اعوجاج مفاجئ في الوجه.</li>
+    <li>ضعف أو خدر مفاجئ في ذراع أو ساق.</li>
+    <li>اضطراب مفاجئ في الكلام.</li>
+    <li>ظهور الأعراض فجأة يستوجب تقييمًا عاجلًا.</li>
+  </ul>
+  `
 },
 
 {
-title:"😵 فقدان الوعي",
-body:`
-<ol>
-<li>تأكد أن المكان آمن.</li>
-<li>حاول التثبت من الاستجابة.</li>
-<li>راقب التنفس الطبيعي.</li>
-<li>إذا ما يتنفسش طبيعيًا، انتقل إلى Emergency Mode واطلب المساعدة.</li>
-</ol>`
+  title:"😵 فقدان الوعي",
+
+  body:`
+  <ol>
+    <li>تأكد أن المكان آمن.</li>
+    <li>حاول التثبت من الاستجابة.</li>
+    <li>راقب التنفس الطبيعي.</li>
+    <li>إذا ما يتنفسش طبيعيًا، اطلب المساعدة وابدأ CPR حسب التدريب.</li>
+  </ol>
+  `
 }
 
 ];
+
 
 function renderFirstAid(){
 
@@ -1031,44 +2204,65 @@ function renderFirstAid(){
 
   list.innerHTML = "";
 
+
   firstAid.forEach(item => {
 
     const div =
       document.createElement("div");
 
-    div.className = "firstaid";
+    div.className =
+      "firstaid";
 
     div.innerHTML =
-      `<h3>${item.title}</h3>${item.body}`;
+      "<h3>" +
+      item.title +
+      "</h3>" +
+      item.body;
 
     list.appendChild(div);
+
   });
+
 }
 
-/* =========================
-   HOSPITAL / MAPS
-========================= */
+
+/* =====================================================
+   HOSPITALS / LOCATION
+===================================================== */
 
 function findHospitals(){
 
   hideAll();
-  document.getElementById("hospitalScreen").classList.remove("hidden");
+
+  document
+    .getElementById("hospitalScreen")
+    .classList.remove("hidden");
+
 
   const status =
     document.getElementById("locationStatus");
 
+
   if(!navigator.geolocation){
 
     status.innerHTML =
-      `<div class="warning">
+      `
+      <div class="warning">
         المتصفح ما يدعمش تحديد الموقع.
-      </div>`;
+      </div>
+      `;
 
     return;
   }
 
+
   status.innerHTML =
-    `<div class="card">📍 نستنى في موقعك...</div>`;
+    `
+    <div class="card">
+      📍 نستنى في موقعك...
+    </div>
+    `;
+
 
   navigator.geolocation.getCurrentPosition(
 
@@ -1080,58 +2274,85 @@ function findHospitals(){
       const lng =
         position.coords.longitude;
 
+
       const url =
         "https://www.google.com/maps/search/?api=1&query=hospital+near+" +
-        lat + "," + lng;
+        lat +
+        "," +
+        lng;
 
-      status.innerHTML = `
+
+      status.innerHTML =
+        `
         <div class="safe">
+
           📍 تم تحديد موقعك.
+
           <br><br>
-          <button class="primary"
-            onclick="window.open('${url}','_blank')">
+
+          <button
+            class="primary"
+            onclick="window.open('${url}','_blank')"
+          >
             🗺️ افتح المستشفيات القريبة
           </button>
+
         </div>
-      `;
+        `;
+
     },
+
 
     error => {
 
-      status.innerHTML = `
+      status.innerHTML =
+        `
         <div class="warning">
+
           ما نجمتش ناخذ موقعك.
+
           <br>
-          فعّل Location permission وجرب مرة أخرى.
+
+          فعّل Location permission
+          وجرب مرة أخرى.
+
         </div>
-      `;
+        `;
+
     },
+
 
     {
       enableHighAccuracy:true,
       timeout:10000,
       maximumAge:60000
     }
+
   );
+
 }
 
-/* =========================
+
+/* =====================================================
    LANGUAGE
-========================= */
+===================================================== */
 
 function setLang(){
 
   alert(
-    "Prototype الحالي: العربية / Tunisian Arabic.\n" +
+    "Prototype الحالي: العربية / Tunisian Arabic.\n\n" +
     "المرحلة القادمة نضيفوا Français + English + voice language."
   );
+
 }
 
-/* =========================
+
+/* =====================================================
    INIT
-========================= */
+===================================================== */
 
 renderFirstAid();
+
 </script>
 
 </body>
