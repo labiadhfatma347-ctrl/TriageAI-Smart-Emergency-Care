@@ -3,25 +3,12 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<meta
-  name="theme-color"
-  content="#0f766e"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f766e">
 
 <title>TriageAI - Smart Emergency Care</title>
 
-
 <style>
-
-/* ==============================
-   GLOBAL
-============================== */
 
 *{
   box-sizing:border-box;
@@ -29,690 +16,457 @@
 }
 
 body{
-
   margin:0;
-
   padding:12px;
-
-  background:
-  linear-gradient(
-    180deg,
-    #ecfdf5 0%,
-    #f8fafc 45%,
-    #eef6ff 100%
-  );
-
+  background:linear-gradient(180deg,#ecfdf5,#f8fafc,#eef6ff);
   color:#172033;
-
 }
 
 .container{
-
   max-width:850px;
-
   margin:auto;
-
 }
 
-
-/* ==============================
-   HEADER
-============================== */
+/* HEADER */
 
 header{
-
   position:relative;
-
   overflow:hidden;
-
-  background:
-  linear-gradient(
-    135deg,
-    #064e3b,
-    #0f766e,
-    #14b8a6
-  );
-
+  background:linear-gradient(135deg,#064e3b,#0f766e,#14b8a6);
   color:white;
-
   padding:30px 20px;
-
   border-radius:25px;
-
   text-align:center;
-
   margin-bottom:18px;
-
-  box-shadow:
-  0 15px 35px
-  rgba(15,118,110,.25);
-
+  box-shadow:0 15px 35px rgba(15,118,110,.25);
 }
 
-header::after{
-
+header:after{
   content:"";
-
   position:absolute;
-
   width:190px;
-
   height:190px;
-
   border-radius:50%;
-
-  background:
-  rgba(255,255,255,.10);
-
+  background:rgba(255,255,255,.10);
   right:-65px;
-
   top:-80px;
-
 }
 
 .logo{
-
   font-size:45px;
-
-  margin-bottom:5px;
-
 }
 
 .brand{
-
   font-size:32px;
-
   font-weight:900;
-
 }
 
 header p{
-
   margin:8px 0;
-
   opacity:.92;
-
-  font-size:15px;
-
 }
 
 .tagline{
-
   display:inline-block;
-
   margin-top:10px;
-
   padding:8px 13px;
-
   border-radius:50px;
-
-  background:
-  rgba(255,255,255,.16);
-
+  background:rgba(255,255,255,.16);
   font-size:12px;
-
   font-weight:bold;
-
 }
 
-
-/* ==============================
-   CARDS
-============================== */
+/* CARDS */
 
 .card{
-
   background:white;
-
   padding:20px;
-
   margin-bottom:18px;
-
   border-radius:20px;
-
   border:1px solid #e5e7eb;
-
-  box-shadow:
-  0 7px 25px
-  rgba(15,23,42,.08);
-
+  box-shadow:0 7px 25px rgba(15,23,42,.08);
 }
 
 .card h2{
-
-  margin:
-  0 0 7px;
-
+  margin:0 0 7px;
   color:#0f766e;
-
   font-size:21px;
-
 }
 
 .subtitle{
-
   color:#64748b;
-
   font-size:14px;
-
-  margin:
-  0 0 16px;
-
+  margin:0 0 16px;
   line-height:1.5;
-
 }
 
-
-/* ==============================
-   MAIN FEATURE
-============================== */
+/* FEATURE */
 
 .feature{
-
-  background:
-  linear-gradient(
-    135deg,
-    #f0fdfa,
-    #ffffff
-  );
-
-  border:
-  2px solid #99f6e4;
-
+  background:linear-gradient(135deg,#f0fdfa,#ffffff);
+  border:2px solid #99f6e4;
 }
 
 .feature h2{
-
   font-size:25px;
-
 }
 
 .feature-badge{
-
   display:inline-block;
-
   background:#ccfbf1;
-
   color:#0f766e;
-
   padding:6px 10px;
-
   border-radius:50px;
-
   font-size:11px;
-
   font-weight:900;
-
   margin-bottom:8px;
-
 }
 
-
-/* ==============================
-   INPUTS
-============================== */
+/* INPUTS */
 
 label{
-
   display:block;
-
   margin-top:14px;
-
   margin-bottom:6px;
-
   font-weight:bold;
-
   font-size:14px;
-
 }
 
 input,
 textarea,
 select{
-
   width:100%;
-
   padding:13px;
-
-  border:
-  1px solid #d5dde5;
-
+  border:1px solid #d5dde5;
   border-radius:12px;
-
   font-size:16px;
-
   background:#fbfdff;
-
   outline:none;
-
 }
 
 input:focus,
 textarea:focus,
 select:focus{
-
   border-color:#0f766e;
-
-  box-shadow:
-  0 0 0 3px
-  rgba(15,118,110,.12);
-
+  box-shadow:0 0 0 3px rgba(15,118,110,.12);
 }
 
 textarea{
-
   min-height:105px;
-
   resize:vertical;
-
 }
 
-
-/* ==============================
-   GRID
-============================== */
+/* GRID */
 
 .grid{
-
   display:grid;
-
-  grid-template-columns:
-  1fr 1fr;
-
+  grid-template-columns:1fr 1fr;
   gap:10px;
-
 }
 
 .full{
-
-  grid-column:
-  1 / -1;
-
+  grid-column:1/-1;
 }
 
-
-/* ==============================
-   BUTTONS
-============================== */
+/* BUTTONS */
 
 button{
-
   width:100%;
-
   padding:14px;
-
   margin-top:10px;
-
   border:0;
-
   border-radius:12px;
-
   background:#0f766e;
-
   color:white;
-
   font-size:15px;
-
   font-weight:bold;
-
   cursor:pointer;
-
   transition:.2s;
-
-  box-shadow:
-  0 4px 12px
-  rgba(15,118,110,.18);
-
+  box-shadow:0 4px 12px rgba(15,118,110,.18);
 }
 
 button:hover{
-
-  transform:
-  translateY(-1px);
-
-  filter:
-  brightness(.97);
-
+  transform:translateY(-1px);
 }
 
 button:active{
-
-  transform:
-  scale(.99);
-
+  transform:scale(.99);
 }
 
 .blue{
-
   background:#2563eb;
-
 }
 
 .purple{
-
   background:#7c3aed;
-
 }
 
 .red{
-
   background:#dc2626;
-
 }
 
 .gray{
-
   background:#475569;
-
 }
 
 .orange{
-
   background:#ea580c;
-
 }
 
+.green{
+  background:#16a34a;
+}
 
-/* ==============================
-   STATUS
-============================== */
+/* STATUS */
 
 .status{
-
   padding:13px;
-
   margin-top:12px;
-
   background:#f1f5f9;
-
   border-radius:12px;
-
   line-height:1.5;
-
 }
 
-
-/* ==============================
-   RESULTS
-============================== */
+/* RESULT */
 
 .result{
-
   padding:16px;
-
   border-radius:16px;
-
   margin-top:16px;
-
 }
 
 .critical{
-
   background:#fff1f2;
-
-  border:
-  2px solid #dc2626;
-
+  border:2px solid #dc2626;
 }
 
 .urgent{
-
   background:#fff7ed;
-
-  border:
-  2px solid #f97316;
-
+  border:2px solid #f97316;
 }
 
 .normal{
-
   background:#f0fdf4;
-
-  border:
-  2px solid #16a34a;
-
+  border:2px solid #16a34a;
 }
 
 .priority{
-
   text-align:center;
-
   font-size:25px;
-
   font-weight:900;
-
   margin-bottom:12px;
-
 }
 
 .item{
-
   padding:13px;
-
   margin-top:8px;
-
   background:#f8fafc;
-
   border-radius:12px;
-
   line-height:1.6;
-
 }
 
+/* STAY WITH ME */
 
-/* ==============================
-   STAY WITH ME
-============================== */
+.stay-box{
+  margin-top:15px;
+  padding:18px;
+  border-radius:17px;
+  background:#f8fafc;
+  border:1px solid #dbeafe;
+}
+
+.emergency-mode{
+  background:#fff1f2;
+  border:2px solid #dc2626;
+}
+
+.stay-title{
+  font-size:23px;
+  font-weight:900;
+  margin-bottom:8px;
+}
+
+.question{
+  margin-top:16px;
+  padding:20px;
+  background:#eff6ff;
+  border:2px solid #2563eb;
+  border-radius:17px;
+  font-size:19px;
+  font-weight:bold;
+  line-height:1.5;
+  text-align:center;
+}
+
+.question-number{
+  display:inline-block;
+  background:#2563eb;
+  color:white;
+  padding:6px 11px;
+  border-radius:50px;
+  font-size:12px;
+  margin-bottom:10px;
+}
+
+.answer-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.answer-yes{
+  background:#16a34a;
+}
+
+.answer-no{
+  background:#dc2626;
+}
 
 .step{
-
   margin-top:15px;
-
   padding:20px;
-
   background:#eff6ff;
-
-  border:
-  2px solid #2563eb;
-
+  border:2px solid #2563eb;
   border-radius:16px;
-
   font-size:18px;
-
   line-height:1.6;
-
 }
 
 .step-number{
-
   display:inline-block;
-
   background:#2563eb;
-
   color:white;
-
   padding:6px 10px;
-
   border-radius:50px;
-
   font-size:12px;
-
   margin-bottom:8px;
-
 }
 
+.emergency-banner{
+  padding:16px;
+  background:#dc2626;
+  color:white;
+  border-radius:15px;
+  text-align:center;
+  font-weight:900;
+  font-size:20px;
+  margin-bottom:12px;
+}
 
-/* ==============================
-   HOSPITAL
-============================== */
+.success-banner{
+  padding:16px;
+  background:#16a34a;
+  color:white;
+  border-radius:15px;
+  text-align:center;
+  font-weight:900;
+  font-size:18px;
+  margin-top:12px;
+}
+
+/* HOSPITAL */
 
 .hospital-box{
-
   margin-top:14px;
-
   padding:15px;
-
   background:#eff6ff;
-
-  border-left:
-  5px solid #2563eb;
-
+  border-left:5px solid #2563eb;
   border-radius:12px;
-
   line-height:1.6;
-
 }
 
-
-/* ==============================
-   WARNING
-============================== */
+/* WARNING */
 
 .warning{
-
   text-align:center;
-
   color:#64748b;
-
   font-size:12px;
-
   line-height:1.6;
-
-  padding:
-  3px 15px 20px;
-
+  padding:3px 15px 20px;
 }
 
-
-/* ==============================
-   MOBILE
-============================== */
+/* MOBILE */
 
 @media(max-width:600px){
 
   body{
-
     padding:8px;
-
   }
 
-  .grid{
-
+  .grid,
+  .answer-grid{
     grid-template-columns:1fr;
-
   }
 
   .full{
-
     grid-column:auto;
-
   }
 
   .card{
-
     padding:16px;
-
     border-radius:17px;
-
   }
 
   .brand{
-
     font-size:28px;
-
   }
 
   .logo{
-
     font-size:38px;
-
   }
 
   header{
-
     padding:25px 15px;
-
     border-radius:20px;
-
   }
 
 }
 
 </style>
-
 </head>
 
 
 <body>
 
-
 <div class="container">
 
 
-<!-- ==============================
-     HEADER
-============================== -->
+<!-- HEADER -->
 
 <header>
 
-<div class="logo">
-
-🏥
-
-</div>
+<div class="logo">🏥</div>
 
 <div class="brand">
-
 TriageAI 🤖
-
 </div>
 
 <p>
-
 Smart Emergency Care Assistant
-
 </p>
 
 <div class="tagline">
-
 🚑 Stay with you when every second matters
-
 </div>
 
 </header>
 
 
-
-<!-- ==============================
-     PATIENT ASSESSMENT
-============================== -->
+<!-- PATIENT ASSESSMENT -->
 
 <div class="card">
 
-<h2>
-
-👤 Patient Assessment
-
-</h2>
+<h2>👤 Patient Assessment</h2>
 
 <p class="subtitle">
-
-Enter the patient's information for
-a preliminary triage assessment.
-
+Enter the patient's information for a preliminary triage assessment.
 </p>
-
 
 <div class="grid">
 
-
 <div>
 
-<label>
-
-Patient Name
-
-</label>
+<label>Patient Name</label>
 
 <input
 id="patientName"
@@ -725,11 +479,7 @@ placeholder="Enter patient name"
 
 <div>
 
-<label>
-
-Age
-
-</label>
+<label>Age</label>
 
 <input
 id="patientAge"
@@ -744,11 +494,7 @@ placeholder="Age"
 
 <div class="full">
 
-<label>
-
-Symptoms
-
-</label>
+<label>Symptoms</label>
 
 <textarea
 id="patientSymptoms"
@@ -760,34 +506,22 @@ placeholder="Describe the patient's symptoms..."
 </div>
 
 
-
 <!-- VOICE -->
 
-<label>
-
-🎤 Voice Assistant
-
-</label>
-
+<label>🎤 Voice Assistant</label>
 
 <select id="voiceLanguage">
 
 <option value="en-US">
-
 🇬🇧 English
-
 </option>
 
 <option value="fr-FR">
-
 🇫🇷 Français
-
 </option>
 
 <option value="ar-SA">
-
 🇸🇦 العربية
-
 </option>
 
 </select>
@@ -795,26 +529,19 @@ placeholder="Describe the patient's symptoms..."
 
 <div class="grid">
 
-
 <button
 class="purple"
 onclick="startVoice()"
 >
-
 🎤 Start Voice Assistant
-
 </button>
-
 
 <button
 class="gray"
 onclick="stopVoice()"
 >
-
 ⏹ Stop Voice
-
 </button>
-
 
 </div>
 
@@ -823,25 +550,17 @@ onclick="stopVoice()"
 id="voiceStatus"
 class="status"
 >
-
 🎤 Voice assistant ready.
-
 </div>
-
 
 
 <!-- VITALS -->
 
 <div class="grid">
 
-
 <div>
 
-<label>
-
-Pain Level (0–10)
-
-</label>
+<label>Pain Level (0–10)</label>
 
 <input
 id="pain"
@@ -856,11 +575,7 @@ placeholder="0 - 10"
 
 <div>
 
-<label>
-
-Heart Rate
-
-</label>
+<label>Heart Rate</label>
 
 <input
 id="heartRate"
@@ -873,11 +588,7 @@ placeholder="BPM"
 
 <div>
 
-<label>
-
-Temperature
-
-</label>
+<label>Temperature</label>
 
 <input
 id="temperature"
@@ -891,11 +602,7 @@ placeholder="°C"
 
 <div>
 
-<label>
-
-Oxygen Saturation
-
-</label>
+<label>Oxygen Saturation</label>
 
 <input
 id="oxygen"
@@ -907,16 +614,11 @@ placeholder="%"
 
 </div>
 
-
 </div>
 
 
-<button
-onclick="analyzePatient()"
->
-
+<button onclick="analyzePatient()">
 🔍 Analyze Patient
-
 </button>
 
 
@@ -924,198 +626,124 @@ onclick="analyzePatient()"
 class="gray"
 onclick="newPatient()"
 >
-
 ➕ New Patient
-
 </button>
 
 
 <div id="result"></div>
 
-
 </div>
 
 
-
-<!-- ==============================
-     FIRST AID
-============================== -->
+<!-- FIRST AID -->
 
 <div class="card">
 
-<h2>
-
-🆘 First Aid Guide
-
-</h2>
+<h2>🆘 First Aid Guide</h2>
 
 <p class="subtitle">
-
-Select an emergency condition to display
-basic first-aid guidance.
-
+Select an emergency condition to display basic first-aid guidance.
 </p>
 
 
-<label>
-
-Emergency Condition
-
-</label>
-
+<label>Emergency Condition</label>
 
 <select id="condition">
 
 <option value="">
-
 -- Select Condition --
-
 </option>
 
 <option value="bleeding">
-
 🩸 Severe Bleeding
-
 </option>
 
 <option value="choking">
-
 🫁 Choking
-
 </option>
 
 <option value="burn">
-
 🔥 Burns
-
 </option>
 
 <option value="stroke">
-
 🧠 Stroke
-
 </option>
 
 <option value="breathing">
-
 😮‍💨 Difficulty Breathing
-
 </option>
 
 <option value="cardiac">
-
 ❤️ Cardiac Arrest
-
 </option>
 
 <option value="unconscious">
-
 😵 Unconsciousness
-
 </option>
 
 <option value="fracture">
-
 🦴 Fracture
-
 </option>
 
 <option value="snake">
-
 🐍 Snake Bite
-
 </option>
 
 <option value="scorpion">
-
 🦂 Scorpion Sting
-
 </option>
 
 </select>
 
 
-<button
-onclick="showGuide()"
->
-
+<button onclick="showGuide()">
 📖 Show First Aid
-
 </button>
 
 
 <div id="guide"></div>
 
-
 </div>
 
 
+<!-- STAY WITH ME 2.0 -->
 
-<!-- ==============================
-     STAY WITH ME
-============================== -->
-
-<div
-class="card feature"
->
+<div class="card feature">
 
 <div class="feature-badge">
-
-⭐ MAIN FEATURE
-
+⭐ TriageAI SIGNATURE FEATURE
 </div>
 
-
 <h2>
-
-🫶 Stay With Me
-
+🫶 Stay With Me 2.0
 </h2>
 
-
 <p class="subtitle">
-
-Step-by-step emergency support.
-Choose a condition above and let
-TriageAI guide you one step at a time.
-
+TriageAI stays with the user step by step instead of simply displaying a long list of instructions.
 </p>
 
 
-<button
-onclick="startStay()"
->
-
+<button onclick="startStay()">
 🫶 Start Stay With Me
-
 </button>
 
 
 <div id="stay"></div>
 
-
 </div>
 
 
-
-<!-- ==============================
-     HOSPITAL
-============================== -->
+<!-- HOSPITALS -->
 
 <div class="card">
 
 <h2>
-
 📍 Nearby Emergency Hospitals
-
 </h2>
 
-
 <p class="subtitle">
-
-Use your current GPS location to search
-for nearby emergency hospitals.
-
+Use your current GPS location to search for nearby emergency hospitals.
 </p>
 
 
@@ -1123,9 +751,7 @@ for nearby emergency hospitals.
 class="blue"
 onclick="findHospital()"
 >
-
 📍 Find Nearby Emergency Hospitals
-
 </button>
 
 
@@ -1133,35 +759,22 @@ onclick="findHospital()"
 id="hospitalStatus"
 class="hospital-box"
 >
-
-📍 Press the button to search for
-nearby hospitals.
+📍 Press the button to search for nearby hospitals.
+</div>
 
 </div>
 
 
-</div>
-
-
-
-<!-- ==============================
-     EMERGENCY
-============================== -->
+<!-- EMERGENCY -->
 
 <div class="card">
 
 <h2>
-
 🚑 Emergency Assistance
-
 </h2>
 
-
 <p class="subtitle">
-
-For a real emergency, contact professional
-emergency services immediately.
-
+For a real emergency, contact professional emergency services immediately.
 </p>
 
 
@@ -1169,27 +782,19 @@ emergency services immediately.
 class="red"
 onclick="callEmergency()"
 >
-
-📞 Call Protection Civile — 198
-
+📞 Call Emergency Services — 198
 </button>
-
 
 </div>
 
 
-
-<!-- WARNING -->
-
 <p class="warning">
 
-⚠️ TriageAI is an educational prototype
-and preliminary decision-support tool.
+⚠️ TriageAI is an educational prototype and preliminary decision-support tool.
 
 <br>
 
-It does not diagnose disease and does not
-replace professional medical assessment.
+It does not diagnose disease and does not replace professional medical assessment.
 
 <br>
 
@@ -1201,94 +806,67 @@ For a real emergency, contact emergency services.
 </div>
 
 
-
 <script>
 
 
-/* =========================================
-   ANALYZE PATIENT
-========================================= */
+/* =====================================
+   TRIAGE ANALYSIS
+===================================== */
 
 function analyzePatient(){
 
 const name =
-document.getElementById(
-"patientName"
-).value ||
+document.getElementById("patientName").value ||
 "Unknown Patient";
-
 
 const age =
 Number(
-document.getElementById(
-"patientAge"
-).value
+document.getElementById("patientAge").value
 );
 
-
 const symptoms =
-document.getElementById(
-"patientSymptoms"
-).value
+document.getElementById("patientSymptoms").value
 .toLowerCase();
-
 
 const pain =
 Number(
-document.getElementById(
-"pain"
-).value
+document.getElementById("pain").value
 );
-
 
 const heart =
 Number(
-document.getElementById(
-"heartRate"
-).value
+document.getElementById("heartRate").value
 );
-
 
 const temperature =
 Number(
-document.getElementById(
-"temperature"
-).value
+document.getElementById("temperature").value
 );
-
 
 const oxygen =
 Number(
-document.getElementById(
-"oxygen"
-).value
+document.getElementById("oxygen").value
 );
 
+let score=0;
 
-let score = 0;
-
-let reasons = [];
+let reasons=[];
 
 
 /* PAIN */
 
-if(pain >= 8){
+if(pain>=8){
 
-score += 4;
+score+=4;
 
-reasons.push(
-"Severe pain"
-);
+reasons.push("Severe pain");
 
 }
+else if(pain>=5){
 
-else if(pain >= 5){
+score+=2;
 
-score += 2;
-
-reasons.push(
-"Moderate pain"
-);
+reasons.push("Moderate pain");
 
 }
 
@@ -1296,24 +874,23 @@ reasons.push(
 /* OXYGEN */
 
 if(
-oxygen > 0 &&
-oxygen < 90
+oxygen>0 &&
+oxygen<90
 ){
 
-score += 5;
+score+=5;
 
 reasons.push(
 "Very low oxygen saturation"
 );
 
 }
-
 else if(
-oxygen > 0 &&
-oxygen < 94
+oxygen>0 &&
+oxygen<94
 ){
 
-score += 3;
+score+=3;
 
 reasons.push(
 "Low oxygen saturation"
@@ -1325,14 +902,14 @@ reasons.push(
 /* HEART */
 
 if(
-heart > 0 &&
+heart>0 &&
 (
-heart < 50 ||
-heart > 120
+heart<50 ||
+heart>120
 )
 ){
 
-score += 3;
+score+=3;
 
 reasons.push(
 "Abnormal heart rate"
@@ -1343,23 +920,18 @@ reasons.push(
 
 /* TEMPERATURE */
 
-if(
-temperature >= 39.5
-){
+if(temperature>=39.5){
 
-score += 3;
+score+=3;
 
 reasons.push(
 "High temperature"
 );
 
 }
+else if(temperature>=38.5){
 
-else if(
-temperature >= 38.5
-){
-
-score += 1;
+score+=1;
 
 reasons.push(
 "Fever"
@@ -1371,14 +943,14 @@ reasons.push(
 /* AGE */
 
 if(
-age >= 65 ||
+age>=65 ||
 (
-age > 0 &&
-age < 5
+age>0 &&
+age<5
 )
 ){
 
-score += 1;
+score+=1;
 
 reasons.push(
 "Age-related risk"
@@ -1387,37 +959,39 @@ reasons.push(
 }
 
 
-/* EMERGENCY KEYWORDS */
+/* EMERGENCY WORDS */
 
-const emergencyWords = [
+const emergencyWords=[
 
 "chest pain",
-
 "difficulty breathing",
-
 "shortness of breath",
-
 "severe bleeding",
-
 "heavy bleeding",
-
 "unconscious",
-
 "seizure",
-
 "stroke",
-
 "choking",
-
 "cardiac arrest",
-
 "not breathing",
-
 "gasping",
-
 "snake bite",
+"scorpion sting",
 
-"scorpion sting"
+"douleur thoracique",
+"saignement",
+"étouffement",
+"avc",
+"essoufflement",
+"inconscient",
+
+"ألم الصدر",
+"نزيف",
+"اختناق",
+"جلطة",
+"ضيق التنفس",
+"فاقد الوعي",
+"توقف القلب"
 
 ];
 
@@ -1426,15 +1000,12 @@ for(
 let word of emergencyWords
 ){
 
-if(
-symptoms.includes(word)
-){
+if(symptoms.includes(word)){
 
-score += 5;
+score+=5;
 
 reasons.push(
-"Emergency symptom: " +
-word
+"Emergency symptom: "+word
 );
 
 break;
@@ -1447,54 +1018,38 @@ break;
 /* PRIORITY */
 
 let priority;
-
 let css;
 
 
-if(score >= 7){
+if(score>=7){
 
-priority =
-"🔴 CRITICAL";
-
-css =
-"critical";
+priority="🔴 CRITICAL";
+css="critical";
 
 }
+else if(score>=3){
 
-else if(score >= 3){
-
-priority =
-"🟠 URGENT";
-
-css =
-"urgent";
+priority="🟠 URGENT";
+css="urgent";
 
 }
-
 else{
 
-priority =
-"🟢 NON-URGENT";
-
-css =
-"normal";
+priority="🟢 NON-URGENT";
+css="normal";
 
 }
 
 
-/* RESULT */
-
 const result =
-document.getElementById(
-"result"
-);
+document.getElementById("result");
 
 
-result.className =
-"result " + css;
+result.className=
+"result "+css;
 
 
-result.innerHTML = `
+result.innerHTML=`
 
 <div class="priority">
 
@@ -1505,9 +1060,7 @@ ${priority}
 
 <div class="item">
 
-<strong>
-👤 Patient:
-</strong>
+<strong>👤 Patient:</strong>
 
 ${escapeHTML(name)}
 
@@ -1516,9 +1069,7 @@ ${escapeHTML(name)}
 
 <div class="item">
 
-<strong>
-🎂 Age:
-</strong>
+<strong>🎂 Age:</strong>
 
 ${age || "Not provided"}
 
@@ -1527,44 +1078,38 @@ ${age || "Not provided"}
 
 <div class="item">
 
-<strong>
-🩺 Symptoms:
-</strong>
+<strong>🩺 Symptoms:</strong>
 
-${escapeHTML(symptoms) || "Not provided"}
+${escapeHTML(symptoms)||"Not provided"}
 
 </div>
 
 
 <div class="item">
 
-<strong>
-❤️ Vital Signs
-</strong>
+<strong>❤️ Vital Signs</strong>
 
 <br><br>
 
 Heart Rate:
-${heart || "N/A"} BPM
+${heart||"N/A"} BPM
 
 <br>
 
 Temperature:
-${temperature || "N/A"} °C
+${temperature||"N/A"} °C
 
 <br>
 
 Oxygen:
-${oxygen || "N/A"} %
+${oxygen||"N/A"} %
 
 </div>
 
 
 <div class="item">
 
-<strong>
-📊 Triage Score:
-</strong>
+<strong>📊 Triage Score:</strong>
 
 ${score}
 
@@ -1573,9 +1118,7 @@ ${score}
 
 <div class="item">
 
-<strong>
-⚠️ Reasons:
-</strong>
+<strong>⚠️ Reasons:</strong>
 
 <br>
 
@@ -1591,79 +1134,69 @@ reasons.join("<br>")
 
 `;
 
+
+/* AUTOMATIC EMERGENCY MODE */
+
+if(score>=7){
+
+document.getElementById("condition").value=
+detectConditionFromSymptoms(symptoms) || "";
+
+}
+
 }
 
 
-/* =========================================
+/* =====================================
    NEW PATIENT
-========================================= */
+===================================== */
 
 function newPatient(){
 
-const fields = [
-
+[
 "patientName",
-
 "patientAge",
-
 "patientSymptoms",
-
 "pain",
-
 "heartRate",
-
 "temperature",
-
 "oxygen"
+]
+.forEach(function(id){
 
-];
-
-
-fields.forEach(
-function(id){
-
-document.getElementById(
-id
-).value = "";
+document.getElementById(id).value="";
 
 });
 
 
-document.getElementById(
-"result"
-).innerHTML = "";
+document.getElementById("result").innerHTML="";
 
-
-document.getElementById(
-"result"
-).className = "";
+document.getElementById("result").className="";
 
 }
 
 
-/* =========================================
-   VOICE
-========================================= */
+/* =====================================
+   VOICE ASSISTANT
+===================================== */
 
-let recognition = null;
+let recognition=null;
 
 
 function startVoice(){
 
-const SpeechRecognition =
+const SpeechRecognition=
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
 
-const status =
-document.getElementById(
-"voiceStatus"
-);
+const status=
+document.getElementById("voiceStatus");
 
 
 if(!SpeechRecognition){
 
-status.innerHTML =
+status.innerHTML=
 "❌ Voice recognition is not supported. Please use Google Chrome.";
 
 return;
@@ -1674,93 +1207,74 @@ return;
 if(recognition){
 
 try{
-
 recognition.stop();
+}catch(e){}
 
 }
 
-catch(e){}
 
-}
-
-
-recognition =
+recognition=
 new SpeechRecognition();
 
 
-recognition.lang =
+recognition.lang=
 document.getElementById(
 "voiceLanguage"
 ).value;
 
 
-recognition.continuous =
-false;
+recognition.continuous=false;
+
+recognition.interimResults=false;
+
+recognition.maxAlternatives=1;
 
 
-recognition.interimResults =
-false;
+recognition.onstart=function(){
 
-
-recognition.maxAlternatives =
-1;
-
-
-recognition.onstart =
-function(){
-
-status.innerHTML =
+status.innerHTML=
 "🎤 Listening... Speak now.";
 
 };
 
 
-recognition.onresult =
-function(event){
+recognition.onresult=function(event){
 
-const text =
-event.results[0][0]
-.transcript;
+const text=
+event.results[0][0].transcript;
 
 
 document.getElementById(
 "patientSymptoms"
-).value =
-text;
+).value=text;
 
 
-status.innerHTML =
-"✅ Heard: " +
+status.innerHTML=
+"✅ Heard: "+
 escapeHTML(text);
 
 
-detectCondition(
-text.toLowerCase()
-);
+detectCondition(text.toLowerCase());
 
 };
 
 
-recognition.onerror =
-function(event){
+recognition.onerror=function(event){
 
-status.innerHTML =
-"❌ Voice error: " +
+status.innerHTML=
+"❌ Voice error: "+
 event.error;
 
 };
 
 
-recognition.onend =
-function(){
+recognition.onend=function(){
 
 if(
-status.innerHTML.includes(
-"Listening"
-)
+status.innerHTML.includes("Listening")
 ){
 
-status.innerHTML =
+status.innerHTML=
 "🎤 Voice assistant ready.";
 
 }
@@ -1773,10 +1287,9 @@ try{
 recognition.start();
 
 }
+catch(e){
 
-catch(error){
-
-status.innerHTML =
+status.innerHTML=
 "❌ Could not start microphone.";
 
 }
@@ -1784,38 +1297,29 @@ status.innerHTML =
 }
 
 
-/* =========================================
-   STOP VOICE
-========================================= */
-
 function stopVoice(){
 
 if(recognition){
 
 try{
-
 recognition.stop();
+}catch(e){}
 
 }
-
-catch(e){}
-
-}
-
 
 document.getElementById(
 "voiceStatus"
-).innerHTML =
+).innerHTML=
 "⏹ Voice stopped.";
 
 }
 
 
-/* =========================================
-   FIRST AID
-========================================= */
+/* =====================================
+   FIRST AID DATA
+===================================== */
 
-const guides = {
+const guides={
 
 
 bleeding:[
@@ -1835,9 +1339,9 @@ choking:[
 
 "If the patient can cough effectively, encourage coughing.",
 
-"For severe choking, provide appropriate first aid.",
+"For severe choking, provide appropriate first-aid measures.",
 
-"If unconscious, start CPR.",
+"If the patient becomes unconscious, start CPR and follow emergency guidance.",
 
 "Call emergency services."
 
@@ -1850,7 +1354,7 @@ burn:[
 
 "Cool the burn with cool running water.",
 
-"Remove rings and watches.",
+"Remove rings and watches if possible before swelling develops.",
 
 "Do not use ice directly.",
 
@@ -1865,7 +1369,7 @@ stroke:[
 
 "Call emergency services immediately.",
 
-"Record when symptoms started.",
+"Record when symptoms started or when the patient was last known well.",
 
 "Do not let the patient drive.",
 
@@ -1876,15 +1380,15 @@ stroke:[
 
 breathing:[
 
-"Sit the patient comfortably.",
+"Help the patient sit in a comfortable position.",
 
 "Reassure the patient.",
 
 "Help with prescribed treatment if available.",
 
-"Call emergency services if severe.",
+"Call emergency services if breathing difficulty is severe.",
 
-"Monitor breathing."
+"Monitor breathing and consciousness."
 
 ],
 
@@ -1897,11 +1401,11 @@ cardiac:[
 
 "Call emergency services.",
 
-"Start CPR.",
+"Start CPR if the person is not breathing normally.",
 
 "Use an AED if available.",
 
-"Continue until help arrives."
+"Continue until help arrives or the patient shows signs of normal breathing."
 
 ],
 
@@ -1914,7 +1418,7 @@ unconscious:[
 
 "Call emergency services.",
 
-"If breathing normally, place in recovery position when appropriate.",
+"If breathing normally, use the recovery position when appropriate.",
 
 "If not breathing normally, start CPR."
 
@@ -1942,11 +1446,11 @@ snake:[
 
 "Keep the patient calm and still.",
 
-"Immobilize the bitten limb.",
+"Immobilize the affected limb.",
 
 "Remove rings and watches.",
 
-"Do not cut or suck the wound.",
+"Do not cut, suck or attempt to remove venom.",
 
 "Seek urgent medical care."
 
@@ -1972,19 +1476,19 @@ scorpion:[
 };
 
 
-/* =========================================
-   SHOW GUIDE
-========================================= */
+/* =====================================
+   SHOW FIRST AID
+===================================== */
 
 function showGuide(){
 
-const condition =
+const condition=
 document.getElementById(
 "condition"
 ).value;
 
 
-const guide =
+const guide=
 document.getElementById(
 "guide"
 );
@@ -1992,7 +1496,7 @@ document.getElementById(
 
 if(!condition){
 
-guide.innerHTML = `
+guide.innerHTML=`
 
 <div class="item">
 
@@ -2007,29 +1511,23 @@ return;
 }
 
 
-guide.innerHTML = `
+guide.innerHTML=`
 
 <div class="item">
 
-<h3>
-
-🆘 First Aid
-
-</h3>
+<h3>🆘 First Aid</h3>
 
 <ol>
 
 ${
 guides[condition]
-.map(
-function(step){
+.map(function(step){
 
-return "<li>" +
-escapeHTML(step) +
+return "<li>"+
+escapeHTML(step)+
 "</li>";
 
-}
-)
+})
 .join("")
 }
 
@@ -2042,116 +1540,21 @@ escapeHTML(step) +
 }
 
 
-/* =========================================
-   AUTO CONDITION
-========================================= */
+/* =====================================
+   DETECT CONDITION
+===================================== */
 
 function detectCondition(text){
 
-let condition = "";
-
-
-if(
-text.includes("bleeding") ||
-text.includes("blood")
-){
-
-condition =
-"bleeding";
-
-}
-
-else if(
-text.includes("choking")
-){
-
-condition =
-"choking";
-
-}
-
-else if(
-text.includes("burn")
-){
-
-condition =
-"burn";
-
-}
-
-else if(
-text.includes("stroke")
-){
-
-condition =
-"stroke";
-
-}
-
-else if(
-text.includes("breathing") ||
-text.includes("shortness of breath")
-){
-
-condition =
-"breathing";
-
-}
-
-else if(
-text.includes("cardiac arrest") ||
-text.includes("not breathing")
-){
-
-condition =
-"cardiac";
-
-}
-
-else if(
-text.includes("unconscious")
-){
-
-condition =
-"unconscious";
-
-}
-
-else if(
-text.includes("fracture") ||
-text.includes("broken bone")
-){
-
-condition =
-"fracture";
-
-}
-
-else if(
-text.includes("snake")
-){
-
-condition =
-"snake";
-
-}
-
-else if(
-text.includes("scorpion")
-){
-
-condition =
-"scorpion";
-
-}
+const condition=
+detectConditionFromSymptoms(text);
 
 
 if(condition){
 
 document.getElementById(
 "condition"
-).value =
-condition;
+).value=condition;
 
 
 showGuide();
@@ -2161,27 +1564,804 @@ showGuide();
 }
 
 
-/* =========================================
-   STAY WITH ME
-========================================= */
+/* =====================================
+   MULTILINGUAL DETECTION
+===================================== */
 
-let stayStep = 0;
+function detectConditionFromSymptoms(text){
 
-let currentSteps = [];
+if(
 
+text.includes("bleeding") ||
+text.includes("blood") ||
+text.includes("saignement") ||
+text.includes("sang") ||
+text.includes("نزيف") ||
+text.includes("دم")
+
+){
+
+return "bleeding";
+
+}
+
+
+if(
+
+text.includes("choking") ||
+text.includes("étouffement") ||
+text.includes("اختناق")
+
+){
+
+return "choking";
+
+}
+
+
+if(
+
+text.includes("burn") ||
+text.includes("brûlure") ||
+text.includes("حرق")
+
+){
+
+return "burn";
+
+}
+
+
+if(
+
+text.includes("stroke") ||
+text.includes("avc") ||
+text.includes("جلطة") ||
+text.includes("سكتة")
+
+){
+
+return "stroke";
+
+}
+
+
+if(
+
+text.includes("breathing") ||
+text.includes("respiration") ||
+text.includes("essoufflement") ||
+text.includes("ضيق التنفس") ||
+text.includes("صعوبة التنفس")
+
+){
+
+return "breathing";
+
+}
+
+
+if(
+
+text.includes("cardiac arrest") ||
+text.includes("arrêt cardiaque") ||
+text.includes("توقف القلب")
+
+){
+
+return "cardiac";
+
+}
+
+
+if(
+
+text.includes("unconscious") ||
+text.includes("inconscient") ||
+text.includes("فاقد الوعي") ||
+text.includes("مغمى عليه")
+
+){
+
+return "unconscious";
+
+}
+
+
+if(
+
+text.includes("fracture") ||
+text.includes("cassure") ||
+text.includes("كسر")
+
+){
+
+return "fracture";
+
+}
+
+
+if(
+
+text.includes("snake") ||
+text.includes("serpent") ||
+text.includes("ثعبان") ||
+text.includes("أفعى")
+
+){
+
+return "snake";
+
+}
+
+
+if(
+
+text.includes("scorpion") ||
+text.includes("عقرب")
+
+){
+
+return "scorpion";
+
+}
+
+
+return "";
+
+}
+
+
+/* =====================================
+   STAY WITH ME 2.0
+===================================== */
+
+let stayCondition="";
+
+let stayStage=0;
+
+let stayMode="";
+
+
+const interactiveFlows={
+
+
+choking:{
+
+intro:
+"Possible choking emergency. Stay calm and stay with the patient.",
+
+questions:[
+
+{
+question:
+"Is the patient conscious?",
+
+yes:
+"The patient is conscious. If they can cough effectively, encourage coughing and monitor closely.",
+
+no:
+"The patient is unconscious. Call emergency services and begin appropriate CPR guidance.",
+
+nextYes:"breathing",
+nextNo:"emergency"
+
+},
+
+{
+id:"breathing",
+
+question:
+"Is the patient breathing normally?",
+
+yes:
+"Keep monitoring the patient and follow emergency guidance if the condition worsens.",
+
+no:
+"Call emergency services immediately and start CPR if the patient is not breathing normally.",
+
+nextYes:"finish",
+nextNo:"emergency"
+
+}
+
+]
+
+},
+
+
+cardiac:{
+
+intro:
+"Possible cardiac arrest. Stay with me and act quickly.",
+
+questions:[
+
+{
+question:
+"Is the patient responsive?",
+
+yes:
+"Continue monitoring the patient closely and seek urgent professional assessment.",
+
+no:
+"The patient is unresponsive. Call emergency services immediately.",
+
+nextYes:"breathing",
+nextNo:"breathing"
+
+},
+
+{
+id:"breathing",
+
+question:
+"Is the patient breathing normally?",
+
+yes:
+"Continue monitoring and follow professional emergency instructions.",
+
+no:
+"Start CPR and use an AED if available. Continue until help arrives or the patient shows signs of normal breathing.",
+
+nextYes:"finish",
+nextNo:"emergency"
+
+}
+
+]
+
+},
+
+
+unconscious:{
+
+intro:
+"The patient may be unconscious. Stay with me and check one thing at a time.",
+
+questions:[
+
+{
+question:
+"Is the patient responsive?",
+
+yes:
+"Good. Continue monitoring the patient and seek medical assessment.",
+
+no:
+"The patient is unresponsive. Call emergency services.",
+
+nextYes:"breathing",
+nextNo:"breathing"
+
+},
+
+{
+id:"breathing",
+
+question:
+"Is the patient breathing normally?",
+
+yes:
+"If breathing normally, place the patient in the recovery position when appropriate and continue monitoring.",
+
+no:
+"Call emergency services and start CPR.",
+
+nextYes:"finish",
+nextNo:"emergency"
+
+}
+
+]
+
+},
+
+
+breathing:{
+
+intro:
+"Breathing difficulty can become serious. Stay with the patient.",
+
+questions:[
+
+{
+question:
+"Is the breathing difficulty severe or getting worse?",
+
+yes:
+"Call emergency services immediately. Keep the patient in a comfortable position and monitor them.",
+
+no:
+"Continue monitoring and help with prescribed treatment if available.",
+
+nextYes:"emergency",
+nextNo:"finish"
+
+}
+
+]
+
+},
+
+
+stroke:{
+
+intro:
+"Possible stroke. Time matters. Stay with the patient.",
+
+questions:[
+
+{
+question:
+"Did the symptoms start suddenly?",
+
+yes:
+"Call emergency services immediately and record when the symptoms started or when the patient was last known well.",
+
+no:
+"New neurological symptoms still require urgent medical assessment.",
+
+nextYes:"emergency",
+nextNo:"emergency"
+
+}
+
+]
+
+},
+
+
+bleeding:{
+
+intro:
+"Severe bleeding can be life-threatening. Stay with the patient.",
+
+questions:[
+
+{
+question:
+"Is the bleeding severe or difficult to control?",
+
+yes:
+"Call emergency services and apply firm, continuous direct pressure.",
+
+no:
+"Continue applying appropriate direct pressure and monitor the patient.",
+
+nextYes:"emergency",
+nextNo:"finish"
+
+}
+
+]
+
+},
+
+
+burn:{
+
+intro:
+"Stay with the patient and protect the burned area.",
+
+questions:[
+
+{
+question:
+"Is the burn extensive, deep, or involving the face or airway?",
+
+yes:
+"Call emergency services and monitor breathing.",
+
+no:
+"Cool the burn with cool running water and seek medical assessment when appropriate.",
+
+nextYes:"emergency",
+nextNo:"finish"
+
+}
+
+]
+
+},
+
+
+fracture:{
+
+intro:
+"Keep the injured area still and stay with the patient.",
+
+questions:[
+
+{
+question:
+"Is there severe bleeding, major deformity, or loss of circulation/sensation?",
+
+yes:
+"Seek emergency medical help immediately and control severe bleeding without straightening the limb.",
+
+no:
+"Support and immobilize the injured area and arrange medical assessment.",
+
+nextYes:"emergency",
+nextNo:"finish"
+
+}
+
+]
+
+},
+
+
+snake:{
+
+intro:
+"A snake bite can require urgent medical treatment. Stay calm.",
+
+questions:[
+
+{
+question:
+"Was the patient bitten by a snake or is a snake bite suspected?",
+
+yes:
+"Seek urgent medical care. Keep the patient calm and still and immobilize the affected limb.",
+
+no:
+"Continue monitoring and seek medical assessment if there is any concern.",
+
+nextYes:"emergency",
+nextNo:"finish"
+
+}
+
+]
+
+},
+
+
+scorpion:{
+
+intro:
+"A scorpion sting may require medical assessment. Stay calm.",
+
+questions:[
+
+{
+question:
+"Is the patient developing severe symptoms or difficulty breathing?",
+
+yes:
+"Call emergency services immediately and monitor breathing and consciousness.",
+
+no:
+"Keep the patient calm, clean the area, use a cool compress and seek medical assessment.",
+
+nextYes:"emergency",
+nextNo:"finish"
+
+}
+
+]
+
+}
+
+};
+
+
+/* =====================================
+   START STAY
+===================================== */
 
 function startStay(){
 
-const condition =
+const condition=
 document.getElementById(
 "condition"
 ).value;
 
 
+const stay=
+document.getElementById(
+"stay"
+);
+
+
 if(!condition){
 
-alert(
-"Please select a condition first."
+stay.innerHTML=`
+
+<div class="item">
+
+⚠️ Please select an emergency condition first.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+stayCondition=condition;
+
+stayStage=0;
+
+stayMode="interactive";
+
+
+if(interactiveFlows[condition]){
+
+renderInteractiveStay();
+
+}
+
+else{
+
+startClassicStay();
+
+}
+
+}
+
+
+/* =====================================
+   INTERACTIVE STAY
+===================================== */
+
+function renderInteractiveStay(){
+
+const stay=
+document.getElementById("stay");
+
+
+const flow=
+interactiveFlows[stayCondition];
+
+
+if(stayStage==="emergency"){
+
+renderEmergencyStay();
+
+return;
+
+}
+
+
+if(stayStage==="finish"){
+
+renderFinishStay();
+
+return;
+
+}
+
+
+let questionIndex=
+0;
+
+
+if(stayStage==="breathing"){
+
+questionIndex=1;
+
+}
+
+
+const q=
+flow.questions[questionIndex];
+
+
+stay.innerHTML=`
+
+<div class="stay-box">
+
+<div class="stay-title">
+
+🫶 Stay With Me
+
+</div>
+
+<div class="status">
+
+${escapeHTML(flow.intro)}
+
+</div>
+
+
+<div class="question">
+
+<div class="question-number">
+
+STEP ${questionIndex+1}
+
+</div>
+
+<br>
+
+${escapeHTML(q.question)}
+
+</div>
+
+
+<div class="answer-grid">
+
+<button
+class="answer-yes"
+onclick="answerStay('yes')"
+>
+
+🟢 YES
+
+</button>
+
+
+<button
+class="answer-no"
+onclick="answerStay('no')"
+>
+
+🔴 NO
+
+</button>
+
+</div>
+
+
+<button
+class="purple"
+onclick="readInteractiveQuestion()"
+>
+
+🔊 Read Question
+
+</button>
+
+
+<div
+id="interactiveVoiceStatus"
+class="status"
+>
+
+🔊 Ready.
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================
+   ANSWER
+===================================== */
+
+function answerStay(answer){
+
+const flow=
+interactiveFlows[stayCondition];
+
+
+let index=0;
+
+
+if(stayStage==="breathing"){
+
+index=1;
+
+}
+
+
+const q=
+flow.questions[index];
+
+
+const message=
+answer==="yes"
+?
+q.yes
+:
+q.no;
+
+
+let next=
+answer==="yes"
+?
+q.nextYes
+:
+q.nextNo;
+
+
+const stay=
+document.getElementById("stay");
+
+
+if(next==="emergency"){
+
+stayStage="emergency";
+
+stay.innerHTML=`
+
+<div class="stay-box emergency-mode">
+
+<div class="emergency-banner">
+
+🔴 POTENTIAL EMERGENCY
+
+</div>
+
+
+<div class="item">
+
+<strong>
+🫶 Stay With Me
+</strong>
+
+<br><br>
+
+${escapeHTML(message)}
+
+</div>
+
+
+<button
+class="red"
+onclick="callEmergency()"
+>
+
+📞 Call Emergency Services
+
+</button>
+
+
+<button
+class="blue"
+onclick="findHospital()"
+>
+
+📍 Find Emergency Hospital
+
+</button>
+
+
+<button
+class="purple"
+onclick="readCurrentMessage()"
+>
+
+🔊 Read This Step
+
+</button>
+
+
+<div
+id="interactiveVoiceStatus"
+class="status"
+>
+
+🔊 Ready.
+
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+if(next==="breathing"){
+
+stayStage="breathing";
+
+renderStayMessage(
+message,
+"Continue"
 );
 
 return;
@@ -2189,44 +2369,205 @@ return;
 }
 
 
-currentSteps =
-guides[condition];
+if(next==="finish"){
 
+stayStage="finish";
 
-stayStep = 0;
+renderStayMessage(
+message,
+"Complete"
+);
 
+return;
 
-renderStay();
+}
 
 }
 
 
-/* =========================================
-   RENDER STAY
-========================================= */
+/* =====================================
+   MESSAGE BETWEEN QUESTIONS
+===================================== */
 
-function renderStay(){
-
-const stay =
-document.getElementById(
-"stay"
-);
-
-
-if(
-stayStep >=
-currentSteps.length
+function renderStayMessage(
+message,
+nextType
 ){
 
-stay.innerHTML = `
+const stay=
+document.getElementById("stay");
+
+
+stay.innerHTML=`
+
+<div class="stay-box">
+
+<div class="status">
+
+${escapeHTML(message)}
+
+</div>
+
+
+<button
+class="green"
+onclick="continueStay()"
+>
+
+➡️ Continue
+
+</button>
+
+
+<button
+class="purple"
+onclick="readCurrentMessage()"
+>
+
+🔊 Read Step
+
+</button>
+
+
+<div
+id="interactiveVoiceStatus"
+class="status"
+>
+
+🔊 Ready.
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================
+   CONTINUE
+===================================== */
+
+function continueStay(){
+
+if(stayStage==="breathing"){
+
+renderInteractiveStay();
+
+return;
+
+}
+
+
+if(stayStage==="finish"){
+
+renderFinishStay();
+
+}
+
+}
+
+
+/* =====================================
+   EMERGENCY SCREEN
+===================================== */
+
+function renderEmergencyStay(){
+
+const stay=
+document.getElementById("stay");
+
+
+stay.innerHTML=`
+
+<div class="stay-box emergency-mode">
+
+<div class="emergency-banner">
+
+🔴 EMERGENCY MODE
+
+</div>
+
 
 <div class="item">
 
 <strong>
-
-✅ Guidance Complete
-
+🫶 Stay With Me
 </strong>
+
+<br><br>
+
+Stay with the patient.
+
+<br><br>
+
+Contact emergency services immediately
+and follow instructions from professional responders.
+
+</div>
+
+
+<button
+class="red"
+onclick="callEmergency()"
+>
+
+📞 Call Emergency Services — 198
+
+</button>
+
+
+<button
+class="blue"
+onclick="findHospital()"
+>
+
+📍 Find Emergency Hospital
+
+</button>
+
+
+<button
+class="gray"
+onclick="stopStay()"
+>
+
+⏹ Stop Stay With Me
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================
+   FINISH
+===================================== */
+
+function renderFinishStay(){
+
+const stay=
+document.getElementById("stay");
+
+
+stay.innerHTML=`
+
+<div class="stay-box">
+
+<div class="success-banner">
+
+✅ STEP-BY-STEP GUIDANCE COMPLETE
+
+</div>
+
+
+<div class="item">
+
+🫶 You stayed with the patient.
 
 <br><br>
 
@@ -2235,73 +2576,25 @@ and follow professional medical instructions.
 
 </div>
 
-`;
-
-return;
-
-}
-
-
-const text =
-currentSteps[
-stayStep
-];
-
-
-stay.innerHTML = `
-
-<div class="step">
-
-<span class="step-number">
-
-STEP ${stayStep + 1}
-/
-${currentSteps.length}
-
-</span>
-
-<br>
-
-${escapeHTML(text)}
-
-</div>
-
-
-<button
-onclick="nextStep()"
->
-
-➡️ Next Step
-
-</button>
-
 
 <button
 class="blue"
-onclick="readStep()"
+onclick="startStay()"
 >
 
-🔊 Read Step
+🔄 Restart Stay With Me
 
 </button>
 
 
 <button
 class="gray"
-onclick="stopReading()"
+onclick="stopStay()"
 >
 
-⏹ Stop Reading
+⏹ Close
 
 </button>
-
-
-<div
-id="readStatus"
-class="status"
->
-
-🔊 Ready to read.
 
 </div>
 
@@ -2310,42 +2603,91 @@ class="status"
 }
 
 
-/* =========================================
-   NEXT STEP
-========================================= */
+/* =====================================
+   STOP STAY
+===================================== */
 
-function nextStep(){
+function stopStay(){
 
-stopReading();
+const stay=
+document.getElementById("stay");
 
-stayStep++;
 
-renderStay();
+stay.innerHTML=`
+
+<div class="status">
+
+⏹ Stay With Me stopped.
+
+</div>
+
+`;
+
+stayStage=0;
 
 }
 
 
-/* =========================================
-   READ STEP
-========================================= */
+/* =====================================
+   READ INTERACTIVE QUESTION
+===================================== */
 
-function readStep(){
+function readInteractiveQuestion(){
 
-if(
-!currentSteps.length ||
-stayStep >= currentSteps.length
-){
+const flow=
+interactiveFlows[stayCondition];
+
+let index=0;
+
+if(stayStage==="breathing"){
+index=1;
+}
+
+const q=
+flow.questions[index];
+
+
+speakText(
+q.question
+);
+
+}
+
+
+/* =====================================
+   READ CURRENT MESSAGE
+===================================== */
+
+function readCurrentMessage(){
+
+const element=
+document.querySelector(
+"#stay .item"
+);
+
+
+if(!element){
 
 return;
 
 }
 
 
+speakText(
+element.innerText
+);
+
+}
+
+
+/* =====================================
+   TEXT TO SPEECH
+===================================== */
+
+function speakText(text){
+
 if(
-!(
-"speechSynthesis"
-in window
-)
+!("speechSynthesis" in window)
 ){
 
 alert(
@@ -2360,110 +2702,77 @@ return;
 window.speechSynthesis.cancel();
 
 
-const text =
-currentSteps[
-stayStep
-];
+const speech=
+new SpeechSynthesisUtterance(text);
 
 
-const speech =
-new SpeechSynthesisUtterance(
-text
-);
-
-
-speech.lang =
+speech.lang=
 document.getElementById(
 "voiceLanguage"
 ).value;
 
 
-speech.rate =
-0.9;
+speech.rate=.9;
+
+speech.pitch=1;
+
+speech.volume=1;
 
 
-speech.pitch =
-1;
+const voices=
+window.speechSynthesis.getVoices();
 
 
-speech.volume =
-1;
-
-
-const status =
-document.getElementById(
-"readStatus"
-);
-
-
-if(status){
-
-status.innerHTML =
-"🔊 Reading...";
-
-}
-
-
-speech.onend =
-function(){
-
-if(status){
-
-status.innerHTML =
-"✅ Finished reading.";
-
-}
-
-};
-
-
-speech.onerror =
-function(){
-
-if(status){
-
-status.innerHTML =
-"❌ Reading error.";
-
-}
-
-};
-
-
-const voices =
-window.speechSynthesis
-.getVoices();
-
-
-const shortLanguage =
+const lang=
 speech.lang
-.substring(
-0,
-2
-)
+.substring(0,2)
 .toLowerCase();
 
 
-const voice =
+const voice=
 voices.find(
 function(v){
 
 return v.lang &&
 v.lang
 .toLowerCase()
-.startsWith(
-shortLanguage
-);
+.startsWith(lang);
 
 });
 
 
 if(voice){
 
-speech.voice =
-voice;
+speech.voice=voice;
 
 }
+
+
+const status=
+document.getElementById(
+"interactiveVoiceStatus"
+);
+
+
+if(status){
+
+status.innerHTML=
+"🔊 Reading...";
+
+}
+
+
+speech.onend=
+function(){
+
+if(status){
+
+status.innerHTML=
+"✅ Finished reading.";
+
+}
+
+};
 
 
 window.speechSynthesis.speak(
@@ -2473,51 +2782,127 @@ speech
 }
 
 
-/* =========================================
-   STOP READING
-========================================= */
+/* =====================================
+   CLASSIC STAY FALLBACK
+===================================== */
 
-function stopReading(){
+let classicStep=0;
+
+let classicSteps=[];
+
+
+function startClassicStay(){
+
+classicSteps=
+guides[stayCondition] || [];
+
+classicStep=0;
+
+renderClassicStay();
+
+}
+
+
+function renderClassicStay(){
+
+const stay=
+document.getElementById("stay");
+
 
 if(
-"speechSynthesis"
-in window
+classicStep>=classicSteps.length
 ){
 
-window.speechSynthesis.cancel();
+stay.innerHTML=`
+
+<div class="success-banner">
+
+✅ Guidance Complete
+
+</div>
+
+`;
+
+return;
 
 }
 
 
-const status =
-document.getElementById(
-"readStatus"
+stay.innerHTML=`
+
+<div class="step">
+
+<span class="step-number">
+
+STEP ${classicStep+1}
+/
+${classicSteps.length}
+
+</span>
+
+<br>
+
+${escapeHTML(
+classicSteps[classicStep]
+)}
+
+</div>
+
+
+<button
+onclick="nextClassicStep()"
+>
+
+➡️ Next Step
+
+</button>
+
+
+<button
+class="purple"
+onclick="readClassicStep()"
+>
+
+🔊 Read Step
+
+</button>
+
+`;
+
+}
+
+
+function nextClassicStep(){
+
+classicStep++;
+
+renderClassicStay();
+
+}
+
+
+function readClassicStep(){
+
+speakText(
+classicSteps[classicStep]
 );
 
-
-if(status){
-
-status.innerHTML =
-"⏹ Reading stopped.";
-
-}
-
 }
 
 
-/* =========================================
-   NEARBY HOSPITALS
-========================================= */
+/* =====================================
+   HOSPITAL
+===================================== */
 
 function findHospital(){
 
-const status =
+const status=
 document.getElementById(
 "hospitalStatus"
 );
 
 
-status.innerHTML =
+status.innerHTML=
 "📍 Getting your location...";
 
 
@@ -2525,7 +2910,7 @@ if(
 !navigator.geolocation
 ){
 
-status.innerHTML =
+status.innerHTML=
 "❌ Location is not supported by this browser.";
 
 return;
@@ -2537,35 +2922,24 @@ navigator.geolocation.getCurrentPosition(
 
 function(position){
 
-const latitude =
+const lat=
 position.coords.latitude;
 
-
-const longitude =
+const lon=
 position.coords.longitude;
 
 
-const mapsURL =
+const mapsURL=
 "https://www.google.com/maps/search/emergency+hospital/@"
 +
-latitude
-+
-","
-+
-longitude
-+
+lat+
+","+
+lon+
 ",14z";
 
 
-status.innerHTML = `
-
-📍 Location found.
-
-<br><br>
-
-Opening nearby emergency hospitals...
-
-`;
+status.innerHTML=
+"📍 Location found.<br><br>Opening nearby emergency hospitals...";
 
 
 window.open(
@@ -2576,26 +2950,14 @@ mapsURL,
 },
 
 
-function(error){
+function(){
 
-status.innerHTML = `
-
-❌ Unable to get your location.
-
-<br><br>
-
-Please allow location permission
-and try again.
-
-`;
-
-
-const fallbackURL =
-"https://www.google.com/maps/search/emergency+hospital+near+me";
+status.innerHTML=
+"❌ Unable to get your location.<br><br>Please allow location permission and try again.";
 
 
 window.open(
-fallbackURL,
+"https://www.google.com/maps/search/emergency+hospital+near+me",
 "_blank"
 );
 
@@ -2603,13 +2965,9 @@ fallbackURL,
 
 
 {
-
 enableHighAccuracy:true,
-
 timeout:10000,
-
 maximumAge:0
-
 }
 
 );
@@ -2617,78 +2975,63 @@ maximumAge:0
 }
 
 
-/* =========================================
-   EMERGENCY
-========================================= */
+/* =====================================
+   CALL EMERGENCY
+===================================== */
 
 function callEmergency(){
 
-window.location.href =
+window.location.href=
 "tel:198";
 
 }
 
 
-/* =========================================
+/* =====================================
    ESCAPE HTML
-========================================= */
+===================================== */
 
 function escapeHTML(value){
 
-return String(
-value || ""
-)
-
+return String(value||"")
 .replace(
 /[&<>"']/g,
-
 function(character){
 
 return {
 
 "&":"&amp;",
-
 "<":"&lt;",
-
 ">":"&gt;",
-
 '"':"&quot;",
-
 "'":"&#039;"
 
 }[character];
 
 }
-
 );
 
 }
 
 
-/* =========================================
-   LOAD VOICES
-========================================= */
+/* =====================================
+   VOICES
+===================================== */
 
 if(
-"speechSynthesis"
-in window
+"speechSynthesis" in window
 ){
 
-window.speechSynthesis
-.onvoiceschanged =
+window.speechSynthesis.onvoiceschanged=
 function(){
 
-window.speechSynthesis
-.getVoices();
+window.speechSynthesis.getVoices();
 
 };
 
 }
 
-
 </script>
 
-
 </body>
-
 </html>
