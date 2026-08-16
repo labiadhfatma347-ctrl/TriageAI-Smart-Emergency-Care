@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>TriageAI - Smart Emergency Care</title>
 
   <style>
@@ -40,7 +41,6 @@
 
     header p {
       font-size: 15px;
-      opacity: 0.95;
     }
 
     .card {
@@ -48,7 +48,6 @@
       padding: 25px;
       border-radius: 15px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
     }
 
     .card h2 {
@@ -63,7 +62,8 @@
       font-weight: bold;
     }
 
-    input, textarea, select {
+    input,
+    textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid #d1d5db;
@@ -144,28 +144,63 @@
     </header>
 
     <div class="card">
+
       <h2>Patient Assessment</h2>
 
       <label for="name">Patient Name</label>
-      <input type="text" id="name" placeholder="Enter patient name">
+      <input
+        type="text"
+        id="name"
+        placeholder="Enter patient name"
+      >
 
       <label for="age">Age</label>
-      <input type="number" id="age" min="0" max="120" placeholder="Enter age">
+      <input
+        type="number"
+        id="age"
+        min="0"
+        max="120"
+        placeholder="Enter age"
+      >
 
       <label for="symptoms">Symptoms</label>
-      <textarea id="symptoms" placeholder="Describe the patient's symptoms..."></textarea>
+      <textarea
+        id="symptoms"
+        placeholder="Describe the patient's symptoms..."
+      ></textarea>
 
       <label for="pain">Pain Level (0 - 10)</label>
-      <input type="number" id="pain" min="0" max="10" placeholder="0 = no pain, 10 = severe pain">
+      <input
+        type="number"
+        id="pain"
+        min="0"
+        max="10"
+        placeholder="0 = no pain, 10 = severe pain"
+      >
 
       <label for="heartRate">Heart Rate (BPM)</label>
-      <input type="number" id="heartRate" placeholder="Example: 80">
+      <input
+        type="number"
+        id="heartRate"
+        placeholder="Example: 80"
+      >
 
       <label for="temperature">Temperature (°C)</label>
-      <input type="number" id="temperature" step="0.1" placeholder="Example: 37.0">
+      <input
+        type="number"
+        id="temperature"
+        step="0.1"
+        placeholder="Example: 37.0"
+      >
 
       <label for="oxygen">Oxygen Saturation (%)</label>
-      <input type="number" id="oxygen" min="0" max="100" placeholder="Example: 98">
+      <input
+        type="number"
+        id="oxygen"
+        min="0"
+        max="100"
+        placeholder="Example: 98"
+      >
 
       <button type="button" onclick="analyzePatient()">
         🔍 Analyze Patient
@@ -177,21 +212,38 @@
         ⚠️ This tool provides preliminary triage support only.
         It does not replace professional medical assessment.
       </p>
-    </div>
 
+    </div>
   </div>
 
   <script>
 
     function analyzePatient() {
-      alert("Analyse fonctionne !");
 
-      const age = Number(document.getElementById("age").value);
-      const pain = Number(document.getElementById("pain").value);
-      const heartRate = Number(document.getElementById("heartRate").value);
-      const temperature = Number(document.getElementById("temperature").value);
-      const oxygen = Number(document.getElementById("oxygen").value);
-      const symptoms = document.getElementById("symptoms").value.toLowerCase();
+      const age = Number(
+        document.getElementById("age").value
+      );
+
+      const pain = Number(
+        document.getElementById("pain").value
+      );
+
+      const heartRate = Number(
+        document.getElementById("heartRate").value
+      );
+
+      const temperature = Number(
+        document.getElementById("temperature").value
+      );
+
+      const oxygen = Number(
+        document.getElementById("oxygen").value
+      );
+
+      const symptoms = document
+        .getElementById("symptoms")
+        .value
+        .toLowerCase();
 
       let score = 0;
 
@@ -212,82 +264,112 @@
       }
 
       // Heart rate assessment
-      if (heartRate > 0 && (heartRate < 50 || heartRate > 120)) {
+      if (
+        heartRate > 0 &&
+        (heartRate < 50 || heartRate > 120)
+      ) {
         score += 3;
       }
 
       // Temperature assessment
-      if (temperature >= 39.5 || (temperature > 0 && temperature < 35)) {
+      if (
+        temperature >= 39.5 ||
+        (temperature > 0 && temperature < 35)
+      ) {
         score += 3;
       } else if (temperature >= 38.5) {
         score += 1;
       }
 
       // Age-related risk
-      if (age >= 65 || (age > 0 && age < 5)) {
+      if (
+        age >= 65 ||
+        (age > 0 && age < 5)
+      ) {
         score += 1;
       }
 
-      // Important emergency symptoms
+      // Emergency symptoms
       const emergencyKeywords = [
-  "chest pain",
-  "difficulty breathing",
-  "shortness of breath",
-  "severe bleeding",
-  "unconscious",
-  "loss of consciousness",
-  "seizure",
-  "stroke",
-  "paralysis",
-  "severe headache",
-  "confusion"
-];
+        "chest pain",
+        "difficulty breathing",
+        "shortness of breath",
+        "severe bleeding",
+        "unconscious",
+        "loss of consciousness",
+        "seizure",
+        "stroke",
+        "paralysis",
+        "severe headache",
+        "confusion"
+      ];
 
-let emergencyFound = false;
+      let emergencyFound = false;
 
-for (const keyword of emergencyKeywords) {
-  if (symptoms.includes(keyword)) {
-    emergencyFound = true;
-    break;
-  }
-}
+      for (const keyword of emergencyKeywords) {
 
-if (emergencyFound) {
-  score += 5;
-}
+        if (symptoms.includes(keyword)) {
+          emergencyFound = true;
+          break;
+        }
 
-const result = document.getElementById("result");
+      }
 
-let priority;
-let message;
-let className;
+      if (emergencyFound) {
+        score += 5;
+      }
 
-if (score >= 7) {
-  priority = "🔴 CRITICAL";
-  message = "Immediate medical attention is required.";
-  className = "critical";
-} else if (score >= 3) {
-  priority = "🟠 URGENT";
-  message = "Patient should be assessed as soon as possible.";
-  className = "urgent";
-} else {
-  priority = "🟢 NON-URGENT";
-  message = "Patient appears stable, but professional assessment is recommended.";
-  className = "non-urgent";
-}
+      // Result
+      const result = document.getElementById("result");
 
-result.className = className;
+      let priority;
+      let message;
+      let className;
 
-result.innerHTML = `
-  <div class="priority">${priority}</div>
-  <p>${message}</p>
-  <p><strong>Triage Score:</strong> ${score}</p>
-`;
+      if (score >= 7) {
 
-result.style.display = "block";
-}
+        priority = "🔴 CRITICAL";
 
-</script>
+        message =
+          "Immediate medical attention is required.";
+
+        className = "critical";
+
+      } else if (score >= 3) {
+
+        priority = "🟠 URGENT";
+
+        message =
+          "Patient should be assessed as soon as possible.";
+
+        className = "urgent";
+
+      } else {
+
+        priority = "🟢 NON-URGENT";
+
+        message =
+          "Patient appears stable, but professional assessment is recommended.";
+
+        className = "non-urgent";
+      }
+
+      result.className = className;
+
+      result.innerHTML = `
+        <div class="priority">${priority}</div>
+
+        <p>${message}</p>
+
+        <p>
+          <strong>Triage Score:</strong> ${score}
+        </p>
+      `;
+
+      result.style.display = "block";
+    }
+
+  </script>
+
 </body>
 </html>
-        
