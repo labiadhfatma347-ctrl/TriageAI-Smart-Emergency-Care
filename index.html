@@ -182,29 +182,12 @@ button:active{
   transform:scale(.99);
 }
 
-.blue{
-  background:#2563eb;
-}
-
-.purple{
-  background:#7c3aed;
-}
-
-.red{
-  background:#dc2626;
-}
-
-.gray{
-  background:#475569;
-}
-
-.orange{
-  background:#ea580c;
-}
-
-.green{
-  background:#16a34a;
-}
+.blue{background:#2563eb;}
+.purple{background:#7c3aed;}
+.red{background:#dc2626;}
+.gray{background:#475569;}
+.orange{background:#ea580c;}
+.green{background:#16a34a;}
 
 .status{
   padding:13px;
@@ -248,6 +231,46 @@ button:active{
   background:#f8fafc;
   border-radius:12px;
   line-height:1.6;
+}
+
+.explanation{
+  margin-top:12px;
+  padding:16px;
+  background:#fffbeb;
+  border:2px solid #fde68a;
+  border-radius:15px;
+  line-height:1.65;
+}
+
+.explanation h3{
+  margin-top:0;
+  color:#92400e;
+}
+
+.term{
+  margin-top:10px;
+  padding:13px;
+  background:white;
+  border-radius:12px;
+  border:1px solid #fde68a;
+}
+
+.action-box{
+  margin-top:12px;
+  padding:16px;
+  background:#ecfdf5;
+  border:2px solid #86efac;
+  border-radius:15px;
+  line-height:1.7;
+}
+
+.emergency-help{
+  margin-top:12px;
+  padding:16px;
+  background:#fff1f2;
+  border:2px solid #fca5a5;
+  border-radius:15px;
+  line-height:1.7;
 }
 
 /* STAY WITH ME */
@@ -421,8 +444,6 @@ button:active{
 
 <div class="container">
 
-<!-- HEADER -->
-
 <header>
 
 <div class="logo">🏥</div>
@@ -494,8 +515,6 @@ placeholder="Describe the patient's symptoms..."
 </div>
 
 
-<!-- VOICE -->
-
 <label>🎤 Voice Assistant Language</label>
 
 <select id="voiceLanguage">
@@ -509,7 +528,7 @@ placeholder="Describe the patient's symptoms..."
 </option>
 
 <option value="ar-SA">
-🇸🇦 العربية
+🇹🇳 العربية
 </option>
 
 </select>
@@ -539,8 +558,6 @@ class="status"
 🎤 Voice assistant ready.
 </div>
 
-
-<!-- VITALS -->
 
 <div class="grid">
 
@@ -622,7 +639,7 @@ onclick="newPatient()"
 <h2>🆘 First Aid Guide</h2>
 
 <p class="subtitle">
-Select an emergency condition to display basic first-aid guidance.
+Choose a condition. TriageAI will explain medical terms in simple language.
 </p>
 
 <label>Emergency Condition</label>
@@ -633,45 +650,16 @@ Select an emergency condition to display basic first-aid guidance.
 -- Select Condition --
 </option>
 
-<option value="bleeding">
-🩸 Severe Bleeding
-</option>
-
-<option value="choking">
-🫁 Choking
-</option>
-
-<option value="burn">
-🔥 Burns
-</option>
-
-<option value="stroke">
-🧠 Stroke
-</option>
-
-<option value="breathing">
-😮‍💨 Difficulty Breathing
-</option>
-
-<option value="cardiac">
-❤️ Cardiac Arrest
-</option>
-
-<option value="unconscious">
-😵 Unconsciousness
-</option>
-
-<option value="fracture">
-🦴 Fracture
-</option>
-
-<option value="snake">
-🐍 Snake Bite
-</option>
-
-<option value="scorpion">
-🦂 Scorpion Sting
-</option>
+<option value="bleeding">🩸 Severe Bleeding</option>
+<option value="choking">🫁 Choking</option>
+<option value="burn">🔥 Burns</option>
+<option value="stroke">🧠 Stroke</option>
+<option value="breathing">😮‍💨 Difficulty Breathing</option>
+<option value="cardiac">❤️ Cardiac Arrest</option>
+<option value="unconscious">😵 Unconsciousness</option>
+<option value="fracture">🦴 Fracture</option>
+<option value="snake">🐍 Snake Bite</option>
+<option value="scorpion">🦂 Scorpion Sting</option>
 
 </select>
 
@@ -697,8 +685,7 @@ Select an emergency condition to display basic first-aid guidance.
 </h2>
 
 <p class="subtitle">
-TriageAI asks questions by voice, listens to the user's answer,
-and continues automatically step by step.
+TriageAI asks questions by voice, listens to the answer and guides the user step by step.
 </p>
 
 <button onclick="startStay()">
@@ -719,7 +706,7 @@ and continues automatically step by step.
 </h2>
 
 <p class="subtitle">
-Use your current GPS location to search for nearby emergency hospitals.
+Use your GPS location to search for nearby emergency hospitals.
 </p>
 
 <button
@@ -755,7 +742,7 @@ For a real emergency, contact professional emergency services immediately.
 class="red"
 onclick="callEmergency()"
 >
-📞 Call Emergency Services — 198
+📞 Call Emergency Services
 </button>
 
 </div>
@@ -781,7 +768,7 @@ For a real emergency, contact emergency services.
 <script>
 
 /* =====================================================
-   HELPER
+HELPERS
 ===================================================== */
 
 function escapeHTML(value){
@@ -804,8 +791,482 @@ return {
 }
 
 
+function speakText(text){
+
+if(!("speechSynthesis" in window)){
+
+alert("Voice reading is not supported by this browser.");
+
+return;
+
+}
+
+window.speechSynthesis.cancel();
+
+const speech =
+new SpeechSynthesisUtterance(text);
+
+speech.lang =
+document.getElementById("voiceLanguage").value;
+
+speech.rate=.9;
+speech.pitch=1;
+speech.volume=1;
+
+const voices =
+window.speechSynthesis.getVoices();
+
+const shortLang =
+speech.lang.substring(0,2).toLowerCase();
+
+const voice =
+voices.find(function(v){
+
+return v.lang &&
+v.lang.toLowerCase().startsWith(shortLang);
+
+});
+
+if(voice){
+speech.voice=voice;
+}
+
+window.speechSynthesis.speak(speech);
+
+}
+
+
+function currentLang(){
+
+const value =
+document.getElementById("voiceLanguage").value;
+
+if(value.indexOf("fr")===0){
+return "fr";
+}
+
+if(value.indexOf("ar")===0){
+return "ar";
+}
+
+return "en";
+
+}
+
+
 /* =====================================================
-   TRIAGE
+MEDICAL GLOSSARY
+===================================================== */
+
+const glossary={
+
+RCP:{
+
+en:{
+term:"RCP / CPR",
+meaning:"Cardiopulmonary resuscitation. It means repeatedly pressing the center of the chest when a person is unresponsive and not breathing normally.",
+action:"Call emergency services, start chest compressions and use an AED if available."
+},
+
+fr:{
+term:"RCP",
+meaning:"Réanimation cardio-pulmonaire. Cela signifie appuyer de façon répétée au centre de la poitrine lorsque la personne ne répond pas et ne respire pas normalement.",
+action:"Appelez les secours, commencez les compressions thoraciques et utilisez un DAE s'il est disponible."
+},
+
+ar:{
+term:"RCP / الإنعاش القلبي الرئوي",
+meaning:"هو الضغط بشكل متكرر على وسط صدر الشخص عندما يكون غير مستجيب ولا يتنفس بشكل طبيعي.",
+action:"اتصل بالطوارئ، ابدأ الضغط على وسط الصدر واستعمل جهاز الصدمات إذا كان متوفراً."
+}
+
+},
+
+AED:{
+
+en:{
+term:"AED",
+meaning:"Automated External Defibrillator. A device that checks the heart rhythm and can give an electrical shock when necessary.",
+action:"Turn it on and follow its spoken instructions."
+},
+
+fr:{
+term:"DAE",
+meaning:"Défibrillateur automatisé externe. Il analyse le rythme cardiaque et peut délivrer un choc électrique si nécessaire.",
+action:"Allumez-le et suivez ses instructions vocales."
+},
+
+ar:{
+term:"AED / DAE / جهاز الصدمات",
+meaning:"جهاز يقوم بتحليل نظم القلب ويمكنه إعطاء صدمة كهربائية عند الحاجة.",
+action:"شغله واتبع التعليمات الصوتية للجهاز."
+}
+
+},
+
+SpO2:{
+
+en:{
+term:"SpO₂",
+meaning:"Oxygen saturation: an estimate of how much oxygen is carried in the blood.",
+action:"A low reading can be serious, especially with breathing difficulty."
+},
+
+fr:{
+term:"SpO₂",
+meaning:"Saturation en oxygène : estimation de la quantité d'oxygène transportée dans le sang.",
+action:"Une valeur basse peut être grave, surtout en cas de difficulté respiratoire."
+},
+
+ar:{
+term:"SpO₂ / نسبة الأكسجين",
+meaning:"هي نسبة تقريبية لكمية الأكسجين الموجودة في الدم.",
+action:"انخفاضها قد يكون خطيراً خاصة إذا كان المريض يعاني من صعوبة في التنفس."
+}
+
+},
+
+dyspnea:{
+
+en:{
+term:"Dyspnea",
+meaning:"Difficulty breathing or feeling short of breath.",
+action:"Keep the patient comfortable and seek emergency help if severe or worsening."
+},
+
+fr:{
+term:"Dyspnée",
+meaning:"Difficulté à respirer ou sensation de manque d'air.",
+action:"Gardez le patient dans une position confortable et demandez une aide urgente si elle est sévère ou s'aggrave."
+},
+
+ar:{
+term:"Dyspnée / ضيق التنفس",
+meaning:"صعوبة في التنفس أو الإحساس بنقص الهواء.",
+action:"اجعل المريض في وضعية مريحة واطلب المساعدة العاجلة إذا كانت الصعوبة شديدة أو تزداد."
+}
+
+},
+
+tachycardia:{
+
+en:{
+term:"Tachycardia",
+meaning:"A heart rate that is faster than expected.",
+action:"It can have many causes. A very fast heart rate with serious symptoms needs urgent assessment."
+},
+
+fr:{
+term:"Tachycardie",
+meaning:"Fréquence cardiaque plus rapide que prévu.",
+action:"Elle peut avoir plusieurs causes. Une fréquence très élevée avec des symptômes graves nécessite une évaluation urgente."
+},
+
+ar:{
+term:"Tachycardia / تسارع القلب",
+meaning:"نبض القلب يكون أسرع من المتوقع.",
+action:"يمكن أن تكون له أسباب عديدة. إذا كان النبض سريعاً جداً مع أعراض خطيرة يلزم تقييم عاجل."
+}
+
+},
+
+bradycardia:{
+
+en:{
+term:"Bradycardia",
+meaning:"A heart rate that is slower than expected.",
+action:"If it causes fainting, severe weakness, chest pain or breathing problems, seek urgent help."
+},
+
+fr:{
+term:"Bradycardie",
+meaning:"Fréquence cardiaque plus lente que prévu.",
+action:"Si elle provoque malaise, grande faiblesse, douleur thoracique ou problème respiratoire, demandez une aide urgente."
+},
+
+ar:{
+term:"Bradycardia / بطء القلب",
+meaning:"نبض القلب يكون أبطأ من المتوقع.",
+action:"إذا صاحبه إغماء أو ضعف شديد أو ألم في الصدر أو صعوبة تنفس، اطلب المساعدة العاجلة."
+}
+
+},
+
+hemorrhage:{
+
+en:{
+term:"Hemorrhage",
+meaning:"Heavy or severe bleeding.",
+action:"Apply firm direct pressure and seek emergency help for severe bleeding."
+},
+
+fr:{
+term:"Hémorragie",
+meaning:"Saignement important ou abondant.",
+action:"Exercez une pression directe ferme et demandez une aide urgente en cas de saignement sévère."
+},
+
+ar:{
+term:"Hemorrhage / نزيف شديد",
+meaning:"نزيف قوي أو غزير.",
+action:"اضغط بقوة وباستمرار مباشرة على مكان النزيف واطلب المساعدة العاجلة."
+}
+
+},
+
+unconscious:{
+
+en:{
+term:"Unresponsive / unconscious",
+meaning:"The person does not respond normally when you speak to or gently stimulate them.",
+action:"Check normal breathing and call emergency services."
+},
+
+fr:{
+term:"Inconscient / ne répond pas",
+meaning:"La personne ne répond pas normalement lorsqu'on lui parle ou la stimule doucement.",
+action:"Vérifiez la respiration normale et appelez les secours."
+},
+
+ar:{
+term:"فاقد الوعي / لا يستجيب",
+meaning:"الشخص لا يستجيب بشكل طبيعي عند مناداته أو محاولة إيقاظه بلطف.",
+action:"تحقق من التنفس الطبيعي واتصل بالطوارئ."
+}
+
+},
+
+fracture:{
+
+en:{
+term:"Fracture",
+meaning:"A broken or cracked bone.",
+action:"Keep the injured area still and do not try to straighten it."
+},
+
+fr:{
+term:"Fracture",
+meaning:"Os cassé ou fissuré.",
+action:"Gardez la zone immobile et n'essayez pas de remettre l'os en place."
+},
+
+ar:{
+term:"Fracture / كسر",
+meaning:"عظم مكسور أو متشقق.",
+action:"ثبت المنطقة المصابة ولا تحاول تقويم العظم."
+}
+
+},
+
+immobilization:{
+
+en:{
+term:"Immobilization",
+meaning:"Keeping an injured body part still to reduce movement and further injury.",
+action:"Support the injured area in the position found."
+},
+
+fr:{
+term:"Immobilisation",
+meaning:"Maintenir une partie blessée sans mouvement pour éviter une aggravation.",
+action:"Soutenez la zone blessée في الوضعية الموجودة."
+},
+
+ar:{
+term:"Immobilization / تثبيت",
+meaning:"منع المنطقة المصابة من الحركة لتقليل خطر زيادة الإصابة.",
+action:"ادعم المنطقة المصابة وثبتها في الوضعية التي وجدتها عليها."
+}
+
+},
+
+recovery:{
+
+en:{
+term:"Recovery position",
+meaning:"A safe side position for an unconscious person who is breathing normally.",
+action:"It helps keep the airway open while waiting for professional help."
+},
+
+fr:{
+term:"PLS / Position latérale de sécurité",
+meaning:"Position sur le côté utilisée chez une personne inconsciente qui respire normalement.",
+action:"Elle aide à maintenir les voies respiratoires ouvertes en attendant les secours."
+},
+
+ar:{
+term:"PLS / وضعية الأمان الجانبية",
+meaning:"وضعية على الجانب تستعمل للشخص فاقد الوعي الذي يتنفس بشكل طبيعي.",
+action:"تساعد على إبقاء مجرى التنفس مفتوحاً أثناء انتظار المساعدة."
+}
+
+},
+
+stroke:{
+
+en:{
+term:"Stroke",
+meaning:"A sudden problem with blood flow or bleeding in the brain that can cause neurological symptoms.",
+action:"Treat it as an emergency and record when symptoms started."
+},
+
+fr:{
+term:"AVC",
+meaning:"Problème soudain de circulation sanguine ou saignement dans le cerveau pouvant provoquer des signes neurologiques.",
+action:"Considérez-le comme une urgence et notez l'heure de début des symptômes."
+},
+
+ar:{
+term:"AVC / سكتة دماغية",
+meaning:"مشكلة مفاجئة في وصول الدم إلى الدماغ أو نزيف داخل الدماغ، ويمكن أن تسبب أعراضاً عصبية.",
+action:"اعتبرها حالة طارئة وسجل وقت بداية الأعراض."
+}
+
+},
+
+FAST:{
+
+en:{
+term:"FAST",
+meaning:"Face, Arm, Speech, Time. It helps recognize warning signs of stroke.",
+action:"Check for facial weakness, arm weakness and speech problems, then seek emergency help immediately."
+},
+
+fr:{
+term:"FAST",
+meaning:"Face, Arm, Speech, Time : visage, bras, parole, temps.",
+action:"Recherchez une asymétrie du visage, une faiblesse du bras ou un trouble de la parole et demandez immédiatement une aide urgente."
+},
+
+ar:{
+term:"FAST",
+meaning:"الوجه، الذراع، الكلام، الوقت. طريقة بسيطة للمساعدة على اكتشاف علامات السكتة الدماغية.",
+action:"راقب اعوجاج الوجه، ضعف الذراع أو اضطراب الكلام واطلب المساعدة الطارئة فوراً."
+}
+
+},
+
+airway:{
+
+en:{
+term:"Airway",
+meaning:"The passage through which air travels from the mouth and nose to the lungs.",
+action:"A blocked airway can prevent normal breathing and can be life-threatening."
+},
+
+fr:{
+term:"Voies respiratoires",
+meaning:"Passage par lequel l'air arrive de la bouche et du nez vers les poumons.",
+action:"Une obstruction peut empêcher la respiration normale et être grave."
+},
+
+ar:{
+term:"Airway / مجرى التنفس",
+meaning:"الممر الذي يمر عبره الهواء من الفم والأنف إلى الرئتين.",
+action:"انسداد مجرى التنفس يمكن أن يمنع التنفس الطبيعي ويكون خطيراً."
+}
+
+},
+
+directPressure:{
+
+en:{
+term:"Direct pressure",
+meaning:"Pressing firmly on the bleeding area with clean material.",
+action:"Keep continuous pressure and do not repeatedly remove the material to check the wound."
+},
+
+fr:{
+term:"Pression directe",
+meaning:"Appuyer fermement sur la zone qui saigne avec un matériau propre.",
+action:"Maintenez une pression continue et évitez de retirer constamment le matériau pour vérifier la plaie."
+},
+
+ar:{
+term:"Direct pressure / الضغط المباشر",
+meaning:"الضغط بقوة على مكان النزيف باستعمال قطعة نظيفة إن أمكن.",
+action:"واصل الضغط باستمرار ولا ترفع القطعة كل مرة لمعاينة الجرح."
+}
+
+},
+
+seizure:{
+
+en:{
+term:"Seizure",
+meaning:"A sudden episode of abnormal electrical activity in the brain that may cause shaking or altered awareness.",
+action:"Protect the person from injury, do not put anything in their mouth and seek emergency help when appropriate."
+},
+
+fr:{
+term:"Crise convulsive",
+meaning:"Épisode soudain d'activité électrique anormale du cerveau pouvant provoquer des mouvements involontaires ou une altération de la conscience.",
+action:"Protégez la personne des blessures, ne mettez rien dans sa bouche et demandez une aide urgente si nécessaire."
+},
+
+ar:{
+term:"Seizure / تشنج",
+meaning:"نوبة مفاجئة ناتجة عن نشاط كهربائي غير طبيعي في الدماغ وقد تسبب اهتزازاً أو تغيراً في الوعي.",
+action:"احم الشخص من الإصابة ولا تضع أي شيء في فمه واطلب المساعدة عند الحاجة."
+}
+
+}
+
+};
+
+
+/* =====================================================
+SHOW TERM
+===================================================== */
+
+function glossaryBox(key){
+
+const lang=currentLang();
+
+const data=glossary[key];
+
+if(!data || !data[lang]){
+return "";
+}
+
+const item=data[lang];
+
+return `
+
+<div class="term">
+
+<strong>💡 ${escapeHTML(item.term)}</strong>
+
+<br><br>
+
+${escapeHTML(item.meaning)}
+
+<br><br>
+
+<strong>👉 What does the user do?</strong>
+
+<br>
+
+${escapeHTML(item.action)}
+
+<br>
+
+<button
+class="purple"
+onclick="speakText(${JSON.stringify(item.term+" . "+item.meaning+" . "+item.action)})"
+>
+🔊 Listen
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+TRIAGE
 ===================================================== */
 
 function analyzePatient(){
@@ -817,9 +1278,11 @@ document.getElementById("patientName").value.trim()
 const age =
 Number(document.getElementById("patientAge").value);
 
+const rawSymptoms =
+document.getElementById("patientSymptoms").value.trim();
+
 const symptoms =
-document.getElementById("patientSymptoms").value
-.toLowerCase();
+rawSymptoms.toLowerCase();
 
 const pain =
 Number(document.getElementById("pain").value);
@@ -834,8 +1297,8 @@ const oxygen =
 Number(document.getElementById("oxygen").value);
 
 let score=0;
-
 let reasons=[];
+let detectedTerms=[];
 
 
 if(pain>=8){
@@ -856,12 +1319,14 @@ if(oxygen>0 && oxygen<90){
 
 score+=5;
 reasons.push("Very low oxygen saturation");
+detectedTerms.push("SpO2");
 
 }
 else if(oxygen>0 && oxygen<94){
 
 score+=3;
 reasons.push("Low oxygen saturation");
+detectedTerms.push("SpO2");
 
 }
 
@@ -873,6 +1338,13 @@ heart>0 &&
 
 score+=3;
 reasons.push("Abnormal heart rate");
+
+if(heart>120){
+detectedTerms.push("tachycardia");
+}
+else{
+detectedTerms.push("bradycardia");
+}
 
 }
 
@@ -927,12 +1399,22 @@ const emergencyWords=[
 "inconscient",
 
 "ألم الصدر",
+"وجيعة في الصدر",
+"ألم في الصدر",
 "نزيف",
+"نزيف قوي",
 "اختناق",
 "جلطة",
+"سكتة",
 "ضيق التنفس",
+"ضيق نفس",
+"صعوبة التنفس",
+"صعوبة في التنفس",
 "فاقد الوعي",
-"توقف القلب"
+"مغمى عليه",
+"تشنج",
+"ما يتنفسش",
+"لا يتنفس"
 
 ];
 
@@ -957,7 +1439,6 @@ break;
 let priority;
 let css;
 
-
 if(score>=7){
 
 priority="🔴 CRITICAL";
@@ -978,12 +1459,147 @@ css="normal";
 }
 
 
+const condition =
+detectConditionFromSymptoms(symptoms);
+
+
+if(condition){
+
+document.getElementById("condition").value=condition;
+
+}
+
+
+if(
+symptoms.includes("chest pain") ||
+symptoms.includes("douleur thoracique") ||
+symptoms.includes("ألم الصدر") ||
+symptoms.includes("وجيعة في الصدر")
+){
+
+detectedTerms.push("RCP");
+
+}
+
+
+if(
+condition==="stroke"
+){
+
+detectedTerms.push("stroke");
+detectedTerms.push("FAST");
+
+}
+
+
+if(
+condition==="bleeding"
+){
+
+detectedTerms.push("hemorrhage");
+detectedTerms.push("directPressure");
+
+}
+
+
+if(
+condition==="breathing"
+){
+
+detectedTerms.push("dyspnea");
+
+}
+
+
+if(
+condition==="cardiac" ||
+condition==="unconscious"
+){
+
+detectedTerms.push("RCP");
+detectedTerms.push("AED");
+detectedTerms.push("unconscious");
+
+}
+
+
+if(condition==="fracture"){
+
+detectedTerms.push("fracture");
+detectedTerms.push("immobilization");
+
+}
+
+
+if(condition==="seizure"){
+
+detectedTerms.push("seizure");
+
+}
+
+
+detectedTerms=[
+...new Set(detectedTerms)
+];
+
+
+let explanationHTML="";
+
+if(detectedTerms.length){
+
+explanationHTML=`
+
+<div class="explanation">
+
+<h3>
+💡 Medical Terms Explained
+</h3>
+
+<p>
+TriageAI detected terms that may be unfamiliar.
+Here is what they mean in simple language:
+</p>
+
+${detectedTerms.map(function(term){
+
+return glossaryBox(term);
+
+}).join("")}
+
+</div>
+
+`;
+
+}
+
+
+let actionHTML="";
+
+
+if(condition){
+
+actionHTML=buildSimpleAction(condition);
+
+}
+
+
 const result =
 document.getElementById("result");
 
 
 result.className =
 "result "+css;
+
+
+const spokenText =
+priority+
+". Patient "+name+
+". "+
+(age ? "Age "+age+". " : "")+
+"Symptoms: "+(rawSymptoms || "not provided")+
+". Triage score "+score+
+". "+
+(reasons.join(". ") || "No major risk factor detected.");
 
 
 result.innerHTML = `
@@ -1004,7 +1620,7 @@ ${age || "Not provided"}
 
 <div class="item">
 <strong>🩺 Symptoms:</strong>
-${escapeHTML(symptoms) || "Not provided"}
+${escapeHTML(rawSymptoms) || "Not provided"}
 </div>
 
 <div class="item">
@@ -1023,7 +1639,7 @@ ${temperature || "N/A"} °C
 
 <br>
 
-Oxygen:
+Oxygen Saturation:
 ${oxygen || "N/A"} %
 
 </div>
@@ -1045,27 +1661,30 @@ ${score}
 ${
 reasons.length
 ?
-reasons.join("<br>")
+reasons.map(escapeHTML).join("<br>")
 :
 "No major risk factor detected."
 }
 
 </div>
 
+${actionHTML}
+
+${explanationHTML}
+
+<button
+class="purple"
+onclick="speakText(${JSON.stringify(spokenText)})"
+>
+🔊 Read Triage Result
+</button>
+
 `;
 
 
-if(score>=7){
+if(score>=7 && condition){
 
-const detected =
-detectConditionFromSymptoms(symptoms);
-
-if(detected){
-
-document.getElementById("condition").value =
-detected;
-
-}
+showGuide();
 
 }
 
@@ -1073,7 +1692,125 @@ detected;
 
 
 /* =====================================================
-   NEW PATIENT
+SIMPLE ACTION
+===================================================== */
+
+function buildSimpleAction(condition){
+
+const lang=currentLang();
+
+const actions={
+
+bleeding:{
+
+en:"🩸 If bleeding is severe: press firmly and continuously on the bleeding area. Call emergency services.",
+fr:"🩸 Si le saignement est important : appuyez fermement et continuellement sur la zone qui saigne. Appelez les secours.",
+ar:"🩸 إذا كان النزيف شديداً: اضغط بقوة وباستمرار على مكان النزيف. اتصل بالطوارئ."
+
+},
+
+choking:{
+
+en:"🫁 If the person cannot cough, speak or breathe normally, treat it as a serious emergency and call for help.",
+fr:"🫁 Si la personne ne peut pas tousser, parler ou respirer normalement, considérez cela comme une urgence et appelez les secours.",
+ar:"🫁 إذا كان الشخص لا يستطيع السعال أو الكلام أو التنفس بشكل طبيعي، اعتبرها حالة طارئة واتصل بالطوارئ."
+
+},
+
+burn:{
+
+en:"🔥 Cool the burn with cool running water. Do not use ice, toothpaste, butter or oil.",
+fr:"🔥 Refroidissez la brûlure avec de l'eau courante fraîche. N'utilisez pas de glace, dentifrice, beurre ou huile.",
+ar:"🔥 برد الحرق بالماء الجاري البارد. لا تستعمل الثلج أو معجون الأسنان أو الزبدة أو الزيت."
+
+},
+
+stroke:{
+
+en:"🧠 Possible stroke: remember FAST and seek emergency help immediately. Record the time symptoms started.",
+fr:"🧠 AVC possible : pensez FAST et demandez immédiatement une aide urgente. Notez l'heure de début des symptômes.",
+ar:"🧠 احتمال سكتة دماغية: تذكر FAST واطلب المساعدة الطارئة فوراً. سجل وقت بداية الأعراض."
+
+},
+
+breathing:{
+
+en:"🫁 Help the person stay comfortable and monitor breathing. Severe or worsening breathing difficulty needs emergency help.",
+fr:"🫁 Aidez la personne à rester dans une position confortable et surveillez sa respiration. Une difficulté respiratoire sévère ou qui s'aggrave nécessite une aide urgente.",
+ar:"🫁 ساعد الشخص على البقاء في وضعية مريحة وراقب تنفسه. صعوبة التنفس الشديدة أو التي تزداد تحتاج إلى مساعدة طارئة."
+
+},
+
+cardiac:{
+
+en:"❤️ If the person is unresponsive and not breathing normally, call emergency services, start CPR and use an AED if available.",
+fr:"❤️ Si la personne ne répond pas et ne respire pas normalement, appelez les secours, commencez la RCP et utilisez un DAE s'il est disponible.",
+ar:"❤️ إذا كان الشخص لا يستجيب ولا يتنفس بشكل طبيعي، اتصل بالطوارئ وابدأ الإنعاش القلبي الرئوي واستعمل جهاز الصدمات إذا كان متوفراً."
+
+},
+
+unconscious:{
+
+en:"😵 Check responsiveness and normal breathing. If not breathing normally, start CPR. If breathing normally, place the person in the recovery position when appropriate.",
+fr:"😵 Vérifiez la réponse et la respiration normale. Si la personne ne respire pas normalement, commencez la RCP. Si elle respire normalement, utilisez la PLS lorsque c'est approprié.",
+ar:"😵 تحقق من الاستجابة والتنفس الطبيعي. إذا لم يكن يتنفس بشكل طبيعي ابدأ الإنعاش القلبي الرئوي. إذا كان يتنفس طبيعياً، استعمل وضعية الأمان الجانبية عندما تكون مناسبة."
+
+},
+
+fracture:{
+
+en:"🦴 Keep the injured area still. Do not try to straighten it. Seek medical assessment.",
+fr:"🦴 Gardez la zone blessée immobile. N'essayez pas de la redresser. Demandez une évaluation médicale.",
+ar:"🦴 حافظ على ثبات المنطقة المصابة. لا تحاول تقويمها. اطلب تقييماً طبياً."
+
+},
+
+snake:{
+
+en:"🐍 Keep the person calm and still and seek urgent medical care. Do not cut or suck the bite.",
+fr:"🐍 Gardez la personne calme et immobile et demandez des soins médicaux urgents. Ne coupez pas et ne sucez pas la morsure.",
+ar:"🐍 اجعل الشخص هادئاً وثابتاً واطلب رعاية طبية عاجلة. لا تقطع مكان اللدغة ولا تمص السم."
+
+},
+
+scorpion:{
+
+en:"🦂 Keep the person calm, clean the area, use a cool compress and seek medical assessment.",
+fr:"🦂 Gardez la personne calme, nettoyez la zone, utilisez une compresse fraîche et demandez une évaluation médicale.",
+ar:"🦂 اجعل الشخص هادئاً، نظف المنطقة، استعمل كمادة باردة واطلب تقييماً طبياً."
+
+}
+
+};
+
+return `
+
+<div class="action-box">
+
+<strong>👉 What should you do now?</strong>
+
+<br><br>
+
+${escapeHTML(actions[condition][lang])}
+
+<br>
+
+<button
+class="green"
+onclick="speakText(${JSON.stringify(actions[condition][lang])})"
+>
+🔊 Listen to Instructions
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+NEW PATIENT
 ===================================================== */
 
 function newPatient(){
@@ -1093,19 +1830,21 @@ document.getElementById(id).value="";
 
 });
 
-
 document.getElementById("result").innerHTML="";
 document.getElementById("result").className="";
+
+document.getElementById("guide").innerHTML="";
+
+document.getElementById("condition").value="";
 
 }
 
 
 /* =====================================================
-   GENERAL VOICE ASSISTANT
+GENERAL VOICE
 ===================================================== */
 
 let recognition=null;
-
 
 function startVoice(){
 
@@ -1113,10 +1852,8 @@ const SpeechRecognition =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
-
 const status =
 document.getElementById("voiceStatus");
-
 
 if(!SpeechRecognition){
 
@@ -1127,7 +1864,6 @@ return;
 
 }
 
-
 if(recognition){
 
 try{
@@ -1136,10 +1872,8 @@ recognition.stop();
 
 }
 
-
 recognition =
 new SpeechRecognition();
-
 
 recognition.lang =
 document.getElementById("voiceLanguage").value;
@@ -1148,7 +1882,6 @@ recognition.continuous=false;
 recognition.interimResults=false;
 recognition.maxAlternatives=1;
 
-
 recognition.onstart=function(){
 
 status.innerHTML =
@@ -1156,29 +1889,24 @@ status.innerHTML =
 
 };
 
-
 recognition.onresult=function(event){
 
 const text =
 event.results[0][0].transcript;
 
-
 document.getElementById(
 "patientSymptoms"
 ).value=text;
 
-
 status.innerHTML =
 "✅ Heard: "+
 escapeHTML(text);
-
 
 detectCondition(
 text.toLowerCase()
 );
 
 };
-
 
 recognition.onerror=function(event){
 
@@ -1187,20 +1915,12 @@ status.innerHTML =
 
 };
 
-
 recognition.onend=function(){
-
-if(
-status.innerHTML.includes("Listening")
-){
 
 status.innerHTML =
 "🎤 Voice assistant ready.";
 
-}
-
 };
-
 
 try{
 
@@ -1236,152 +1956,154 @@ document.getElementById(
 
 
 /* =====================================================
-   FIRST AID
+FIRST AID GUIDES
 ===================================================== */
 
 const guides={
 
-bleeding:[
-
-"Call emergency services.",
-
-"Apply firm direct pressure.",
-
-"Keep pressure continuous.",
-
-"Do not remove an embedded object."
-
-],
-
-choking:[
-
-"If the patient can cough effectively, encourage coughing.",
-
-"For severe choking, provide appropriate first-aid measures.",
-
-"If the patient becomes unconscious, start CPR and follow emergency guidance.",
-
-"Call emergency services."
-
-],
-
-burn:[
-
-"Move away from the heat source.",
-
-"Cool the burn with cool running water.",
-
-"Remove rings and watches if possible before swelling develops.",
-
-"Do not use ice directly.",
-
-"Do not apply butter, oil or toothpaste."
-
-],
-
-stroke:[
-
-"Think FAST: Face, Arm, Speech, Time.",
-
-"Call emergency services immediately.",
-
-"Record when symptoms started or when the patient was last known well.",
-
-"Do not let the patient drive.",
-
-"Monitor breathing and consciousness."
-
-],
-
-breathing:[
-
-"Help the patient sit in a comfortable position.",
-
-"Reassure the patient.",
-
-"Help with prescribed treatment if available.",
-
-"Call emergency services if breathing difficulty is severe.",
-
-"Monitor breathing and consciousness."
-
-],
-
-cardiac:[
-
-"Check responsiveness.",
-
-"Check normal breathing.",
-
-"Call emergency services.",
-
-"Start CPR if the person is not breathing normally.",
-
-"Use an AED if available.",
-
-"Continue until help arrives or normal breathing returns."
-
-],
-
-unconscious:[
-
-"Check responsiveness.",
-
-"Check normal breathing.",
-
-"Call emergency services.",
-
-"If breathing normally, use the recovery position when appropriate.",
-
-"If not breathing normally, start CPR."
-
-],
-
-fracture:[
-
-"Keep the injured area still.",
-
-"Support the injured limb.",
-
-"Do not straighten the limb.",
-
-"Control severe bleeding.",
-
-"Seek medical assessment."
-
-],
-
-snake:[
-
-"Move away from the snake.",
-
-"Keep the patient calm and still.",
-
-"Immobilize the affected limb.",
-
-"Remove rings and watches.",
-
-"Do not cut, suck or attempt to remove venom.",
-
-"Seek urgent medical care."
-
-],
-
-scorpion:[
-
-"Move away from the scorpion.",
-
-"Wash the area with soap and water.",
-
-"Use a cool compress.",
-
-"Keep the patient calm.",
-
-"Monitor breathing and consciousness.",
-
-"Seek medical assessment."
-
+bleeding:{
+title:"🩸 Severe Bleeding",
+terms:["hemorrhage","directPressure"],
+
+steps:[
+"Call for emergency medical help if bleeding is severe.",
+"Apply firm direct pressure to the bleeding area.",
+"Keep the pressure continuous.",
+"Do not remove an object embedded in the wound.",
+"Keep monitoring the person until professional help arrives."
 ]
+
+},
+
+choking:{
+title:"🫁 Choking",
+terms:["airway","RCP"],
+
+steps:[
+"If the person can cough effectively, encourage them to cough.",
+"If they cannot cough, speak or breathe normally, treat it as a serious emergency.",
+"Call emergency services.",
+"If the person becomes unresponsive and is not breathing normally, start CPR."
+]
+
+},
+
+burn:{
+title:"🔥 Burns",
+terms:[],
+
+steps:[
+"Move the person away from the heat source.",
+"Cool the burn with cool running water.",
+"Remove rings, watches or tight items if possible before swelling develops.",
+"Do not put ice directly on the burn.",
+"Do not use toothpaste, butter or oil.",
+"Seek medical help for serious or extensive burns."
+]
+
+},
+
+stroke:{
+title:"🧠 Possible Stroke",
+terms:["stroke","FAST"],
+
+steps:[
+"Think FAST: Face, Arm, Speech, Time.",
+"Check for facial weakness, arm weakness or speech difficulty.",
+"Call emergency services immediately.",
+"Record the exact time symptoms started, or when the person was last known well.",
+"Do not let the person drive themselves."
+]
+
+},
+
+breathing:{
+title:"😮‍💨 Difficulty Breathing",
+terms:["dyspnea","SpO2"],
+
+steps:[
+"Keep the person in a comfortable position.",
+"Stay calm and reassure them.",
+"Monitor breathing and consciousness.",
+"Help with prescribed treatment if appropriate and available.",
+"Severe or worsening breathing difficulty requires emergency help."
+]
+
+},
+
+cardiac:{
+title:"❤️ Cardiac Arrest",
+terms:["RCP","AED"],
+
+steps:[
+"Check if the person responds.",
+"Check whether they are breathing normally.",
+"If they are unresponsive and not breathing normally, call emergency services.",
+"Start CPR.",
+"If an AED is available, switch it on and follow its voice instructions.",
+"Continue until professional help arrives or the person shows normal breathing."
+]
+
+},
+
+unconscious:{
+title:"😵 Unconsciousness",
+terms:["unconscious","recovery","RCP"],
+
+steps:[
+"Check whether the person responds.",
+"Check normal breathing.",
+"Call emergency services if the person is unresponsive.",
+"If they are breathing normally, use the recovery position when appropriate.",
+"If they are not breathing normally, start CPR."
+]
+
+},
+
+fracture:{
+title:"🦴 Possible Fracture",
+terms:["fracture","immobilization"],
+
+steps:[
+"Keep the injured area still.",
+"Support the injured limb in the position found.",
+"Do not try to straighten it.",
+"Control severe bleeding if present.",
+"Seek medical assessment."
+]
+
+},
+
+snake:{
+title:"🐍 Snake Bite",
+terms:[],
+
+steps:[
+"Move away from the snake.",
+"Keep the person calm and still.",
+"Keep the affected limb still.",
+"Remove rings and watches if possible.",
+"Do not cut the bite.",
+"Do not suck venom from the wound.",
+"Seek urgent medical care."
+]
+
+},
+
+scorpion:{
+title:"🦂 Scorpion Sting",
+terms:[],
+
+steps:[
+"Move away from the scorpion.",
+"Keep the person calm.",
+"Clean the area with soap and water.",
+"Use a cool compress.",
+"Monitor breathing and consciousness.",
+"Seek medical assessment, especially if symptoms become severe."
+]
+
+}
 
 };
 
@@ -1394,10 +2116,9 @@ document.getElementById("condition").value;
 const guide =
 document.getElementById("guide");
 
-
 if(!condition){
 
-guide.innerHTML = `
+guide.innerHTML=`
 
 <div class="item">
 ⚠️ Please select a condition first.
@@ -1409,28 +2130,78 @@ return;
 
 }
 
+const data=guides[condition];
 
-guide.innerHTML = `
+let termsHTML="";
+
+if(data.terms.length){
+
+termsHTML=`
+
+<div class="explanation">
+
+<h3>
+💡 Medical Terms Explained
+</h3>
+
+${data.terms.map(function(term){
+
+return glossaryBox(term);
+
+}).join("")}
+
+</div>
+
+`;
+
+}
+
+const lang=currentLang();
+
+const stepsText=data.steps.join(". ");
+
+guide.innerHTML=`
 
 <div class="item">
 
-<h3>🆘 First Aid</h3>
+<h3>
+${data.title}
+</h3>
 
 <ol>
 
-${
-guides[condition]
-.map(function(step){
+${data.steps.map(function(step){
 
-return "<li>"+
-escapeHTML(step)+
-"</li>";
+return "<li>"+escapeHTML(step)+"</li>";
 
-})
-.join("")
-}
+}).join("")}
 
 </ol>
+
+</div>
+
+${termsHTML}
+
+<div class="action-box">
+
+<strong>🧑‍⚕️ Simple explanation:</strong>
+
+<br><br>
+
+The instructions above are written for a person without medical training.
+
+<br>
+
+<strong>⚠️ If the condition is severe or the person is deteriorating, seek emergency medical help.</strong>
+
+<br>
+
+<button
+class="green"
+onclick="speakText(${JSON.stringify(data.title+". "+stepsText)})"
+>
+🔊 Read First Aid Guide
+</button>
 
 </div>
 
@@ -1440,14 +2211,13 @@ escapeHTML(step)+
 
 
 /* =====================================================
-   CONDITION DETECTION
+CONDITION DETECTION
 ===================================================== */
 
 function detectCondition(text){
 
 const condition =
 detectConditionFromSymptoms(text);
-
 
 if(condition){
 
@@ -1463,6 +2233,8 @@ showGuide();
 
 function detectConditionFromSymptoms(text){
 
+text=text.toLowerCase();
+
 if(
 text.includes("bleeding") ||
 text.includes("blood") ||
@@ -1476,7 +2248,6 @@ return "bleeding";
 
 }
 
-
 if(
 text.includes("choking") ||
 text.includes("étouffement") ||
@@ -1486,7 +2257,6 @@ text.includes("اختناق")
 return "choking";
 
 }
-
 
 if(
 text.includes("burn") ||
@@ -1498,54 +2268,56 @@ return "burn";
 
 }
 
-
 if(
 text.includes("stroke") ||
 text.includes("avc") ||
 text.includes("جلطة") ||
-text.includes("سكتة")
+text.includes("سكتة") ||
+text.includes("اعوجاج الفم") ||
+text.includes("ضعف في اليد")
 ){
 
 return "stroke";
 
 }
 
-
 if(
 text.includes("breathing") ||
 text.includes("respiration") ||
 text.includes("essoufflement") ||
+text.includes("dyspnea") ||
 text.includes("ضيق التنفس") ||
-text.includes("صعوبة التنفس")
+text.includes("ضيق نفس") ||
+text.includes("صعوبة التنفس") ||
+text.includes("صعوبة في التنفس")
 ){
 
 return "breathing";
 
 }
 
-
 if(
 text.includes("cardiac arrest") ||
 text.includes("arrêt cardiaque") ||
-text.includes("توقف القلب")
+text.includes("توقف القلب") ||
+text.includes("ما يتنفسش")
 ){
 
 return "cardiac";
 
 }
 
-
 if(
 text.includes("unconscious") ||
 text.includes("inconscient") ||
 text.includes("فاقد الوعي") ||
-text.includes("مغمى عليه")
+text.includes("مغمى عليه") ||
+text.includes("مغمى")
 ){
 
 return "unconscious";
 
 }
-
 
 if(
 text.includes("fracture") ||
@@ -1557,18 +2329,17 @@ return "fracture";
 
 }
 
-
 if(
 text.includes("snake") ||
 text.includes("serpent") ||
 text.includes("ثعبان") ||
-text.includes("أفعى")
+text.includes("أفعى") ||
+text.includes("لدغة ثعبان")
 ){
 
 return "snake";
 
 }
-
 
 if(
 text.includes("scorpion") ||
@@ -1579,14 +2350,13 @@ return "scorpion";
 
 }
 
-
 return "";
 
 }
 
 
 /* =====================================================
-   STAY WITH ME 2.0
+STAY WITH ME
 ===================================================== */
 
 let stayCondition="";
@@ -1595,74 +2365,7 @@ let stayStopped=false;
 let stayVoiceRecognition=null;
 
 
-/* =====================================================
-   STAY FLOWS
-===================================================== */
-
 const stayFlows={
-
-choking:{
-
-intro:{
-en:"Possible choking emergency. Stay with the patient.",
-fr:"Possible étouffement. Restez avec le patient.",
-ar:"قد تكون هناك حالة اختناق. ابق مع المريض."
-},
-
-questions:[
-
-{
-q:{
-en:"Is the patient conscious?",
-fr:"Est-ce que le patient est conscient ?",
-ar:"هل المريض واعي؟"
-},
-
-yes:{
-en:"The patient is conscious. Encourage coughing if they can cough effectively.",
-fr:"Le patient est conscient. Encouragez-le à tousser s'il peut tousser efficacement.",
-ar:"المريض واعي. شجعه على السعال إذا كان يستطيع السعال بشكل فعال."
-},
-
-no:{
-en:"The patient is unconscious. Call emergency services immediately.",
-fr:"Le patient est inconscient. Appelez immédiatement les secours.",
-ar:"المريض فاقد الوعي. اتصل بالطوارئ فوراً."
-},
-
-nextYes:1,
-nextNo:"emergency"
-
-},
-
-{
-q:{
-en:"Is the patient breathing normally?",
-fr:"Est-ce que le patient respire normalement ?",
-ar:"هل المريض يتنفس بشكل طبيعي؟"
-},
-
-yes:{
-en:"Continue monitoring the patient and stay with them.",
-fr:"Continuez à surveiller le patient et restez avec lui.",
-ar:"واصل مراقبة المريض وابق بجانبه."
-},
-
-no:{
-en:"Call emergency services immediately and start CPR if the patient is not breathing normally.",
-fr:"Appelez immédiatement les secours et commencez la RCP si le patient ne respire pas normalement.",
-ar:"اتصل بالطوارئ فوراً وابدأ الإنعاش القلبي الرئوي إذا كان المريض لا يتنفس بشكل طبيعي."
-},
-
-nextYes:"finish",
-nextNo:"emergency"
-
-}
-
-]
-
-},
-
 
 cardiac:{
 
@@ -1682,9 +2385,9 @@ ar:"هل المريض يستجيب؟"
 },
 
 yes:{
-en:"Continue monitoring the patient and seek urgent medical assessment.",
-fr:"Continuez à surveiller le patient et demandez une évaluation médicale urgente.",
-ar:"واصل مراقبة المريض واطلب تقييماً طبياً عاجلاً."
+en:"The patient responds. Continue monitoring and seek urgent medical assessment.",
+fr:"Le patient répond. Continuez à le surveiller et demandez une évaluation médicale urgente.",
+ar:"المريض يستجيب. واصل مراقبته واطلب تقييماً طبياً عاجلاً."
 },
 
 no:{
@@ -1693,7 +2396,7 @@ fr:"Le patient ne répond pas. Appelez immédiatement les secours.",
 ar:"المريض لا يستجيب. اتصل بالطوارئ فوراً."
 },
 
-nextYes:1,
+nextYes:"finish",
 nextNo:1
 
 },
@@ -1708,13 +2411,13 @@ ar:"هل المريض يتنفس بشكل طبيعي؟"
 yes:{
 en:"Continue monitoring and follow professional emergency instructions.",
 fr:"Continuez la surveillance et suivez les instructions des professionnels.",
-ar:"واصل المراقبة واتبع تعليمات المختصين في الطوارئ."
+ar:"واصل المراقبة واتبع تعليمات المختصين."
 },
 
 no:{
-en:"Start CPR and use an AED if available. Continue until help arrives.",
-fr:"Commencez la RCP et utilisez un DAE s'il est disponible. Continuez jusqu'à l'arrivée des secours.",
-ar:"ابدأ الإنعاش القلبي الرئوي واستعمل جهاز الصدمات إذا كان متوفراً. واصل حتى وصول المساعدة."
+en:"Start CPR now. CPR means repeated chest compressions in the center of the chest. Use an AED if available and follow its voice instructions.",
+fr:"Commencez la RCP maintenant. La RCP signifie effectuer des compressions répétées au centre de la poitrine. Utilisez un DAE s'il est disponible et suivez ses instructions vocales.",
+ar:"ابدأ الإنعاش القلبي الرئوي الآن. الإنعاش القلبي الرئوي يعني الضغط بشكل متكرر على وسط الصدر. استعمل جهاز الصدمات إذا كان متوفراً واتبع تعليماته الصوتية."
 },
 
 nextYes:"finish",
@@ -1756,7 +2459,7 @@ fr:"Le patient ne répond pas. Appelez les secours.",
 ar:"المريض لا يستجيب. اتصل بالطوارئ."
 },
 
-nextYes:1,
+nextYes:"finish",
 nextNo:1
 
 },
@@ -1769,15 +2472,15 @@ ar:"هل المريض يتنفس بشكل طبيعي؟"
 },
 
 yes:{
-en:"Continue monitoring the patient and follow professional advice.",
-fr:"Continuez à surveiller le patient et suivez les conseils des professionnels.",
-ar:"واصل مراقبة المريض واتبع تعليمات المختصين."
+en:"If appropriate, place the person in the recovery position and continue monitoring breathing.",
+fr:"Si cela est approprié, placez la personne en position latérale de sécurité et continuez à surveiller sa respiration.",
+ar:"إذا كان ذلك مناسباً، ضع الشخص في وضعية الأمان الجانبية وواصل مراقبة تنفسه."
 },
 
 no:{
-en:"Call emergency services and start CPR.",
-fr:"Appelez les secours et commencez la RCP.",
-ar:"اتصل بالطوارئ وابدأ الإنعاش القلبي الرئوي."
+en:"Start CPR. CPR means repeated chest compressions in the center of the chest. Use an AED if available.",
+fr:"Commencez la RCP. La RCP signifie effectuer des compressions répétées au centre de la poitrine. Utilisez un DAE s'il est disponible.",
+ar:"ابدأ الإنعاش القلبي الرئوي. يعني الضغط المتكرر على وسط الصدر. استعمل جهاز الصدمات إذا كان متوفراً."
 },
 
 nextYes:"finish",
@@ -1814,9 +2517,9 @@ ar:"اتصل بالطوارئ فوراً. اجعل المريض في وضعية 
 },
 
 no:{
-en:"Continue monitoring and help with prescribed treatment if available.",
-fr:"Continuez à surveiller le patient et aidez-le avec son traitement prescrit s'il est disponible.",
-ar:"واصل مراقبة المريض وساعده في علاجه الموصوف إذا كان متوفراً."
+en:"Continue monitoring and seek medical assessment if symptoms continue.",
+fr:"Continuez à surveiller et demandez une évaluation médicale si les symptômes persistent.",
+ar:"واصل المراقبة واطلب تقييماً طبياً إذا استمرت الأعراض."
 },
 
 nextYes:"emergency",
@@ -1834,7 +2537,7 @@ stroke:{
 intro:{
 en:"Possible stroke. Time matters. Stay with the patient.",
 fr:"AVC possible. Le temps est important. Restez avec le patient.",
-ar:"قد تكون هناك جلطة دماغية. الوقت مهم. ابق مع المريض."
+ar:"قد تكون هناك سكتة دماغية. الوقت مهم. ابق مع المريض."
 },
 
 questions:[
@@ -1847,15 +2550,15 @@ ar:"هل بدأت الأعراض فجأة؟"
 },
 
 yes:{
-en:"Call emergency services immediately and record when the symptoms started.",
-fr:"Appelez immédiatement les secours et notez l'heure du début des symptômes.",
-ar:"اتصل بالطوارئ فوراً وسجل وقت بداية الأعراض."
+en:"Call emergency services immediately and record the exact time symptoms started.",
+fr:"Appelez immédiatement les secours et notez l'heure exacte du début des symptômes.",
+ar:"اتصل بالطوارئ فوراً وسجل الوقت الدقيق لبداية الأعراض."
 },
 
 no:{
-en:"New neurological symptoms still require urgent medical assessment.",
-fr:"De nouveaux symptômes neurologiques nécessitent une évaluation médicale urgente.",
-ar:"الأعراض العصبية الجديدة تحتاج إلى تقييم طبي عاجل."
+en:"New neurological symptoms still need urgent medical assessment.",
+fr:"De nouveaux symptômes neurologiques nécessitent toujours une évaluation médicale urgente.",
+ar:"الأعراض العصبية الجديدة تحتاج أيضاً إلى تقييم طبي عاجل."
 },
 
 nextYes:"emergency",
@@ -1906,155 +2609,61 @@ nextNo:"finish"
 
 },
 
-
-burn:{
+choking:{
 
 intro:{
-en:"Stay with the patient and protect the burned area.",
-fr:"Restez avec le patient et protégez la zone brûlée.",
-ar:"ابق مع المريض واحم المنطقة المحروقة."
+en:"Possible choking emergency. Stay with the patient.",
+fr:"Possible étouffement. Restez avec le patient.",
+ar:"قد تكون هناك حالة اختناق. ابق مع المريض."
 },
 
 questions:[
 
 {
 q:{
-en:"Is the burn extensive, deep, or involving the face or airway?",
-fr:"La brûlure est-elle étendue, profonde ou touche-t-elle le visage ou les voies respiratoires ?",
-ar:"هل الحرق واسع أو عميق أو يشمل الوجه أو مجرى التنفس؟"
+en:"Is the patient conscious?",
+fr:"Est-ce que le patient est conscient ?",
+ar:"هل المريض واعي؟"
 },
 
 yes:{
-en:"Call emergency services and monitor breathing.",
-fr:"Appelez les secours et surveillez la respiration.",
-ar:"اتصل بالطوارئ وراقب التنفس."
+en:"If the person can cough effectively, encourage coughing.",
+fr:"Si la personne peut tousser efficacement, encouragez-la à tousser.",
+ar:"إذا كان الشخص يستطيع السعال بشكل فعال، شجعه على السعال."
 },
 
 no:{
-en:"Cool the burn with cool running water and seek medical assessment when appropriate.",
-fr:"Refroidissez la brûlure avec de l'eau courante fraîche et demandez une évaluation médicale si nécessaire.",
-ar:"برد الحرق بالماء الجاري البارد واطلب تقييماً طبياً عند الحاجة."
+en:"The patient is unconscious. Call emergency services immediately.",
+fr:"Le patient est inconscient. Appelez immédiatement les secours.",
+ar:"المريض فاقد الوعي. اتصل بالطوارئ فوراً."
 },
 
-nextYes:"emergency",
-nextNo:"finish"
-
-}
-
-]
+nextYes:1,
+nextNo:"emergency"
 
 },
-
-
-fracture:{
-
-intro:{
-en:"Keep the injured area still and stay with the patient.",
-fr:"Gardez la zone blessée immobile et restez avec le patient.",
-ar:"حافظ على ثبات المنطقة المصابة وابق مع المريض."
-},
-
-questions:[
 
 {
 q:{
-en:"Is there severe bleeding, major deformity, or loss of sensation?",
-fr:"Y a-t-il une hémorragie importante, une déformation majeure ou une perte de sensibilité ?",
-ar:"هل يوجد نزيف شديد أو تشوه كبير أو فقدان للإحساس؟"
+en:"Is the patient breathing normally?",
+fr:"Est-ce que le patient respire normalement ?",
+ar:"هل المريض يتنفس بشكل طبيعي؟"
 },
 
 yes:{
-en:"Seek emergency medical help immediately and do not straighten the limb.",
-fr:"Demandez immédiatement une aide médicale urgente et ne redressez pas le membre.",
-ar:"اطلب المساعدة الطبية العاجلة ولا تحاول تقويم الطرف."
+en:"Continue monitoring the patient.",
+fr:"Continuez à surveiller le patient.",
+ar:"واصل مراقبة المريض."
 },
 
 no:{
-en:"Support and immobilize the injured area and arrange medical assessment.",
-fr:"Soutenez et immobilisez la zone blessée et organisez une évaluation médicale.",
-ar:"ادعم وثبت المنطقة المصابة ورتب لتقييم طبي."
+en:"Call emergency services immediately and start CPR if the patient is not breathing normally.",
+fr:"Appelez immédiatement les secours et commencez la RCP si le patient ne respire pas normalement.",
+ar:"اتصل بالطوارئ فوراً وابدأ الإنعاش القلبي الرئوي إذا كان المريض لا يتنفس بشكل طبيعي."
 },
 
-nextYes:"emergency",
-nextNo:"finish"
-
-}
-
-]
-
-},
-
-
-snake:{
-
-intro:{
-en:"A snake bite may require urgent medical care. Stay calm.",
-fr:"Une morsure de serpent peut nécessiter des soins urgents. Restez calme.",
-ar:"لدغة الثعبان قد تحتاج إلى رعاية طبية عاجلة. ابق هادئاً."
-},
-
-questions:[
-
-{
-q:{
-en:"Is a snake bite suspected?",
-fr:"Une morsure de serpent est-elle suspectée ?",
-ar:"هل هناك اشتباه في لدغة ثعبان؟"
-},
-
-yes:{
-en:"Seek urgent medical care. Keep the patient calm and still.",
-fr:"Demandez des soins médicaux urgents. Gardez le patient calme et immobile.",
-ar:"اطلب رعاية طبية عاجلة. اجعل المريض هادئاً وثابتاً."
-},
-
-no:{
-en:"Continue monitoring and seek medical assessment if there is any concern.",
-fr:"Continuez à surveiller et demandez un avis médical en cas de doute.",
-ar:"واصل المراقبة واطلب تقييماً طبياً عند وجود أي شك."
-},
-
-nextYes:"emergency",
-nextNo:"finish"
-
-}
-
-]
-
-},
-
-
-scorpion:{
-
-intro:{
-en:"A scorpion sting may require medical assessment. Stay calm.",
-fr:"Une piqûre de scorpion peut nécessiter une évaluation médicale. Restez calme.",
-ar:"لسعة العقرب قد تحتاج إلى تقييم طبي. ابق هادئاً."
-},
-
-questions:[
-
-{
-q:{
-en:"Is the patient developing severe symptoms or difficulty breathing?",
-fr:"Le patient développe-t-il des symptômes sévères ou une difficulté respiratoire ?",
-ar:"هل تظهر على المريض أعراض شديدة أو صعوبة في التنفس؟"
-},
-
-yes:{
-en:"Call emergency services immediately and monitor breathing and consciousness.",
-fr:"Appelez immédiatement les secours et surveillez la respiration et la conscience.",
-ar:"اتصل بالطوارئ فوراً وراقب التنفس والوعي."
-},
-
-no:{
-en:"Keep the patient calm, clean the area, use a cool compress and seek medical assessment.",
-fr:"Gardez le patient calme, nettoyez la zone, utilisez une compresse fraîche et demandez une évaluation médicale.",
-ar:"اجعل المريض هادئاً، نظف المنطقة، استعمل كمادة باردة واطلب تقييماً طبياً."
-},
-
-nextYes:"emergency",
-nextNo:"finish"
+nextYes:"finish",
+nextNo:"emergency"
 
 }
 
@@ -2066,29 +2675,7 @@ nextNo:"finish"
 
 
 /* =====================================================
-   LANGUAGE
-===================================================== */
-
-function currentLang(){
-
-const value =
-document.getElementById("voiceLanguage").value;
-
-if(value.indexOf("fr")===0){
-return "fr";
-}
-
-if(value.indexOf("ar")===0){
-return "ar";
-}
-
-return "en";
-
-}
-
-
-/* =====================================================
-   START STAY
+START STAY
 ===================================================== */
 
 function startStay(){
@@ -2099,7 +2686,6 @@ document.getElementById("condition").value;
 const stay =
 document.getElementById("stay");
 
-
 if(!condition){
 
 stay.innerHTML =
@@ -2109,19 +2695,16 @@ return;
 
 }
 
-
 if(!stayFlows[condition]){
 
 stay.innerHTML =
-'<div class="item">⚠️ Voice mode is not available for this condition.</div>';
+'<div class="item">⚠️ Voice mode is not available for this condition yet.</div>';
 
 return;
 
 }
 
-
 stopStayRecognition();
-
 
 if("speechSynthesis" in window){
 
@@ -2129,22 +2712,16 @@ window.speechSynthesis.cancel();
 
 }
 
-
 stayCondition=condition;
-
 stayQuestionIndex=0;
-
 stayStopped=false;
 
+const lang=currentLang();
 
-const lang =
-currentLang();
-
-const intro =
+const intro=
 stayFlows[condition].intro[lang];
 
-
-stay.innerHTML = `
+stay.innerHTML=`
 
 <div class="stay-box voice-active">
 
@@ -2168,7 +2745,7 @@ VOICE MODE
 
 <br><br>
 
-👂 Just answer YES or NO.
+👂 Answer YES or NO.
 
 </div>
 
@@ -2186,7 +2763,6 @@ onclick="stopStay()"
 </div>
 
 `;
-
 
 setTimeout(function(){
 
@@ -2211,7 +2787,7 @@ askStayQuestion,
 
 
 /* =====================================================
-   ASK QUESTION
+ASK QUESTION
 ===================================================== */
 
 function askStayQuestion(){
@@ -2220,42 +2796,32 @@ if(stayStopped){
 return;
 }
 
-
-const flow =
+const flow=
 stayFlows[stayCondition];
-
 
 if(!flow){
 return;
 }
 
-
-if(stayQuestionIndex >= flow.questions.length){
+if(stayQuestionIndex>=flow.questions.length){
 
 finishStayVoice();
-
 return;
 
 }
 
+const lang=currentLang();
 
-const lang =
-currentLang();
-
-
-const question =
+const question=
 flow.questions[stayQuestionIndex].q[lang];
 
-
 renderVoiceQuestion(question);
-
 
 setTimeout(function(){
 
 if(stayStopped){
 return;
 }
-
 
 speakStayText(
 question,
@@ -2278,20 +2844,18 @@ listenForStayAnswer,
 
 
 /* =====================================================
-   QUESTION DISPLAY
+QUESTION
 ===================================================== */
 
 function renderVoiceQuestion(question){
 
-const stay =
+const stay=
 document.getElementById("stay");
 
-
-const total =
+const total=
 stayFlows[stayCondition].questions.length;
 
-
-stay.innerHTML = `
+stay.innerHTML=`
 
 <div class="stay-box voice-active">
 
@@ -2315,7 +2879,8 @@ ${escapeHTML(question)}
 
 </div>
 
-<div id="stayVoiceStatus" class="voice-listening">
+<div id="stayVoiceStatus"
+class="voice-listening">
 🔊 Speaking...
 </div>
 
@@ -2343,47 +2908,7 @@ onclick="stopStay()"
 
 
 /* =====================================================
-   REPEAT QUESTION
-===================================================== */
-
-function repeatStayQuestion(){
-
-if(stayStopped){
-return;
-}
-
-
-stopStayRecognition();
-
-
-const flow =
-stayFlows[stayCondition];
-
-
-const question =
-flow.questions[stayQuestionIndex].q[currentLang()];
-
-
-speakStayText(
-question,
-function(){
-
-if(!stayStopped){
-
-setTimeout(
-listenForStayAnswer,
-600
-);
-
-}
-
-});
-
-}
-
-
-/* =====================================================
-   LISTEN FOR YES / NO
+LISTEN
 ===================================================== */
 
 function listenForStayAnswer(){
@@ -2392,15 +2917,12 @@ if(stayStopped){
 return;
 }
 
-
 const SpeechRecognition =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
-
 const status =
 document.getElementById("stayVoiceStatus");
-
 
 if(!SpeechRecognition){
 
@@ -2410,7 +2932,7 @@ if(status){
 
 status.className="status";
 
-status.innerHTML =
+status.innerHTML=
 "❌ Voice recognition is not supported. Use YES / NO.";
 
 }
@@ -2419,45 +2941,33 @@ return;
 
 }
 
-
 stopStayRecognition();
 
-
-stayVoiceRecognition =
+stayVoiceRecognition=
 new SpeechRecognition();
 
-
-stayVoiceRecognition.lang =
+stayVoiceRecognition.lang=
 document.getElementById("voiceLanguage").value;
 
-
 stayVoiceRecognition.continuous=false;
-
 stayVoiceRecognition.interimResults=false;
-
 stayVoiceRecognition.maxAlternatives=5;
-
 
 if(status){
 
 status.className="voice-listening";
-
-status.innerHTML =
-"🎤 Listening... Say YES or NO.";
+status.innerHTML="🎤 Listening... Say YES or NO.";
 
 }
 
-
-stayVoiceRecognition.onresult =
+stayVoiceRecognition.onresult=
 function(event){
 
-const transcript =
+const transcript=
 event.results[0][0].transcript;
 
-
-const answer =
+const answer=
 understandYesNo(transcript);
-
 
 if(answer){
 
@@ -2465,12 +2975,10 @@ if(status){
 
 status.className="status";
 
-status.innerHTML =
-"👂 Heard: "+
-escapeHTML(transcript);
+status.innerHTML=
+"👂 Heard: "+escapeHTML(transcript);
 
 }
-
 
 handleStayAnswer(answer);
 
@@ -2483,28 +2991,26 @@ handleUnknownAnswer();
 
 };
 
-
-stayVoiceRecognition.onerror =
+stayVoiceRecognition.onerror=
 function(event){
 
 if(event.error==="not-allowed" ||
 event.error==="permission-denied"){
 
+showBackupButtons();
+
 if(status){
 
 status.className="status";
 
-status.innerHTML =
-"❌ Microphone permission denied. Use YES / NO buttons.";
+status.innerHTML=
+"❌ Microphone permission denied. Use YES / NO.";
 
 }
-
-showBackupButtons();
 
 return;
 
 }
-
 
 if(event.error==="no-speech"){
 
@@ -2512,7 +3018,7 @@ if(status){
 
 status.className="status";
 
-status.innerHTML =
+status.innerHTML=
 "⚠️ I didn't hear you. Listening again...";
 
 }
@@ -2526,27 +3032,18 @@ return;
 
 }
 
+showBackupButtons();
 
 if(status){
 
 status.className="status";
 
-status.innerHTML =
-"❌ Microphone error. Trying again...";
+status.innerHTML=
+"❌ Microphone error. Use YES / NO buttons.";
 
 }
 
-setTimeout(
-listenForStayAnswer,
-1000
-);
-
 };
-
-
-stayVoiceRecognition.onend =
-function(){};
-
 
 try{
 
@@ -2557,34 +3054,21 @@ catch(error){
 
 showBackupButtons();
 
-if(status){
-
-status.className="status";
-
-status.innerHTML =
-"❌ Microphone could not start. Use YES / NO.";
-
-}
-
 }
 
 }
 
 
 /* =====================================================
-   UNDERSTAND YES / NO
+YES / NO
 ===================================================== */
 
 function understandYesNo(text){
 
-const t =
-text
-.toLowerCase()
-.trim();
+const t=
+text.toLowerCase().trim();
 
-
-const yesWords = [
-
+const yesWords=[
 "yes",
 "yeah",
 "yep",
@@ -2598,13 +3082,11 @@ const yesWords = [
 "ايوة",
 "آه",
 "اه",
-"أجل"
-
+"أجل",
+"إيه"
 ];
 
-
-const noWords = [
-
+const noWords=[
 "no",
 "nope",
 "non",
@@ -2614,47 +3096,33 @@ const noWords = [
 "مش",
 "مو",
 "كلا"
-
 ];
-
 
 for(let word of yesWords){
 
-if(t===word){
-return "yes";
-}
-
-if(
+if(t===word ||
 t.startsWith(word+" ") ||
 t.endsWith(" "+word) ||
-t.includes(" "+word+" ")
-){
+t.includes(" "+word+" ")){
 
 return "yes";
 
 }
 
 }
-
 
 for(let word of noWords){
 
-if(t===word){
-return "no";
-}
-
-if(
+if(t===word ||
 t.startsWith(word+" ") ||
 t.endsWith(" "+word) ||
-t.includes(" "+word+" ")
-){
+t.includes(" "+word+" ")){
 
 return "no";
 
 }
 
 }
-
 
 return null;
 
@@ -2662,57 +3130,45 @@ return null;
 
 
 /* =====================================================
-   UNKNOWN ANSWER
+UNKNOWN
 ===================================================== */
 
 function handleUnknownAnswer(){
 
-if(stayStopped){
-return;
-}
-
-
-const lang =
-currentLang();
-
+const lang=currentLang();
 
 let message;
 
-
 if(lang==="fr"){
 
-message =
+message=
 "Je n'ai pas compris. Répondez simplement oui ou non.";
 
 }
 else if(lang==="ar"){
 
-message =
+message=
 "لم أفهم الإجابة. أجب فقط بنعم أو لا.";
 
 }
 else{
 
-message =
+message=
 "I didn't understand. Please answer yes or no.";
 
 }
 
-
-const status =
+const status=
 document.getElementById("stayVoiceStatus");
-
 
 if(status){
 
 status.className="status";
 
-status.innerHTML =
-"⚠️ "+
-escapeHTML(message);
+status.innerHTML=
+"⚠️ "+escapeHTML(message);
 
 }
-
 
 speakStayText(
 message,
@@ -2733,7 +3189,7 @@ listenForStayAnswer,
 
 
 /* =====================================================
-   HANDLE ANSWER
+HANDLE ANSWER
 ===================================================== */
 
 function handleStayAnswer(answer){
@@ -2742,50 +3198,40 @@ if(stayStopped){
 return;
 }
 
-
 stopStayRecognition();
 
-
-const flow =
+const flow=
 stayFlows[stayCondition];
 
-
-const question =
+const question=
 flow.questions[stayQuestionIndex];
 
+const lang=currentLang();
 
-const lang =
-currentLang();
-
-
-const response =
+const response=
 answer==="yes"
 ?
 question.yes[lang]
 :
 question.no[lang];
 
-
-const next =
+const next=
 answer==="yes"
 ?
 question.nextYes
 :
 question.nextNo;
 
-
 renderStayResponse(
 response,
 answer
 );
-
 
 setTimeout(function(){
 
 if(stayStopped){
 return;
 }
-
 
 speakStayText(
 response,
@@ -2794,7 +3240,6 @@ function(){
 if(stayStopped){
 return;
 }
-
 
 setTimeout(function(){
 
@@ -2810,8 +3255,7 @@ finishStayVoice();
 }
 else{
 
-stayQuestionIndex =
-next;
+stayQuestionIndex=next;
 
 askStayQuestion();
 
@@ -2827,19 +3271,15 @@ askStayQuestion();
 
 
 /* =====================================================
-   RESPONSE
+RESPONSE
 ===================================================== */
 
-function renderStayResponse(
-response,
-answer
-){
+function renderStayResponse(response,answer){
 
-const stay =
+const stay=
 document.getElementById("stay");
 
-
-stay.innerHTML = `
+stay.innerHTML=`
 
 <div class="stay-box voice-active">
 
@@ -2871,12 +3311,17 @@ ${escapeHTML(response)}
 
 </div>
 
-<div
-id="stayVoiceStatus"
-class="status"
->
+<div id="stayVoiceStatus"
+class="status">
 🔊 Processing next step...
 </div>
+
+<button
+class="purple"
+onclick="speakText(${JSON.stringify(response)})"
+>
+🔊 Explain Again
+</button>
 
 <button
 class="gray"
@@ -2893,21 +3338,19 @@ onclick="stopStay()"
 
 
 /* =====================================================
-   BACKUP BUTTONS
+BACKUP
 ===================================================== */
 
 function showBackupButtons(){
 
-const area =
+const area=
 document.getElementById("backupArea");
-
 
 if(!area){
 return;
 }
 
-
-area.innerHTML = `
+area.innerHTML=`
 
 <div class="answer-grid">
 
@@ -2933,7 +3376,7 @@ onclick="handleStayAnswer('no')"
 
 
 /* =====================================================
-   EMERGENCY MODE
+EMERGENCY MODE
 ===================================================== */
 
 function renderEmergencyVoice(){
@@ -2942,52 +3385,52 @@ if(stayStopped){
 return;
 }
 
-
 stopStayRecognition();
 
-
-const lang =
-currentLang();
-
+const lang=currentLang();
 
 let title;
 let message;
-
+let rcpText="";
 
 if(lang==="fr"){
 
-title =
-"MODE URGENCE";
+title="MODE URGENCE";
 
-message =
+message=
 "Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient.";
+
+rcpText=
+"Si le patient ne répond pas et ne respire pas normalement, commencez la RCP. La RCP signifie appuyer de façon répétée au centre de la poitrine. Si un DAE est disponible, allumez-le et suivez ses instructions.";
 
 }
 else if(lang==="ar"){
 
-title =
-"وضعية الطوارئ";
+title="وضعية الطوارئ";
 
-message =
+message=
 "تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض.";
+
+rcpText=
+"إذا كان المريض لا يستجيب ولا يتنفس بشكل طبيعي، ابدأ الإنعاش القلبي الرئوي. الإنعاش القلبي الرئوي يعني الضغط بشكل متكرر على وسط الصدر. إذا كان جهاز الصدمات متوفراً، شغله واتبع تعليماته.";
 
 }
 else{
 
-title =
-"EMERGENCY MODE";
+title="EMERGENCY MODE";
 
-message =
+message=
 "A potentially serious emergency has been identified. Contact emergency services and stay with the patient.";
+
+rcpText=
+"If the patient is unresponsive and not breathing normally, start CPR. CPR means repeated chest compressions in the center of the chest. If an AED is available, turn it on and follow its instructions.";
 
 }
 
-
-const stay =
+const stay=
 document.getElementById("stay");
 
-
-stay.innerHTML = `
+stay.innerHTML=`
 
 <div class="stay-box emergency-mode">
 
@@ -2997,16 +3440,20 @@ stay.innerHTML = `
 
 </div>
 
-<div class="item">
+<div class="emergency-help">
 
-🫶 ${escapeHTML(message)}
+<strong>
+🚨 ${escapeHTML(message)}
+</strong>
+
+<br><br>
+
+${escapeHTML(rcpText)}
 
 </div>
 
-<div
-id="stayVoiceStatus"
-class="status"
->
+<div id="stayVoiceStatus"
+class="status">
 🔊 Speaking...
 </div>
 
@@ -3042,10 +3489,11 @@ onclick="stopStay()"
 
 `;
 
-
 setTimeout(function(){
 
-speakStayText(message);
+speakStayText(
+message+" "+rcpText
+);
 
 },400);
 
@@ -3053,37 +3501,33 @@ speakStayText(message);
 
 
 /* =====================================================
-   REPEAT EMERGENCY
+REPEAT EMERGENCY
 ===================================================== */
 
 function repeatEmergencyMessage(){
 
-const lang =
-currentLang();
-
+const lang=currentLang();
 
 let message;
 
-
 if(lang==="fr"){
 
-message =
-"Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient.";
+message=
+"Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient. Si le patient ne répond pas et ne respire pas normalement, commencez la RCP. La RCP signifie appuyer de façon répétée au centre de la poitrine. Si un DAE est disponible, allumez-le et suivez ses instructions.";
 
 }
 else if(lang==="ar"){
 
-message =
-"تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض.";
+message=
+"تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض. إذا كان المريض لا يستجيب ولا يتنفس بشكل طبيعي، ابدأ الإنعاش القلبي الرئوي. الإنعاش القلبي الرئوي يعني الضغط بشكل متكرر على وسط الصدر. إذا كان جهاز الصدمات متوفراً، شغله واتبع تعليماته.";
 
 }
 else{
 
-message =
-"A potentially serious emergency has been identified. Contact emergency services and stay with the patient.";
+message=
+"A potentially serious emergency has been identified. Contact emergency services and stay with the patient. If the patient is unresponsive and not breathing normally, start CPR. CPR means repeated chest compressions in the center of the chest. If an AED is available, turn it on and follow its instructions.";
 
 }
-
 
 speakStayText(message);
 
@@ -3091,7 +3535,7 @@ speakStayText(message);
 
 
 /* =====================================================
-   FINISH
+FINISH
 ===================================================== */
 
 function finishStayVoice(){
@@ -3100,42 +3544,35 @@ if(stayStopped){
 return;
 }
 
-
 stopStayRecognition();
 
-
-const lang =
-currentLang();
-
+const lang=currentLang();
 
 let message;
 
-
 if(lang==="fr"){
 
-message =
+message=
 "Les étapes de Stay With Me sont terminées. Continuez à surveiller le patient et suivez les instructions des professionnels de santé.";
 
 }
 else if(lang==="ar"){
 
-message =
+message=
 "انتهت خطوات Stay With Me. واصل مراقبة المريض واتبع تعليمات المختصين في الرعاية الصحية.";
 
 }
 else{
 
-message =
+message=
 "Stay With Me guidance is complete. Continue monitoring the patient and follow professional medical instructions.";
 
 }
 
-
-const stay =
+const stay=
 document.getElementById("stay");
 
-
-stay.innerHTML = `
+stay.innerHTML=`
 
 <div class="stay-box">
 
@@ -3151,10 +3588,8 @@ stay.innerHTML = `
 
 </div>
 
-<div
-id="stayVoiceStatus"
-class="status"
->
+<div id="stayVoiceStatus"
+class="status">
 🔊 Speaking...
 </div>
 
@@ -3183,7 +3618,6 @@ onclick="stopStay()"
 
 `;
 
-
 setTimeout(function(){
 
 speakStayText(message);
@@ -3194,37 +3628,33 @@ speakStayText(message);
 
 
 /* =====================================================
-   REPEAT FINISH
+REPEAT FINISH
 ===================================================== */
 
 function repeatFinishMessage(){
 
-const lang =
-currentLang();
-
+const lang=currentLang();
 
 let message;
 
-
 if(lang==="fr"){
 
-message =
+message=
 "Les étapes de Stay With Me sont terminées. Continuez à surveiller le patient et suivez les instructions des professionnels de santé.";
 
 }
 else if(lang==="ar"){
 
-message =
+message=
 "انتهت خطوات Stay With Me. واصل مراقبة المريض واتبع تعليمات المختصين في الرعاية الصحية.";
 
 }
 else{
 
-message =
+message=
 "Stay With Me guidance is complete. Continue monitoring the patient and follow professional medical instructions.";
 
 }
-
 
 speakStayText(message);
 
@@ -3232,18 +3662,14 @@ speakStayText(message);
 
 
 /* =====================================================
-   SPEAK TEXT
+SPEAK STAY
 ===================================================== */
 
-function speakStayText(
-text,
-callback
-){
+function speakStayText(text,callback){
 
 if(stayStopped){
 return;
 }
-
 
 if(!("speechSynthesis" in window)){
 
@@ -3255,118 +3681,82 @@ return;
 
 }
 
-
 window.speechSynthesis.cancel();
 
-
-const speech =
+const speech=
 new SpeechSynthesisUtterance(text);
 
-
-speech.lang =
-document.getElementById(
-"voiceLanguage"
-).value;
-
+speech.lang=
+document.getElementById("voiceLanguage").value;
 
 speech.rate=.9;
-
 speech.pitch=1;
-
 speech.volume=1;
 
-
-const voices =
+const voices=
 window.speechSynthesis.getVoices();
 
+const shortLang=
+speech.lang.substring(0,2).toLowerCase();
 
-const shortLang =
-speech.lang
-.substring(0,2)
-.toLowerCase();
-
-
-const voice =
+const voice=
 voices.find(function(v){
 
 return v.lang &&
-v.lang
-.toLowerCase()
-.startsWith(shortLang);
+v.lang.toLowerCase().startsWith(shortLang);
 
 });
 
-
 if(voice){
-
 speech.voice=voice;
-
 }
 
-
-const status =
-document.getElementById(
-"stayVoiceStatus"
-);
-
+const status=
+document.getElementById("stayVoiceStatus");
 
 if(status){
 
 status.className="status";
-
-status.innerHTML =
-"🔊 Speaking...";
+status.innerHTML="🔊 Speaking...";
 
 }
-
 
 speech.onend=function(){
 
 if(status){
 
-status.innerHTML =
-"🎤 Listening...";
+status.innerHTML="🎤 Listening...";
 
 }
 
 if(callback){
-
 callback();
-
 }
 
 };
-
 
 speech.onerror=function(){
 
 if(callback){
-
 callback();
-
 }
 
 };
 
-
-window.speechSynthesis.speak(
-speech
-);
+window.speechSynthesis.speak(speech);
 
 }
 
 
 /* =====================================================
-   STOP STAY
+STOP STAY
 ===================================================== */
 
 function stopStay(){
 
 stayStopped=true;
 
-
 stopStayRecognition();
-
 
 if("speechSynthesis" in window){
 
@@ -3374,10 +3764,7 @@ window.speechSynthesis.cancel();
 
 }
 
-
-document.getElementById(
-"stay"
-).innerHTML = `
+document.getElementById("stay").innerHTML=`
 
 <div class="status">
 
@@ -3389,10 +3776,6 @@ document.getElementById(
 
 }
 
-
-/* =====================================================
-   STOP STAY RECOGNITION
-===================================================== */
 
 function stopStayRecognition(){
 
@@ -3413,59 +3796,85 @@ stayVoiceRecognition=null;
 
 }
 
+
+/* =====================================================
+REPEAT QUESTION
+===================================================== */
+
+}
+
+function repeatStayQuestion(){
+
+if(stayStopped){
+return;
+}
+
+stopStayRecognition();
+
+const flow=
+stayFlows[stayCondition];
+
+const question=
+flow.questions[stayQuestionIndex].q[currentLang()];
+
+speakStayText(
+question,
+function(){
+
+if(!stayStopped){
+
+setTimeout(
+listenForStayAnswer,
+600
+);
+
+}
+
+});
+
 }
 
 
 /* =====================================================
-   HOSPITAL
+HOSPITAL
 ===================================================== */
 
 function findHospital(){
 
-const status =
-document.getElementById(
-"hospitalStatus"
-);
+const status=
+document.getElementById("hospitalStatus");
 
-
-status.innerHTML =
+status.innerHTML=
 "📍 Getting your location...";
-
 
 if(!navigator.geolocation){
 
-status.innerHTML =
+status.innerHTML=
 "❌ Location is not supported by this browser.";
 
 return;
 
 }
 
-
 navigator.geolocation.getCurrentPosition(
 
 function(position){
 
-const lat =
+const lat=
 position.coords.latitude;
 
-const lon =
+const lon=
 position.coords.longitude;
 
-
-const mapsURL =
-"https://www.google.com/maps/search/emergency+hospital/@"
-+
+const mapsURL=
+"https://www.google.com/maps/search/emergency+hospital/@"+
 lat+
-","
-+
+","+
 lon+
 ",14z";
 
-
-status.innerHTML =
+status.innerHTML=
 "📍 Location found.<br><br>Opening nearby emergency hospitals...";
-
 
 window.open(
 mapsURL,
@@ -3476,9 +3885,8 @@ mapsURL,
 
 function(){
 
-status.innerHTML =
+status.innerHTML=
 "❌ Unable to get your location.<br><br>Please allow location permission and try again.";
-
 
 window.open(
 "https://www.google.com/maps/search/emergency+hospital+near+me",
@@ -3499,24 +3907,23 @@ maximumAge:0
 
 
 /* =====================================================
-   CALL EMERGENCY
+CALL EMERGENCY
 ===================================================== */
 
 function callEmergency(){
 
-window.location.href =
-"tel:198";
+window.location.href="tel:198";
 
 }
 
 
 /* =====================================================
-   VOICE LOADING
+VOICE LOADING
 ===================================================== */
 
 if("speechSynthesis" in window){
 
-window.speechSynthesis.onvoiceschanged =
+window.speechSynthesis.onvoiceschanged=
 function(){
 
 window.speechSynthesis.getVoices();
