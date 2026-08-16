@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>TriageAI - Smart Emergency Care</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -16,11 +18,11 @@
     body {
       background: #f4f7fb;
       color: #1f2937;
-      padding: 20px;
+      padding: 15px;
     }
 
     .container {
-      max-width: 700px;
+      max-width: 750px;
       margin: auto;
     }
 
@@ -28,13 +30,13 @@
       background: #0f766e;
       color: white;
       padding: 25px;
-      border-radius: 15px;
+      border-radius: 16px;
       margin-bottom: 20px;
       text-align: center;
     }
 
     header h1 {
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 8px;
     }
 
@@ -44,9 +46,10 @@
 
     .card {
       background: white;
-      padding: 25px;
-      border-radius: 15px;
+      padding: 22px;
+      border-radius: 16px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
     }
 
     .card h2 {
@@ -77,19 +80,27 @@
 
     button {
       width: 100%;
-      margin-top: 22px;
+      margin-top: 15px;
       padding: 14px;
       border: none;
       border-radius: 9px;
       background: #0f766e;
       color: white;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
     button:hover {
       background: #115e59;
+    }
+
+    .secondary-button {
+      background: #475569;
+    }
+
+    .secondary-button:hover {
+      background: #334155;
     }
 
     #result {
@@ -118,17 +129,55 @@
     }
 
     .priority {
-      font-size: 25px;
+      font-size: 28px;
       font-weight: bold;
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
 
     .result-item {
       margin-top: 10px;
-      padding: 10px;
-      background: rgba(255,255,255,0.6);
+      padding: 12px;
+      background: rgba(255,255,255,0.65);
       border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    .score {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .emergency-box {
+      margin-top: 20px;
+      padding: 20px;
+      background: #fff7ed;
+      border: 2px solid #f97316;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .emergency-box h3 {
+      color: #c2410c;
+      margin-bottom: 10px;
+    }
+
+    .emergency-box p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .history-item {
+      background: #f8fafc;
+      border-left: 5px solid #0f766e;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    .history-item strong {
+      display: block;
+      margin-bottom: 5px;
     }
 
     .warning {
@@ -136,7 +185,13 @@
       font-size: 13px;
       color: #6b7280;
       text-align: center;
+      line-height: 1.5;
     }
+
+    .hidden {
+      display: none;
+    }
+
   </style>
 </head>
 
@@ -149,181 +204,619 @@
     <p>Smart Emergency Care Assistant</p>
   </header>
 
+
+  <!-- PATIENT ASSESSMENT -->
+
   <div class="card">
 
-    <h2>Patient Assessment</h2>
+    <h2>👤 Patient Assessment</h2>
 
     <label for="name">Patient Name</label>
-    <input type="text" id="name" placeholder="Enter patient name">
+
+    <input
+      type="text"
+      id="name"
+      placeholder="Enter patient name"
+    >
+
 
     <label for="age">Age</label>
-    <input type="number" id="age" min="0" max="120" placeholder="Enter age">
+
+    <input
+      type="number"
+      id="age"
+      min="0"
+      max="120"
+      placeholder="Enter age"
+    >
+
 
     <label for="symptoms">Symptoms</label>
-    <textarea id="symptoms" placeholder="Describe the patient's symptoms..."></textarea>
+
+    <textarea
+      id="symptoms"
+      placeholder="Describe the patient's symptoms..."
+    ></textarea>
+
 
     <label for="pain">Pain Level (0 - 10)</label>
-    <input type="number" id="pain" min="0" max="10" placeholder="0 = no pain, 10 = severe pain">
+
+    <input
+      type="number"
+      id="pain"
+      min="0"
+      max="10"
+      placeholder="0 = no pain, 10 = severe pain"
+    >
+
 
     <label for="heartRate">Heart Rate (BPM)</label>
-    <input type="number" id="heartRate" placeholder="Example: 80">
+
+    <input
+      type="number"
+      id="heartRate"
+      placeholder="Example: 80"
+    >
+
 
     <label for="temperature">Temperature (°C)</label>
-    <input type="number" id="temperature" step="0.1" placeholder="Example: 37.0">
+
+    <input
+      type="number"
+      id="temperature"
+      step="0.1"
+      placeholder="Example: 37.0"
+    >
+
 
     <label for="oxygen">Oxygen Saturation (%)</label>
-    <input type="number" id="oxygen" min="0" max="100" placeholder="Example: 98">
 
-    <button type="button" onclick="analyzePatient()">
+    <input
+      type="number"
+      id="oxygen"
+      min="0"
+      max="100"
+      placeholder="Example: 98"
+    >
+
+
+    <button
+      type="button"
+      onclick="analyzePatient()"
+    >
       🔍 Analyze Patient
     </button>
 
-    <div id="result"></div>
 
-    <p class="warning">
-      ⚠️ This tool provides preliminary triage support only.
-      It does not replace professional medical assessment.
-    </p>
+    <button
+      type="button"
+      class="secondary-button"
+      onclick="newPatient()"
+    >
+      ➕ New Patient
+    </button>
 
   </div>
+
+
+  <!-- RESULT -->
+
+  <div
+    id="result"
+    class="card"
+  ></div>
+
+
+  <!-- EMERGENCY ASSISTANCE -->
+
+  <div class="card emergency-box">
+
+    <h3>🆘 Emergency Assistance</h3>
+
+    <p>
+      If this is a real emergency, seek professional
+      medical assistance immediately.
+    </p>
+
+    <button
+      type="button"
+      onclick="findHospital()"
+    >
+      📍 Find Nearby Hospital
+    </button>
+
+  </div>
+
+
+  <!-- HISTORY -->
+
+  <div class="card">
+
+    <h2>📋 Analysis History</h2>
+
+    <div id="history">
+
+      <p>
+        No patient analysis yet.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <p class="warning">
+
+    ⚠️ TriageAI is an educational prototype and provides
+    preliminary decision-support only.
+
+    It does not replace professional medical assessment.
+
+  </p>
+
 </div>
+
 
 <script>
 
-function analyzePatient() {
+  let analysisHistory = [];
 
-  const name = document.getElementById("name").value || "Unknown Patient";
-  const age = Number(document.getElementById("age").value);
-  const pain = Number(document.getElementById("pain").value);
-  const heartRate = Number(document.getElementById("heartRate").value);
-  const temperature = Number(document.getElementById("temperature").value);
-  const oxygen = Number(document.getElementById("oxygen").value);
-  const symptoms = document.getElementById("symptoms").value.toLowerCase();
 
-  let score = 0;
-  let reasons = [];
+  function analyzePatient() {
 
-  if (pain >= 8) {
-    score += 4;
-    reasons.push("Severe pain");
-  } else if (pain >= 5) {
-    score += 2;
-    reasons.push("Moderate pain");
-  } else if (pain >= 3) {
-    score += 1;
-    reasons.push("Mild pain");
-  }
+    const name =
+      document.getElementById("name").value.trim()
+      || "Unknown Patient";
 
-  if (oxygen > 0 && oxygen < 90) {
-    score += 5;
-    reasons.push("Very low oxygen saturation");
-  } else if (oxygen > 0 && oxygen < 94) {
-    score += 3;
-    reasons.push("Low oxygen saturation");
-  }
+    const age =
+      Number(document.getElementById("age").value);
 
-  if (heartRate > 0 && (heartRate < 50 || heartRate > 120)) {
-    score += 3;
-    reasons.push("Abnormal heart rate");
-  }
+    const pain =
+      Number(document.getElementById("pain").value);
 
-  if (temperature >= 39.5 || (temperature > 0 && temperature < 35)) {
-    score += 3;
-    reasons.push("Abnormal temperature");
-  } else if (temperature >= 38.5) {
-    score += 1;
-    reasons.push("Fever");
-  }
+    const heartRate =
+      Number(document.getElementById("heartRate").value);
 
-  if (age >= 65 || (age > 0 && age < 5)) {
-    score += 1;
-    reasons.push("Age-related risk");
-  }
+    const temperature =
+      Number(document.getElementById("temperature").value);
 
-  const emergencyKeywords = [
-    "chest pain",
-    "difficulty breathing",
-    "shortness of breath",
-    "severe bleeding",
-    "unconscious",
-    "loss of consciousness",
-    "seizure",
-    "stroke",
-    "paralysis",
-    "severe headache",
-    "confusion"
-  ];
+    const oxygen =
+      Number(document.getElementById("oxygen").value);
 
-  for (const keyword of emergencyKeywords) {
-    if (symptoms.includes(keyword)) {
-      score += 5;
-      reasons.push("Emergency symptom: " + keyword);
-      break;
+    const symptoms =
+      document
+      .getElementById("symptoms")
+      .value
+      .toLowerCase();
+
+
+    let score = 0;
+
+    let reasons = [];
+
+
+    /* PAIN */
+
+    if (pain >= 8) {
+
+      score += 4;
+
+      reasons.push("Severe pain");
+
     }
+
+    else if (pain >= 5) {
+
+      score += 2;
+
+      reasons.push("Moderate pain");
+
+    }
+
+    else if (pain >= 3) {
+
+      score += 1;
+
+      reasons.push("Mild pain");
+
+    }
+
+
+    /* OXYGEN */
+
+    if (oxygen > 0 && oxygen < 90) {
+
+      score += 5;
+
+      reasons.push(
+        "Very low oxygen saturation"
+      );
+
+    }
+
+    else if (oxygen > 0 && oxygen < 94) {
+
+      score += 3;
+
+      reasons.push(
+        "Low oxygen saturation"
+      );
+
+    }
+
+
+    /* HEART RATE */
+
+    if (
+      heartRate > 0 &&
+      (heartRate < 50 || heartRate > 120)
+    ) {
+
+      score += 3;
+
+      reasons.push(
+        "Abnormal heart rate"
+      );
+
+    }
+
+
+    /* TEMPERATURE */
+
+    if (
+      temperature >= 39.5 ||
+      (temperature > 0 && temperature < 35)
+    ) {
+
+      score += 3;
+
+      reasons.push(
+        "Abnormal temperature"
+      );
+
+    }
+
+    else if (temperature >= 38.5) {
+
+      score += 1;
+
+      reasons.push("Fever");
+
+    }
+
+
+    /* AGE */
+
+    if (
+      age >= 65 ||
+      (age > 0 && age < 5)
+    ) {
+
+      score += 1;
+
+      reasons.push(
+        "Age-related risk"
+      );
+
+    }
+
+
+    /* EMERGENCY SYMPTOMS */
+
+    const emergencyKeywords = [
+
+      "chest pain",
+
+      "difficulty breathing",
+
+      "shortness of breath",
+
+      "severe bleeding",
+
+      "unconscious",
+
+      "loss of consciousness",
+
+      "seizure",
+
+      "stroke",
+
+      "paralysis",
+
+      "severe headache",
+
+      "confusion"
+
+    ];
+
+
+    for (
+      const keyword of emergencyKeywords
+    ) {
+
+      if (
+        symptoms.includes(keyword)
+      ) {
+
+        score += 5;
+
+        reasons.push(
+          "Emergency symptom: " + keyword
+        );
+
+        break;
+
+      }
+
+    }
+
+
+    /* TRIAGE RESULT */
+
+    let priority;
+
+    let message;
+
+    let action;
+
+    let className;
+
+
+    if (score >= 7) {
+
+      priority = "🔴 CRITICAL";
+
+      message =
+        "High-risk presentation detected.";
+
+      action =
+        "Immediate medical assessment is required.";
+
+      className = "critical";
+
+    }
+
+    else if (score >= 3) {
+
+      priority = "🟠 URGENT";
+
+      message =
+        "Potential risk factors detected.";
+
+      action =
+        "Patient should be assessed as soon as possible.";
+
+      className = "urgent";
+
+    }
+
+    else {
+
+      priority = "🟢 NON-URGENT";
+
+      message =
+        "No major risk factors detected by this prototype.";
+
+      action =
+        "Routine professional assessment is recommended.";
+
+      className = "non-urgent";
+
+    }
+
+
+    /* DISPLAY RESULT */
+
+    const result =
+      document.getElementById("result");
+
+
+    result.className =
+      "card " + className;
+
+
+    result.innerHTML = `
+
+      <div class="priority">
+        ${priority}
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>👤 Patient</strong><br>
+
+        ${name}
+
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>🎂 Age</strong><br>
+
+        ${age || "Not provided"}
+
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>🩺 Symptoms</strong><br>
+
+        ${symptoms || "Not provided"}
+
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>❤️ Vital Signs</strong><br>
+
+        Heart Rate: ${heartRate || "N/A"} BPM<br>
+
+        Temperature: ${temperature || "N/A"} °C<br>
+
+        Oxygen Saturation: ${oxygen || "N/A"} %
+
+      </div>
+
+
+      <div class="result-item score">
+
+        📊 Triage Score: ${score}
+
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>Assessment</strong><br>
+
+        ${message}
+
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>⚠️ Why?</strong><br>
+
+        ${
+          reasons.length > 0
+          ? reasons.join("<br>")
+          : "No specific risk factor detected."
+        }
+
+      </div>
+
+
+      <div class="result-item">
+
+        <strong>🚑 Recommended Action</strong><br>
+
+        ${action}
+
+      </div>
+
+    `;
+
+
+    result.style.display =
+      "block";
+
+
+    /* SAVE HISTORY */
+
+    analysisHistory.unshift({
+
+      name: name,
+
+      priority: priority,
+
+      score: score
+
+    });
+
+
+    updateHistory();
+
   }
 
-  let priority;
-  let message;
-  let action;
-  let className;
 
-  if (score >= 7) {
+  /* HISTORY */
 
-    priority = "🔴 CRITICAL";
-    message = "High-risk presentation detected.";
-    action = "Immediate medical assessment is required.";
-    className = "critical";
+  function updateHistory() {
 
-  } else if (score >= 3) {
+    const history =
+      document.getElementById("history");
 
-    priority = "🟠 URGENT";
-    message = "Potential risk factors detected.";
-    action = "Patient should be assessed as soon as possible.";
-    className = "urgent";
 
-  } else {
+    if (
+      analysisHistory.length === 0
+    ) {
 
-    priority = "🟢 NON-URGENT";
-    message = "No major risk factors detected by this tool.";
-    action = "Routine professional assessment is recommended.";
-    className = "non-urgent";
+      history.innerHTML =
+        "<p>No patient analysis yet.</p>";
+
+      return;
+
+    }
+
+
+    history.innerHTML =
+      analysisHistory.map(
+        function(patient) {
+
+          return `
+
+            <div class="history-item">
+
+              <strong>
+                ${patient.priority}
+              </strong>
+
+              Patient:
+              ${patient.name}
+
+              <br>
+
+              Triage Score:
+              ${patient.score}
+
+            </div>
+
+          `;
+
+        }
+      ).join("");
+
   }
 
-  const result = document.getElementById("result");
 
-  result.className = className;
+  /* NEW PATIENT */
 
-  result.innerHTML = `
-    <div class="priority">${priority}</div>
+  function newPatient() {
 
-    <div class="result-item">
-      <strong>Patient:</strong> ${name}
-    </div>
+    document.getElementById("name").value = "";
 
-    <div class="result-item">
-      <strong>Triage Score:</strong> ${score}
-    </div>
+    document.getElementById("age").value = "";
 
-    <div class="result-item">
-      <strong>Assessment:</strong><br>
-      ${message}
-    </div>
+    document.getElementById("symptoms").value = "";
 
-    <div class="result-item">
-      <strong>Why?</strong><br>
-      ${reasons.length > 0 ? reasons.join("<br>") : "No specific risk factor detected."}
-    </div>
+    document.getElementById("pain").value = "";
 
-    <div class="result-item">
-      <strong>Recommended Action:</strong><br>
-      ${action}
-    </div>
-  `;
+    document.getElementById("heartRate").value = "";
 
-  result.style.display = "block";
-}
+    document.getElementById("temperature").value = "";
+
+    document.getElementById("oxygen").value = "";
+
+
+    const result =
+      document.getElementById("result");
+
+    result.style.display =
+      "none";
+
+  }
+
+
+  /* FIND NEARBY HOSPITAL */
+
+  function findHospital() {
+
+    window.open(
+
+      "https://www.google.com/maps/search/emergency+hospital+near+me",
+
+      "_blank"
+
+    );
+
+  }
 
 </script>
 
 </body>
-  </html>
+</html>
