@@ -1237,4 +1237,1244 @@ const oxygen =
 Number(document.getElementById("oxygen").value);
 
 const symptoms =
-document.ge
+document.getElementById("symptoms").value.trim();
+
+const text =
+symptoms.toLowerCase();
+
+let score = 0;
+
+let reasons = [];
+
+
+/* PAIN */
+
+if(pain >= 8){
+
+score += 4;
+reasons.push("Severe pain");
+
+}
+else if(pain >= 5){
+
+score += 2;
+reasons.push("Moderate pain");
+
+}
+else if(pain >= 3){
+
+score += 1;
+reasons.push("Mild pain");
+
+}
+
+
+/* OXYGEN */
+
+if(oxygen > 0 && oxygen < 90){
+
+score += 5;
+reasons.push("Very low oxygen saturation");
+
+}
+else if(oxygen > 0 && oxygen < 94){
+
+score += 3;
+reasons.push("Low oxygen saturation");
+
+}
+
+
+/* HEART RATE */
+
+if(
+heartRate > 0 &&
+(heartRate < 50 || heartRate > 120)
+){
+
+score += 3;
+reasons.push("Abnormal heart rate");
+
+}
+
+
+/* TEMPERATURE */
+
+if(
+temperature >= 39.5 ||
+(temperature > 0 && temperature < 35)
+){
+
+score += 3;
+reasons.push("Abnormal temperature");
+
+}
+else if(temperature >= 38.5){
+
+score += 1;
+reasons.push("Fever");
+
+}
+
+
+/* AGE */
+
+if(
+age >= 65 ||
+(age > 0 && age < 5)
+){
+
+score += 1;
+reasons.push("Age-related risk");
+
+}
+
+
+/* EMERGENCY KEYWORDS */
+
+const emergencyKeywords = [
+
+"chest pain",
+"difficulty breathing",
+"shortness of breath",
+"severe bleeding",
+"heavy bleeding",
+"unconscious",
+"loss of consciousness",
+"seizure",
+"stroke",
+"paralysis",
+"severe headache",
+"confusion",
+"cardiac arrest",
+"not breathing",
+"gasping",
+"choking",
+"anaphylaxis",
+"throat swelling",
+"snake bite",
+"snakebite",
+"scorpion sting",
+"electric shock",
+"heat stroke",
+"head injury"
+
+];
+
+
+for(const keyword of emergencyKeywords){
+
+if(text.includes(keyword)){
+
+score += 5;
+
+reasons.push(
+"Emergency symptom: " + keyword
+);
+
+break;
+
+}
+
+}
+
+
+/* PRIORITY */
+
+let priority;
+let message;
+let action;
+let className;
+
+
+if(score >= 7){
+
+priority = "🔴 CRITICAL";
+
+message =
+"High-risk presentation detected.";
+
+action =
+"Immediate medical assessment is required.";
+
+className = "critical";
+
+}
+else if(score >= 3){
+
+priority = "🟠 URGENT";
+
+message =
+"Potential risk factors detected.";
+
+action =
+"Patient should be assessed as soon as possible.";
+
+className = "urgent";
+
+}
+else{
+
+priority = "🟢 NON-URGENT";
+
+message =
+"No major risk factors detected by this prototype.";
+
+action =
+"Professional assessment is still recommended.";
+
+className = "nonurgent";
+
+}
+
+
+/* RESULT */
+
+const result =
+document.getElementById("result");
+
+result.className =
+"card " + className;
+
+result.innerHTML = `
+
+<div class="priority">
+${priority}
+</div>
+
+<div class="result-item">
+<strong>👤 Patient</strong><br>
+${escapeHTML(name)}
+</div>
+
+<div class="result-item">
+<strong>🎂 Age</strong><br>
+${age || "Not provided"}
+</div>
+
+<div class="result-item">
+<strong>🩺 Symptoms</strong><br>
+${escapeHTML(symptoms) || "Not provided"}
+</div>
+
+<div class="result-item">
+
+<strong>❤️ Vital Signs</strong><br>
+
+Heart Rate:
+${heartRate || "N/A"} BPM
+
+<br>
+
+Temperature:
+${temperature || "N/A"} °C
+
+<br>
+
+Oxygen Saturation:
+${oxygen || "N/A"} %
+
+</div>
+
+<div class="result-item score">
+📊 Triage Score: ${score}
+</div>
+
+<div class="result-item">
+<strong>Assessment</strong><br>
+${message}
+</div>
+
+<div class="result-item">
+<strong>⚠️ Why?</strong><br>
+${
+reasons.length
+?
+reasons.map(escapeHTML).join("<br>")
+:
+"No specific risk factor detected."
+}
+</div>
+
+<div class="result-item">
+<strong>🚑 Recommended Action</strong><br>
+${action}
+</div>
+
+`;
+
+result.style.display = "block";
+
+
+analysisHistory.unshift({
+
+name:name,
+priority:priority,
+score:score
+
+});
+
+updateHistory();
+
+detectCondition(text);
+
+}
+
+
+/* =====================================================
+HISTORY
+===================================================== */
+
+function updateHistory(){
+
+const history =
+document.getElementById("history");
+
+if(analysisHistory.length === 0){
+
+history.innerHTML =
+"<p>No patient analysis yet.</p>";
+
+return;
+
+}
+
+history.innerHTML =
+analysisHistory.map(function(patient){
+
+return `
+
+<div class="history-item">
+
+<strong>
+${escapeHTML(patient.priority)}
+</strong>
+
+<br>
+
+Patient:
+${escapeHTML(patient.name)}
+
+<br>
+
+Triage Score:
+${patient.score}
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+/* =====================================================
+NEW PATIENT
+===================================================== */
+
+function newPatient(){
+
+document.getElementById("name").value = "";
+
+document.getElementById("age").value = "";
+
+document.getElementById("symptoms").value = "";
+
+document.getElementById("pain").value = "";
+
+document.getElementById("heartRate").value = "";
+
+document.getElementById("temperature").value = "";
+
+document.getElementById("oxygen").value = "";
+
+document.getElementById("result").style.display =
+"none";
+
+conditionSelect.value = "";
+
+document.getElementById("guideContent").innerHTML = "";
+
+document.getElementById("stayContent").innerHTML = "";
+
+stopVoice();
+
+}
+
+
+/* =====================================================
+FIRST AID GUIDE
+===================================================== */
+
+function showGuide(){
+
+const key =
+conditionSelect.value;
+
+const content =
+document.getElementById("guideContent");
+
+if(!key){
+
+content.innerHTML = `
+
+<div class="guide bluebox">
+
+Please select an emergency condition.
+
+</div>
+
+`;
+
+return;
+
+}
+
+const data =
+medicalKnowledge[key];
+
+content.innerHTML = `
+
+<div class="guide red">
+
+<h3>🚨 Red Flags</h3>
+
+<ul>
+
+${data.redFlags.map(
+item => `<li>${escapeHTML(item)}</li>`
+).join("")}
+
+</ul>
+
+</div>
+
+
+<div class="guide green">
+
+<h3>🆘 First Aid</h3>
+
+<ol>
+
+${data.firstAid.map(
+item => `<li>${escapeHTML(item)}</li>`
+).join("")}
+
+</ol>
+
+</div>
+
+
+<div class="guide orange">
+
+<h3>❌ DON'T</h3>
+
+<ul>
+
+${data.dont.map(
+item => `<li>${escapeHTML(item)}</li>`
+).join("")}
+
+</ul>
+
+</div>
+
+
+<div class="guide bluebox">
+
+<h3>🫶 Stay With Me</h3>
+
+<ul>
+
+${data.stay.map(
+item => `<li>${escapeHTML(item)}</li>`
+).join("")}
+
+</ul>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+AUTOMATIC CONDITION DETECTION
+===================================================== */
+
+function detectCondition(text){
+
+const rules = {
+
+scorpion:[
+"scorpion",
+"scorpion sting"
+],
+
+snake:[
+"snake bite",
+"snakebite"
+],
+
+bleeding:[
+"severe bleeding",
+"heavy bleeding",
+"spurting blood"
+],
+
+cardiac:[
+"cardiac arrest",
+"not breathing",
+"gasping"
+],
+
+choking:[
+"choking"
+],
+
+burns:[
+"burn",
+"burns",
+"scald"
+],
+
+unconscious:[
+"unconscious",
+"fainting",
+"fainted",
+"passed out"
+],
+
+stroke:[
+"stroke",
+"facial droop",
+"arm weakness",
+"speech difficulty"
+],
+
+breathing:[
+"difficulty breathing",
+"shortness of breath",
+"asthma",
+"wheezing"
+],
+
+anaphylaxis:[
+"anaphylaxis",
+"throat swelling",
+"tongue swelling"
+],
+
+electrical:[
+"electric shock",
+"electrical shock",
+"electrocution"
+],
+
+head:[
+"head injury",
+"head trauma"
+],
+
+fracture:[
+"fracture",
+"broken bone",
+"dislocation",
+"sprain"
+],
+
+poisoning:[
+"poisoning",
+"overdose",
+"intoxication"
+],
+
+heat:[
+"heat stroke",
+"heatstroke"
+],
+
+hypothermia:[
+"hypothermia"
+],
+
+insect:[
+"bee sting",
+"wasp sting",
+"insect sting"
+],
+
+animal:[
+"animal bite",
+"dog bite",
+"rabies"
+],
+
+minor:[
+"small cut",
+"minor wound",
+"scratch",
+"graze"
+],
+
+chemical:[
+"chemical exposure",
+"chemical burn",
+"chemical in eye"
+]
+
+};
+
+
+for(const key in rules){
+
+for(const word of rules[key]){
+
+if(text.includes(word)){
+
+conditionSelect.value = key;
+
+showGuide();
+
+return;
+
+}
+
+}
+
+}
+
+}
+
+
+/* =====================================================
+STAY WITH ME
+===================================================== */
+
+let stayStep = 0;
+
+
+function startStay(){
+
+const key =
+conditionSelect.value;
+
+if(!key){
+
+alert(
+"Please select a condition first."
+);
+
+return;
+
+}
+
+stayStep = 0;
+
+renderStay();
+
+}
+
+
+function renderStay(){
+
+const key =
+conditionSelect.value;
+
+const data =
+medicalKnowledge[key];
+
+const box =
+document.getElementById("stayContent");
+
+if(stayStep >= data.stay.length){
+
+box.innerHTML = `
+
+<div class="guide green">
+
+<h3>✅ Guidance Complete</h3>
+
+Continue monitoring the patient
+and follow professional medical instructions.
+
+</div>
+
+<button
+type="button"
+onclick="startStay()"
+>
+🔄 Restart
+</button>
+
+`;
+
+return;
+
+}
+
+
+const currentStep =
+data.stay[stayStep];
+
+
+box.innerHTML = `
+
+<div
+id="currentStepBox"
+class="stay-step"
+>
+
+<strong>
+
+Step ${stayStep + 1}
+/
+${data.stay.length}
+
+</strong>
+
+<br><br>
+
+${escapeHTML(currentStep)}
+
+</div>
+
+
+<button
+type="button"
+onclick="nextStay()"
+>
+➡️ Next Step
+</button>
+
+
+<button
+type="button"
+class="blue"
+onclick="readCurrentStep()"
+>
+🔊 Read Step
+</button>
+
+
+<button
+type="button"
+class="secondary"
+onclick="stopSpeaking()"
+>
+⏹ Stop Reading
+</button>
+
+<div
+id="readingStatus"
+class="status"
+>
+🔊 Ready to read this step.
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+NEXT STEP
+===================================================== */
+
+function nextStay(){
+
+stopSpeaking();
+
+stayStep++;
+
+renderStay();
+
+}
+
+
+/* =====================================================
+READ CURRENT STEP
+===================================================== */
+
+function readCurrentStep(){
+
+const key =
+conditionSelect.value;
+
+if(!key){
+
+return;
+
+}
+
+const data =
+medicalKnowledge[key];
+
+if(stayStep >= data.stay.length){
+
+return;
+
+}
+
+const text =
+data.stay[stayStep];
+
+speakText(text);
+
+}
+
+
+/* =====================================================
+TEXT TO SPEECH
+===================================================== */
+
+function speakText(text){
+
+if(!("speechSynthesis" in window)){
+
+alert(
+"Text-to-Speech is not supported on this device/browser."
+);
+
+return;
+
+}
+
+
+/* Stop old speech */
+
+window.speechSynthesis.cancel();
+
+
+const language =
+document.getElementById(
+"voiceLanguage"
+).value;
+
+
+const utterance =
+new SpeechSynthesisUtterance(text);
+
+utterance.lang =
+language;
+
+utterance.rate = 0.9;
+
+utterance.pitch = 1;
+
+utterance.volume = 1;
+
+
+const status =
+document.getElementById(
+"readingStatus"
+);
+
+
+if(status){
+
+status.className =
+"status reading";
+
+status.innerHTML =
+"🔊 Reading Step...";
+
+}
+
+
+utterance.onend =
+function(){
+
+if(status){
+
+status.className =
+"status";
+
+status.innerHTML =
+"✅ Step finished.";
+
+}
+
+};
+
+
+utterance.onerror =
+function(){
+
+if(status){
+
+status.className =
+"status voice-error";
+
+status.innerHTML =
+"❌ Could not read this step.";
+
+}
+
+};
+
+
+/* Get voices */
+
+const voices =
+window.speechSynthesis.getVoices();
+
+
+if(voices.length > 0){
+
+const langShort =
+language.substring(0,2).toLowerCase();
+
+
+let voice =
+voices.find(function(v){
+
+return v.lang &&
+v.lang.toLowerCase()
+.startsWith(langShort);
+
+});
+
+
+if(voice){
+
+utterance.voice = voice;
+
+}
+
+}
+
+
+window.speechSynthesis.speak(
+utterance
+);
+
+}
+
+
+/* =====================================================
+STOP READING
+===================================================== */
+
+function stopSpeaking(){
+
+if("speechSynthesis" in window){
+
+window.speechSynthesis.cancel();
+
+}
+
+const status =
+document.getElementById(
+"readingStatus"
+);
+
+if(status){
+
+status.className =
+"status";
+
+status.innerHTML =
+"⏹ Reading stopped.";
+
+}
+
+}
+
+
+/* =====================================================
+VOICE RECOGNITION
+===================================================== */
+
+let recognition = null;
+
+let isListening = false;
+
+
+function startVoice(){
+
+const status =
+document.getElementById(
+"voiceStatus"
+);
+
+
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+
+if(!SpeechRecognition){
+
+status.className =
+"status voice-error";
+
+status.innerHTML =
+"❌ Voice recognition is not supported. Please use Google Chrome.";
+
+return;
+
+}
+
+
+/* Stop old recognition */
+
+if(recognition){
+
+try{
+
+recognition.stop();
+
+}
+catch(error){}
+
+}
+
+
+recognition =
+new SpeechRecognition();
+
+
+recognition.lang =
+document.getElementById(
+"voiceLanguage"
+).value;
+
+recognition.continuous = false;
+
+recognition.interimResults = false;
+
+recognition.maxAlternatives = 1;
+
+
+recognition.onstart =
+function(){
+
+isListening = true;
+
+status.className =
+"status voice-active";
+
+status.innerHTML =
+"🎤 Listening... Speak now.";
+
+};
+
+
+recognition.onresult =
+function(event){
+
+const text =
+event.results[0][0].transcript;
+
+
+document.getElementById(
+"symptoms"
+).value =
+text;
+
+
+status.className =
+"status voice-active";
+
+status.innerHTML =
+"✅ Heard: " +
+escapeHTML(text);
+
+
+/* Detect emergency automatically */
+
+detectCondition(
+text.toLowerCase()
+);
+
+};
+
+
+recognition.onerror =
+function(event){
+
+isListening = false;
+
+status.className =
+"status voice-error";
+
+
+if(event.error === "not-allowed"){
+
+status.innerHTML =
+"❌ Microphone permission denied. Allow microphone access in Chrome.";
+
+}
+
+else if(event.error === "no-speech"){
+
+status.innerHTML =
+"⚠️ No speech detected. Please try again.";
+
+}
+
+else if(event.error === "network"){
+
+status.innerHTML =
+"❌ Network error. Check your internet connection.";
+
+}
+
+else{
+
+status.innerHTML =
+"❌ Voice error: " +
+event.error;
+
+}
+
+};
+
+
+recognition.onend =
+function(){
+
+isListening = false;
+
+if(
+status.innerHTML.includes("Listening")
+){
+
+status.className =
+"status";
+
+status.innerHTML =
+"🎤 Voice assistant ready.";
+
+}
+
+};
+
+
+try{
+
+recognition.start();
+
+}
+catch(error){
+
+isListening = false;
+
+status.className =
+"status voice-error";
+
+status.innerHTML =
+"❌ Could not start microphone.";
+
+}
+
+}
+
+
+/* =====================================================
+STOP VOICE
+===================================================== */
+
+function stopVoice(){
+
+if(recognition){
+
+try{
+
+recognition.stop();
+
+}
+catch(error){}
+
+}
+
+isListening = false;
+
+const status =
+document.getElementById(
+"voiceStatus"
+);
+
+status.className =
+"status";
+
+status.innerHTML =
+"⏹ Voice assistant stopped.";
+
+}
+
+
+/* =====================================================
+EMERGENCY
+===================================================== */
+
+function callEmergency(){
+
+window.location.href =
+"tel:198";
+
+}
+
+
+function findHospital(){
+
+window.open(
+
+"https://www.google.com/maps/search/emergency+hospital+near+me",
+
+"_blank"
+
+);
+
+}
+
+
+/* =====================================================
+SECURITY
+===================================================== */
+
+function escapeHTML(value){
+
+return String(value || "")
+.replace(
+/[&<>"']/g,
+function(character){
+
+return {
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[character];
+
+}
+);
+
+}
+
+
+/* =====================================================
+LOAD VOICES
+===================================================== */
+
+if("speechSynthesis" in window){
+
+window.speechSynthesis.onvoiceschanged =
+function(){
+
+window.speechSynthesis.getVoices();
+
+};
+
+}
+
+</script>
+
+</body>
+</html>
