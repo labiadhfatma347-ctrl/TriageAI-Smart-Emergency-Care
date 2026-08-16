@@ -181,6 +181,11 @@ header{
   margin-right:auto;
 }
 
+.typing{
+  opacity:.7;
+  font-style:italic;
+}
+
 .chat-tools{
   display:flex;
   gap:8px;
@@ -346,7 +351,7 @@ footer{
       class="primary"
       onclick="startApp()"
     >
-      🎙️ ابدأ واحكي مع TriageAI
+      🚀 ابدأ مع TriageAI
     </button>
 
   </div>
@@ -376,9 +381,9 @@ footer{
         class="menu-btn"
         onclick="openChat()"
       >
-        <span class="icon">🎙️</span>
+        <span class="icon">💬</span>
         <strong>احكي مع TriageAI</strong>
-        <small>احكي على مشكلتك</small>
+        <small>اكتب أو احكي على مشكلتك</small>
       </button>
 
 
@@ -421,8 +426,9 @@ footer{
 
     <p>
       تنجم تكتب أو تحكي بالصوت.
-      التطبيق يسألك سؤال واحد في كل مرة،
-      ويتذكر إجاباتك باش يعمل تقييم أولي.
+      TriageAI يفهم كلامك، يتذكر اللي قلتو،
+      ويسألك سؤال واحد في كل مرة باش يعمل
+      تقييمًا أوليًا.
     </p>
 
   </div>
@@ -440,7 +446,7 @@ footer{
 
     <p>
       احكيلي بطريقتك العادية.
-      أنا باش نسألك سؤال واحد كل مرة.
+      تنجم تكتب، أو تستعمل 🎙️ وقت اللي تحب.
     </p>
 
     <div
@@ -466,6 +472,7 @@ footer{
         id="micButton"
         class="mic"
         onclick="voiceInput()"
+        title="استعمل الصوت إذا تحب"
       >
         🎙️
       </button>
@@ -658,6 +665,14 @@ footer{
 <script>
 
 /* =====================================================
+   BACKEND
+===================================================== */
+
+const BACKEND_URL =
+  "https://triage-ai-smart-emergency-care.vercel.app";
+
+
+/* =====================================================
    PATIENT
 ===================================================== */
 
@@ -668,27 +683,14 @@ let patient = {
 
 
 /* =====================================================
-   CONVERSATION STATE
+   REAL AI CONVERSATION
 ===================================================== */
 
-let chatState = {
-
-  started:false,
-
-  problem:null,
-
-  emergency:false,
-
-  questionIndex:0,
-
-  answers:{},
-
-  history:[]
-
-};
-
+let conversation = [];
 
 let lastAI = "";
+
+let isWaitingForAI = false;
 
 
 /* =====================================================
@@ -776,42 +778,19 @@ function openChat(){
     .classList.remove("hidden");
 
 
-  if(!chatState.started){
+  if(conversation.length === 0){
 
-    chatState.started = true;
-
-    aiMessage(
+    const opening =
       "أهلا " + patient.name + " 👋\n\n" +
-      "أنا TriageAI. احكيلي بطريقتك العادية: " +
-      "شنوة صار؟ وشنوة أكثر حاجة مقلقتك توا؟\n\n" +
-      "ما يلزمكش تستعمل كلمات طبية."
-    );
+      "أنا TriageAI، مساعد صحي للتقييم الأولي.\n\n" +
+      "احكيلي بطريقتك العادية شنوّة مقلقك، " +
+      "شنوة تحس، ولا شنوّة صار. " +
+      "ما يلزمكش تستعمل كلمات طبية.\n\n" +
+      "باش نسألك سؤال واحد كل مرة ونبني على إجاباتك.";
+
+    aiMessage(opening);
 
   }
-
-}
-
-
-function openFirstAid(){
-
-  hideAll();
-
-  document
-    .getElementById("firstAidScreen")
-    .classList.remove("hidden");
-
-  renderFirstAid();
-
-}
-
-
-function openEmergency(){
-
-  hideAll();
-
-  document
-    .getElementById("emergencyScreen")
-    .classList.remove("hidden");
 
 }
 
@@ -820,7 +799,7 @@ function openEmergency(){
    CHAT UI
 ===================================================== */
 
-function addMessage(text,who="ai"){
+function addMessage(text,who="ai",extraClass=""){
 
   const chat =
     document.getElementById("chat");
@@ -829,7 +808,7 @@ function addMessage(text,who="ai"){
     document.createElement("div");
 
   div.className =
-    "msg " + who;
+    "msg " + who + " " + extraClass;
 
   div.textContent = text;
 
@@ -837,6 +816,8 @@ function addMessage(text,who="ai"){
 
   chat.scrollTop =
     chat.scrollHeight;
+
+  return div;
 
 }
 
@@ -859,7 +840,45 @@ function userMessage(text){
 }
 
 
-function sendMessage(){
+function showTyping(){
+
+  const chat =
+    document.getElementById("chat");
+
+  const div =
+    document.createElement("div");
+
+  div.id = "typing";
+
+  div.className =
+    "msg ai typing";
+
+  div.textContent =
+    "TriageAI يكتب...";
+
+  chat.appendChild(div);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+}
+
+
+function hideTyping(){
+
+  const typing =
+    document.getElementById("typing");
+
+  if(typing)
+    typing.remove();
+
+}
+
+
+async function sendMessage(){
+
+  if(isWaitingForAI)
+    return;
 
   const input =
     document.getElementById("chatInput");
@@ -867,18 +886,107 @@ function sendMessage(){
   const text =
     input.value.trim();
 
-  if(!text) return;
+  if(!text)
+    return;
 
   input.value = "";
 
   userMessage(text);
 
-  chatState.history.push({
+  conversation.push({
     role:"user",
-    text:text
+    content:text
   });
 
-  analyzeConversation(text);
+  document
+    .getElementById("quick")
+    .innerHTML = "";
+
+  isWaitingForAI = true;
+
+  showTyping();
+
+  try{
+
+    const response =
+      await fetch(
+        BACKEND_URL + "/api/chat",
+        {
+          method:"POST",
+
+          headers:{
+            "Content-Type":"application/json"
+          },
+
+          body:JSON.stringify({
+
+            patient:{
+              name:patient.name,
+              age:patient.age
+            },
+
+            messages:conversation
+
+          })
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    hideTyping();
+
+
+    if(!response.ok || !data.ok){
+
+      throw new Error(
+        data.error ||
+        "Backend error"
+      );
+
+    }
+
+
+    const reply =
+      String(data.reply || "").trim();
+
+
+    if(!reply){
+
+      throw new Error(
+        "Empty AI response"
+      );
+
+    }
+
+
+    conversation.push({
+      role:"assistant",
+      content:reply
+    });
+
+
+    aiMessage(reply);
+
+
+  }catch(error){
+
+    console.error(error);
+
+    hideTyping();
+
+    aiMessage(
+      "سامحني، صار مشكل في الاتصال بالمساعد الصحي.\n\n" +
+      "تأكد من الإنترنت وأن الـbackend يخدم، وبعد عاود جرّب."
+    );
+
+  }finally{
+
+    isWaitingForAI = false;
+
+  }
 
 }
 
@@ -915,1080 +1023,8 @@ function setQuick(options){
 
 
 /* =====================================================
-   TEXT HELPERS
-===================================================== */
-
-function normalize(text){
-
-  return text
-    .toLowerCase()
-    .replace(/[؟?!.,،؛:]/g," ")
-    .replace(/\s+/g," ")
-    .trim();
-
-}
-
-
-function contains(text,words){
-
-  return words.some(
-    word => text.includes(word)
-  );
-
-}
-
-
-function isYes(text){
-
-  return contains(
-    text,
-    [
-      "نعم",
-      "اي",
-      "إي",
-      "آي",
-      "yes",
-      "oui",
-      "اه",
-      "أه",
-      "بالطبيعة"
-    ]
-  );
-
-}
-
-
-function isNo(text){
-
-  return contains(
-    text,
-    [
-      "لا",
-      "موش",
-      "مش",
-      "مانيش",
-      "no",
-      "non"
-    ]
-  );
-
-}
-
-
-function isUnknown(text){
-
-  return contains(
-    text,
-    [
-      "ما نعرفش",
-      "مانعرفش",
-      "مش عارف",
-      "ما نجمش نعرف",
-      "unknown"
-    ]
-  );
-
-}
-
-
-/* =====================================================
-   PROBLEM DETECTION
-===================================================== */
-
-function detectProblem(t){
-
-  if(contains(t,[
-
-    "ما يتنفسش",
-    "ما يتنفس",
-    "لا يتنفس",
-    "ما يجاوبش",
-    "فاقد الوعي",
-    "مغمى عليه",
-    "مغمى",
-    "ما يفيقش",
-    "unconscious",
-    "not responding"
-
-  ])){
-    return "unconscious";
-  }
-
-
-  if(contains(t,[
-
-    "صعوبة في التنفس",
-    "صعيب نتنفس",
-    "صعيب عليا نتنفس",
-    "نفسي مقصوص",
-    "نفسى مقصوص",
-    "ضيق تنفس",
-    "ما نجمش نتنفس",
-    "dyspnée",
-    "difficile de respirer",
-    "difficulty breathing",
-    "can't breathe"
-
-  ])){
-    return "breathing";
-  }
-
-
-  if(contains(t,[
-
-    "وجيعة في الصدر",
-    "وجيعة صدر",
-    "وجيعة بصدري",
-    "ألم في الصدر",
-    "ألم صدر",
-    "صدري يوجع",
-    "chest pain",
-    "douleur thoracique"
-
-  ])){
-    return "chest";
-  }
-
-
-  if(contains(t,[
-
-    "نزيف",
-    "ينزف",
-    "دم برشا",
-    "الدم يخرج",
-    "bleeding",
-    "hémorragie"
-
-  ])){
-    return "bleeding";
-  }
-
-
-  if(contains(t,[
-
-    "اختناق",
-    "شرق",
-    "مشرق",
-    "ما ينجمش يتنفس",
-    "choking",
-    "étouffement"
-
-  ])){
-    return "choking";
-  }
-
-
-  if(contains(t,[
-
-    "فمو مائل",
-    "فمه مائل",
-    "يده ضعفت",
-    "يدو ضعفت",
-    "يده طاحت",
-    "كلامه تبدل",
-    "avc",
-    "stroke",
-    "سكتة"
-
-  ])){
-    return "stroke";
-  }
-
-
-  if(contains(t,[
-
-    "حرق",
-    "حرقت",
-    "حرقني",
-    "burn",
-    "brûlure"
-
-  ])){
-    return "burn";
-  }
-
-
-  return null;
-
-}
-
-
-/* =====================================================
-   MAIN CONVERSATION ENGINE
-===================================================== */
-
-function analyzeConversation(text){
-
-  const t = normalize(text);
-
-  document
-    .getElementById("quick")
-    .innerHTML = "";
-
-
-  /* ---------------------------------------------
-     STEP 1
-     Detect problem only if we don't already have one
-  --------------------------------------------- */
-
-  if(!chatState.problem){
-
-    const detected =
-      detectProblem(t);
-
-    if(detected){
-
-      chatState.problem = detected;
-
-      chatState.questionIndex = 0;
-
-      startProblemFlow(detected);
-
-      return;
-
-    }
-
-  }
-
-
-  /* ---------------------------------------------
-     STEP 2
-     Continue current problem
-  --------------------------------------------- */
-
-  switch(chatState.problem){
-
-    case "breathing":
-      handleBreathing(t);
-      return;
-
-    case "chest":
-      handleChest(t);
-      return;
-
-    case "unconscious":
-      handleUnconscious(t);
-      return;
-
-    case "bleeding":
-      handleBleeding(t);
-      return;
-
-    case "choking":
-      handleChoking(t);
-      return;
-
-    case "stroke":
-      handleStroke(t);
-      return;
-
-    case "burn":
-      handleBurn(t);
-      return;
-
-  }
-
-
-  /* ---------------------------------------------
-     STEP 3
-     Generic conversation
-  --------------------------------------------- */
-
-  handleGeneric(t);
-
-}
-
-
-/* =====================================================
-   START PROBLEM
-===================================================== */
-
-function startProblemFlow(problem){
-
-  if(problem === "breathing"){
-
-    aiMessage(
-      "فهمتك. عندك صعوبة في التنفس.\n\n" +
-      "باش نقيّم الاستعجال، نبدأ بسؤال واحد:\n\n" +
-      "الصعوبة شديدة لدرجة إنك ما تنجمش تحكي جملة كاملة من غير ما توقف باش تاخذ نفس؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(problem === "chest"){
-
-    aiMessage(
-      "فهمتك، عندك وجيعة في الصدر.\n\n" +
-      "ما نجمش نحدد السبب من الدردشة وحدها، " +
-      "أما نجم نعمل تقييم أولي للاستعجال.\n\n" +
-      "الوجيعة قوية أو بدات فجأة؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(problem === "unconscious"){
-
-    chatState.emergency = true;
-
-    aiMessage(
-      "إذا الشخص غير مستجيب، الأولوية هي التنفس.\n\n" +
-      "هل الشخص يتنفس بشكل طبيعي؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(problem === "bleeding"){
-
-    aiMessage(
-      "فهمتك، فما نزيف.\n\n" +
-      "هل الدم يخرج بكثرة أو ما يوقفش رغم الضغط المباشر؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(problem === "choking"){
-
-    aiMessage(
-      "الاختناق ينجم يكون استعجالي.\n\n" +
-      "هل الشخص قادر يتنفس، يتكلم، أو يسعل بقوة؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(problem === "stroke"){
-
-    aiMessage(
-      "الأعراض اللي وصفتها تنجم تكون علامات سكتة دماغية (AVC).\n\n" +
-      "هل الأعراض بدأت فجأة؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(problem === "burn"){
-
-    aiMessage(
-      "فهمتك، عندك حرق.\n\n" +
-      "الحرق كبير، عميق، أو موجود في الوجه أو اليدين أو منطقة حساسة؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-  }
-
-}
-
-
-/* =====================================================
-   BREATHING
-===================================================== */
-
-function handleBreathing(t){
-
-  const q =
-    chatState.questionIndex;
-
-
-  if(q === 0){
-
-    if(isYes(t)){
-
-      chatState.answers.severeBreathing = true;
-      chatState.emergency = true;
-
-      aiMessage(
-        "بما إن صعوبة التنفس شديدة، هذا يستحق تقييمًا طبيًا عاجلًا.\n\n" +
-        "ما تستناش التطبيق باش يعطيك تشخيص. " +
-        "اطلب المساعدة الطبية العاجلة وخليك في وضعية مريحة للتنفس."
-      );
-
-      showEmergencyQuick();
-
-      chatState.questionIndex = 1;
-
-      return;
-    }
-
-
-    if(isNo(t) || isUnknown(t)){
-
-      chatState.answers.severeBreathing =
-        isNo(t) ? false : null;
-
-      chatState.questionIndex = 1;
-
-      aiMessage(
-        "مريقل. السؤال الثاني:\n\n" +
-        "هل صعوبة التنفس معاها وجيعة أو ضغط في الصدر؟"
-      );
-
-      setQuick([
-        "نعم",
-        "لا",
-        "ما نعرفش"
-      ]);
-
-      return;
-    }
-
-  }
-
-
-  if(q === 1){
-
-    if(isYes(t)){
-
-      chatState.answers.chestPain = true;
-      chatState.emergency = true;
-
-      aiMessage(
-        "صعوبة التنفس مع وجيعة أو ضغط في الصدر تستحق تقييمًا طبيًا سريعًا، خاصة إذا الأعراض جديدة أو قوية.\n\n" +
-        "إذا الأعراض شديدة أو قاعدة تزيد، استعمل Emergency Mode واطلب المساعدة العاجلة."
-      );
-
-      showEmergencyQuick();
-
-      chatState.questionIndex = 2;
-
-      return;
-    }
-
-
-    chatState.answers.chestPain =
-      isNo(t) ? false : null;
-
-    chatState.questionIndex = 2;
-
-    aiMessage(
-      "تمام. آخر سؤال مهم في التقييم الأولي:\n\n" +
-      "من وقتاش بدات صعوبة التنفس؟"
-    );
-
-    setQuick([
-      "منذ دقائق أو ساعات",
-      "منذ أيام",
-      "منذ مدة طويلة"
-    ]);
-
-    return;
-  }
-
-
-  if(q === 2){
-
-    chatState.answers.duration = t;
-
-    finishBreathingAssessment();
-
-  }
-
-}
-
-
-function finishBreathingAssessment(){
-
-  if(chatState.emergency){
-
-    showEmergencyResult(
-      "صعوبة التنفس مع علامات مقلقة",
-      "يلزم تقييم طبي عاجل."
-    );
-
-    return;
-  }
-
-
-  showYellowResult(
-    "تقييم أولي: يحتاج متابعة",
-    "الأعراض تستحق تقييمًا طبيًا، خاصة إذا استمرت أو زادت. إذا ظهرت صعوبة تنفس شديدة، ألم صدر شديد، إغماء، أو تدهور مفاجئ، تعامل معها كحالة استعجالية."
-  );
-
-}
-
-
-/* =====================================================
-   CHEST
-===================================================== */
-
-function handleChest(t){
-
-  const q =
-    chatState.questionIndex;
-
-
-  if(q === 0){
-
-    if(isYes(t)){
-
-      chatState.answers.severeChest = true;
-      chatState.emergency = true;
-
-      aiMessage(
-        "بما إن وجيعة الصدر قوية أو بدات فجأة، ما نحبش نطمّنك من غير تقييم طبي.\n\n" +
-        "إذا الوجيعة قوية، جديدة، أو قاعدة تزيد، اطلب تقييمًا طبيًا عاجلًا."
-      );
-
-      showEmergencyQuick();
-
-      chatState.questionIndex = 1;
-
-      return;
-    }
-
-
-    chatState.answers.severeChest =
-      isNo(t) ? false : null;
-
-    chatState.questionIndex = 1;
-
-    aiMessage(
-      "فهمتك. السؤال الثاني:\n\n" +
-      "هل معاها صعوبة في التنفس، دوخة، تعرّق شديد، أو غثيان؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(q === 1){
-
-    if(isYes(t)){
-
-      chatState.emergency = true;
-
-      aiMessage(
-        "وجيعة الصدر مع أعراض أخرى مقلقة تستحق تقييمًا طبيًا عاجلًا.\n\n" +
-        "ما نجمش نحدد السبب عن بعد."
-      );
-
-      showEmergencyQuick();
-
-      chatState.questionIndex = 2;
-
-      return;
-    }
-
-
-    chatState.questionIndex = 2;
-
-    aiMessage(
-      "تمام. من وقتاش الوجيعة موجودة؟"
-    );
-
-    setQuick([
-      "منذ دقائق أو ساعات",
-      "منذ أيام",
-      "منذ مدة طويلة"
-    ]);
-
-    return;
-  }
-
-
-  if(q === 2){
-
-    chatState.answers.duration = t;
-
-    if(chatState.emergency){
-
-      showEmergencyResult(
-        "ألم صدر مع علامات مقلقة",
-        "يلزم تقييم طبي عاجل."
-      );
-
-    }else{
-
-      showYellowResult(
-        "تقييم أولي: يحتاج متابعة",
-        "وجيعة الصدر عندها أسباب عديدة. إذا استمرت، تكررت، أو تبدلت طبيعتها، يلزم تقييم طبي."
-      );
-
-    }
-
-  }
-
-}
-
-
-/* =====================================================
-   UNCONSCIOUS
-===================================================== */
-
-function handleUnconscious(t){
-
-  if(chatState.questionIndex === 0){
-
-    if(isNo(t)){
-
-      chatState.emergency = true;
-
-      aiMessage(
-        "إذا الشخص غير مستجيب وما يتنفسش طبيعيًا، هذه حالة تهدد الحياة.\n\n" +
-        "اطلب خدمات الطوارئ المحلية فورًا، وابدأ CPR حسب التدريب المتاح وتعليمات الطوارئ."
-      );
-
-      showEmergencyQuick();
-
-      chatState.questionIndex = 1;
-
-      return;
-    }
-
-
-    if(isYes(t)){
-
-      chatState.questionIndex = 1;
-
-      aiMessage(
-        "مريقل. إذا الشخص غير مستجيب لكنه يتنفس طبيعيًا، لازم يبقى تحت المراقبة واطلب تقييمًا طبيًا، خاصة إذا سبب فقدان الوعي غير معروف.\n\n" +
-        "هل فاق الشخص توا؟"
-      );
-
-      setQuick([
-        "نعم",
-        "لا",
-        "ما نعرفش"
-      ]);
-
-      return;
-    }
-
-
-    aiMessage(
-      "إذا موش واضح هل يتنفس طبيعيًا، اعتبر الوضع استعجالي واطلب المساعدة الطبية."
-    );
-
-    showEmergencyQuick();
-
-    return;
-  }
-
-
-  if(chatState.questionIndex === 1){
-
-    if(isNo(t)){
-
-      chatState.emergency = true;
-
-      showEmergencyResult(
-        "الشخص مازال غير مستجيب",
-        "يلزم تقييم طبي عاجل."
-      );
-
-      return;
-    }
-
-
-    showYellowResult(
-      "تقييم أولي",
-      "حتى إذا فاق الشخص، فقدان الوعي يستحق معرفة السبب وتقييمه طبيًا."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   BLEEDING
-===================================================== */
-
-function handleBleeding(t){
-
-  if(chatState.questionIndex === 0){
-
-    if(isYes(t)){
-
-      chatState.emergency = true;
-
-      aiMessage(
-        "النزيف الشديد أو اللي ما يوقفش بالضغط المباشر ينجم يكون خطير.\n\n" +
-        "اضغط مباشرة وباستمرار على مكان النزيف بضمادة أو قماش نظيف، واطلب المساعدة الطبية العاجلة."
-      );
-
-      showEmergencyQuick();
-
-      chatState.questionIndex = 1;
-
-      return;
-    }
-
-
-    chatState.questionIndex = 1;
-
-    aiMessage(
-      "مريقل. هل النزيف يخف كي تضغط عليه مباشرة؟"
-    );
-
-    setQuick([
-      "نعم",
-      "لا",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(chatState.questionIndex === 1){
-
-    if(isNo(t)){
-
-      chatState.emergency = true;
-
-      showEmergencyResult(
-        "نزيف لا يستجيب للضغط المباشر",
-        "يلزم تقييم طبي عاجل."
-      );
-
-      return;
-    }
-
-
-    showYellowResult(
-      "تقييم أولي: نزيف يحتاج متابعة",
-      "واصل الضغط المباشر إذا كان ذلك مناسبًا، وراقب النزيف. إذا زاد أو لم يتوقف، اطلب المساعدة الطبية."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   CHOKING
-===================================================== */
-
-function handleChoking(t){
-
-  if(chatState.questionIndex === 0){
-
-    if(isNo(t)){
-
-      chatState.emergency = true;
-
-      aiMessage(
-        "إذا الشخص ما ينجمش يتنفس أو يتكلم أو يسعل بقوة، الاختناق ينجم يكون حالة تهدد الحياة.\n\n" +
-        "اطلب خدمات الطوارئ المحلية فورًا واتبع تعليمات الإسعاف الحالية."
-      );
-
-      showEmergencyQuick();
-
-      return;
-    }
-
-
-    showYellowResult(
-      "تقييم أولي",
-      "إذا الشخص قادر يتنفس ويتكلم ويسعل، راقبه عن قرب. إذا الحالة تتدهور أو ما عادش قادر يتنفس أو يتكلم، تعامل معها كحالة استعجالية."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   STROKE
-===================================================== */
-
-function handleStroke(t){
-
-  if(chatState.questionIndex === 0){
-
-    if(isYes(t)){
-
-      chatState.emergency = true;
-
-      aiMessage(
-        "بداية مفاجئة لأعراض مثل ضعف جهة من الجسم أو اضطراب الكلام يمكن أن تكون علامة سكتة دماغية.\n\n" +
-        "الوقت مهم. اطلب تقييمًا طبيًا عاجلًا فورًا."
-      );
-
-      showEmergencyQuick();
-
-      return;
-    }
-
-
-    showYellowResult(
-      "تقييم أولي",
-      "الأعراض العصبية الجديدة أو غير المعتادة تستحق تقييمًا طبيًا، وإذا ظهرت فجأة أو ساءت بسرعة فالأولوية للطوارئ."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   BURN
-===================================================== */
-
-function handleBurn(t){
-
-  if(chatState.questionIndex === 0){
-
-    if(isYes(t)){
-
-      chatState.emergency = true;
-
-      aiMessage(
-        "الحروق الكبيرة أو العميقة أو الموجودة في مناطق حساسة تستحق تقييمًا طبيًا.\n\n" +
-        "ما تحطش الثلج مباشرة على الجلد وما تفقعش الفقاعات."
-      );
-
-      showEmergencyQuick();
-
-      return;
-    }
-
-
-    showYellowResult(
-      "تقييم أولي: حرق يحتاج متابعة",
-      "برّد المنطقة بماء جارٍ بارد أو فاتر، وتجنب الثلج المباشر وفقع الفقاعات. إذا زادت الخطورة أو كان الحرق كبيرًا، اطلب تقييمًا طبيًا."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   GENERIC
-===================================================== */
-
-function handleGeneric(t){
-
-  const problem =
-    detectProblem(t);
-
-  if(problem){
-
-    chatState.problem = problem;
-    chatState.questionIndex = 0;
-
-    startProblemFlow(problem);
-
-    return;
-  }
-
-
-  if(chatState.history.length === 1){
-
-    aiMessage(
-      "فهمتك. باش نعاونك أكثر، نحب نعرف:\n\n" +
-      "المشكل بدا فجأة ولا بالتدريج؟"
-    );
-
-    setQuick([
-      "بدا فجأة",
-      "بدا بالتدريج",
-      "ما نعرفش"
-    ]);
-
-    return;
-  }
-
-
-  if(chatState.history.length === 2){
-
-    aiMessage(
-      "مريقل. وهل الأعراض قاعدة تزيد، قاعدة كيف كيف، ولا قاعدة تخف؟"
-    );
-
-    setQuick([
-      "قاعدة تزيد",
-      "كيف كيف",
-      "قاعدة تخف"
-    ]);
-
-    return;
-  }
-
-
-  showYellowResult(
-    "تقييم أولي عام",
-    "المعلومات الحالية ما تكفيش باش نحدد درجة الاستعجال بدقة. إذا الأعراض قوية، جديدة، أو قاعدة تسوء، الأفضل تعمل تقييم طبي."
-  );
-
-}
-
-
-/* =====================================================
-   RESULTS
-===================================================== */
-
-function showEmergencyResult(title,text){
-
-  const box =
-    document.getElementById("quick");
-
-  box.innerHTML = "";
-
-  const result =
-    document.createElement("div");
-
-  result.className =
-    "result result-red";
-
-  result.innerHTML =
-    "<strong>🔴 " + title + "</strong><br>" +
-    text;
-
-  box.appendChild(result);
-
-  const button =
-    document.createElement("button");
-
-  button.className =
-    "danger";
-
-  button.textContent =
-    "🆘 افتح Emergency Mode";
-
-  button.onclick =
-    openEmergency;
-
-  box.appendChild(button);
-
-}
-
-
-function showYellowResult(title,text){
-
-  const box =
-    document.getElementById("quick");
-
-  box.innerHTML = "";
-
-  const result =
-    document.createElement("div");
-
-  result.className =
-    "result result-yellow";
-
-  result.innerHTML =
-    "<strong>🟡 " + title + "</strong><br>" +
-    text;
-
-  box.appendChild(result);
-
-
-  const button =
-    document.createElement("button");
-
-  button.className =
-    "secondary";
-
-  button.textContent =
-    "🏥 شوف المرافق الصحية";
-
-  button.onclick =
-    findHospitals;
-
-  box.appendChild(button);
-
-}
-
-
-/* =====================================================
-   EMERGENCY BUTTONS
-===================================================== */
-
-function showEmergencyQuick(){
-
-  const box =
-    document.getElementById("quick");
-
-  box.innerHTML = "";
-
-
-  const a =
-    document.createElement("button");
-
-  a.textContent =
-    "🆘 Emergency Mode";
-
-  a.onclick =
-    openEmergency;
-
-
-  const b =
-    document.createElement("button");
-
-  b.textContent =
-    "🏥 أقرب مرفق صحي";
-
-  b.onclick =
-    findHospitals;
-
-
-  box.appendChild(a);
-  box.appendChild(b);
-
-}
-
-
-/* =====================================================
    VOICE INPUT
+   OPTIONAL ONLY
 ===================================================== */
 
 function voiceInput(){
@@ -2197,6 +1233,19 @@ const firstAid = [
 ];
 
 
+function openFirstAid(){
+
+  hideAll();
+
+  document
+    .getElementById("firstAidScreen")
+    .classList.remove("hidden");
+
+  renderFirstAid();
+
+}
+
+
 function renderFirstAid(){
 
   const list =
@@ -2329,6 +1378,21 @@ function findHospitals(){
     }
 
   );
+
+}
+
+
+/* =====================================================
+   EMERGENCY
+===================================================== */
+
+function openEmergency(){
+
+  hideAll();
+
+  document
+    .getElementById("emergencyScreen")
+    .classList.remove("hidden");
 
 }
 
