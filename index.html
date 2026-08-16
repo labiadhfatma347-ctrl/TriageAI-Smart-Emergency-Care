@@ -229,5 +229,63 @@
 
       // Important emergency symptoms
       const emergencyKeywords = [
-        "chest pain",
+  "chest pain",
+  "difficulty breathing",
+  "shortness of breath",
+  "severe bleeding",
+  "unconscious",
+  "loss of consciousness",
+  "seizure",
+  "stroke",
+  "paralysis",
+  "severe headache",
+  "confusion"
+];
+
+let emergencyFound = false;
+
+for (const keyword of emergencyKeywords) {
+  if (symptoms.includes(keyword)) {
+    emergencyFound = true;
+    break;
+  }
+}
+
+if (emergencyFound) {
+  score += 5;
+}
+
+const result = document.getElementById("result");
+
+let priority;
+let message;
+let className;
+
+if (score >= 7) {
+  priority = "🔴 CRITICAL";
+  message = "Immediate medical attention is required.";
+  className = "critical";
+} else if (score >= 3) {
+  priority = "🟠 URGENT";
+  message = "Patient should be assessed as soon as possible.";
+  className = "urgent";
+} else {
+  priority = "🟢 NON-URGENT";
+  message = "Patient appears stable, but professional assessment is recommended.";
+  className = "non-urgent";
+}
+
+result.className = className;
+
+result.innerHTML = `
+  <div class="priority">${priority}</div>
+  <p>${message}</p>
+  <p><strong>Triage Score:</strong> ${score}</p>
+`;
+
+result.style.display = "block";
+
+</script>
+</body>
+</html>
         "
