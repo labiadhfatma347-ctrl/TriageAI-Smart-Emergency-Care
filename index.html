@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#0f766e"
+>
 
 <title>TriageAI - Smart Emergency Care</title>
 
+
 <style>
+
+/* ==============================
+   GLOBAL
+============================== */
 
 *{
   box-sizing:border-box;
@@ -14,199 +29,690 @@
 }
 
 body{
+
   margin:0;
-  padding:15px;
-  background:#f4f7fb;
-  color:#1f2937;
+
+  padding:12px;
+
+  background:
+  linear-gradient(
+    180deg,
+    #ecfdf5 0%,
+    #f8fafc 45%,
+    #eef6ff 100%
+  );
+
+  color:#172033;
+
 }
 
 .container{
-  max-width:800px;
+
+  max-width:850px;
+
   margin:auto;
+
 }
+
+
+/* ==============================
+   HEADER
+============================== */
 
 header{
-  background:#0f766e;
+
+  position:relative;
+
+  overflow:hidden;
+
+  background:
+  linear-gradient(
+    135deg,
+    #064e3b,
+    #0f766e,
+    #14b8a6
+  );
+
   color:white;
-  padding:25px;
-  border-radius:16px;
+
+  padding:30px 20px;
+
+  border-radius:25px;
+
   text-align:center;
-  margin-bottom:20px;
+
+  margin-bottom:18px;
+
+  box-shadow:
+  0 15px 35px
+  rgba(15,118,110,.25);
+
 }
 
-header h1{
-  margin:0 0 8px;
-  font-size:30px;
+header::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:190px;
+
+  height:190px;
+
+  border-radius:50%;
+
+  background:
+  rgba(255,255,255,.10);
+
+  right:-65px;
+
+  top:-80px;
+
+}
+
+.logo{
+
+  font-size:45px;
+
+  margin-bottom:5px;
+
+}
+
+.brand{
+
+  font-size:32px;
+
+  font-weight:900;
+
 }
 
 header p{
-  margin:0;
+
+  margin:8px 0;
+
+  opacity:.92;
+
+  font-size:15px;
+
 }
+
+.tagline{
+
+  display:inline-block;
+
+  margin-top:10px;
+
+  padding:8px 13px;
+
+  border-radius:50px;
+
+  background:
+  rgba(255,255,255,.16);
+
+  font-size:12px;
+
+  font-weight:bold;
+
+}
+
+
+/* ==============================
+   CARDS
+============================== */
 
 .card{
+
   background:white;
+
   padding:20px;
-  margin-bottom:20px;
-  border-radius:15px;
-  box-shadow:0 3px 12px rgba(0,0,0,.1);
+
+  margin-bottom:18px;
+
+  border-radius:20px;
+
+  border:1px solid #e5e7eb;
+
+  box-shadow:
+  0 7px 25px
+  rgba(15,23,42,.08);
+
 }
 
-h2{
+.card h2{
+
+  margin:
+  0 0 7px;
+
   color:#0f766e;
+
+  font-size:21px;
+
 }
+
+.subtitle{
+
+  color:#64748b;
+
+  font-size:14px;
+
+  margin:
+  0 0 16px;
+
+  line-height:1.5;
+
+}
+
+
+/* ==============================
+   MAIN FEATURE
+============================== */
+
+.feature{
+
+  background:
+  linear-gradient(
+    135deg,
+    #f0fdfa,
+    #ffffff
+  );
+
+  border:
+  2px solid #99f6e4;
+
+}
+
+.feature h2{
+
+  font-size:25px;
+
+}
+
+.feature-badge{
+
+  display:inline-block;
+
+  background:#ccfbf1;
+
+  color:#0f766e;
+
+  padding:6px 10px;
+
+  border-radius:50px;
+
+  font-size:11px;
+
+  font-weight:900;
+
+  margin-bottom:8px;
+
+}
+
+
+/* ==============================
+   INPUTS
+============================== */
 
 label{
+
   display:block;
-  margin-top:15px;
-  margin-bottom:5px;
+
+  margin-top:14px;
+
+  margin-bottom:6px;
+
   font-weight:bold;
+
+  font-size:14px;
+
 }
 
 input,
 textarea,
 select{
+
   width:100%;
-  padding:12px;
-  border:1px solid #ccc;
-  border-radius:8px;
+
+  padding:13px;
+
+  border:
+  1px solid #d5dde5;
+
+  border-radius:12px;
+
   font-size:16px;
+
+  background:#fbfdff;
+
+  outline:none;
+
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+
+  border-color:#0f766e;
+
+  box-shadow:
+  0 0 0 3px
+  rgba(15,118,110,.12);
+
 }
 
 textarea{
-  min-height:100px;
+
+  min-height:105px;
+
   resize:vertical;
+
 }
 
+
+/* ==============================
+   GRID
+============================== */
+
+.grid{
+
+  display:grid;
+
+  grid-template-columns:
+  1fr 1fr;
+
+  gap:10px;
+
+}
+
+.full{
+
+  grid-column:
+  1 / -1;
+
+}
+
+
+/* ==============================
+   BUTTONS
+============================== */
+
 button{
+
   width:100%;
+
   padding:14px;
-  margin-top:12px;
+
+  margin-top:10px;
+
   border:0;
-  border-radius:8px;
+
+  border-radius:12px;
+
   background:#0f766e;
+
   color:white;
-  font-size:16px;
+
+  font-size:15px;
+
   font-weight:bold;
+
   cursor:pointer;
+
+  transition:.2s;
+
+  box-shadow:
+  0 4px 12px
+  rgba(15,118,110,.18);
+
 }
 
 button:hover{
-  opacity:.9;
+
+  transform:
+  translateY(-1px);
+
+  filter:
+  brightness(.97);
+
+}
+
+button:active{
+
+  transform:
+  scale(.99);
+
 }
 
 .blue{
+
   background:#2563eb;
+
 }
 
 .purple{
+
   background:#7c3aed;
+
 }
 
 .red{
+
   background:#dc2626;
+
 }
 
 .gray{
+
   background:#475569;
+
 }
 
 .orange{
+
   background:#ea580c;
+
 }
 
+
+/* ==============================
+   STATUS
+============================== */
+
+.status{
+
+  padding:13px;
+
+  margin-top:12px;
+
+  background:#f1f5f9;
+
+  border-radius:12px;
+
+  line-height:1.5;
+
+}
+
+
+/* ==============================
+   RESULTS
+============================== */
+
 .result{
-  padding:15px;
-  border-radius:10px;
-  margin-top:15px;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  margin-top:16px;
+
 }
 
 .critical{
-  background:#fee2e2;
-  border:2px solid #dc2626;
+
+  background:#fff1f2;
+
+  border:
+  2px solid #dc2626;
+
 }
 
 .urgent{
-  background:#ffedd5;
-  border:2px solid #f97316;
+
+  background:#fff7ed;
+
+  border:
+  2px solid #f97316;
+
 }
 
 .normal{
-  background:#dcfce7;
-  border:2px solid #16a34a;
+
+  background:#f0fdf4;
+
+  border:
+  2px solid #16a34a;
+
+}
+
+.priority{
+
+  text-align:center;
+
+  font-size:25px;
+
+  font-weight:900;
+
+  margin-bottom:12px;
+
 }
 
 .item{
-  padding:12px;
+
+  padding:13px;
+
   margin-top:8px;
+
   background:#f8fafc;
-  border-radius:8px;
-  line-height:1.5;
+
+  border-radius:12px;
+
+  line-height:1.6;
+
 }
 
-.status{
-  padding:12px;
-  margin-top:12px;
-  background:#f1f5f9;
-  border-radius:8px;
-}
+
+/* ==============================
+   STAY WITH ME
+============================== */
 
 .step{
+
   margin-top:15px;
-  padding:18px;
+
+  padding:20px;
+
   background:#eff6ff;
-  border:2px solid #2563eb;
-  border-radius:10px;
+
+  border:
+  2px solid #2563eb;
+
+  border-radius:16px;
+
   font-size:18px;
+
   line-height:1.6;
+
 }
+
+.step-number{
+
+  display:inline-block;
+
+  background:#2563eb;
+
+  color:white;
+
+  padding:6px 10px;
+
+  border-radius:50px;
+
+  font-size:12px;
+
+  margin-bottom:8px;
+
+}
+
+
+/* ==============================
+   HOSPITAL
+============================== */
 
 .hospital-box{
-  margin-top:15px;
+
+  margin-top:14px;
+
   padding:15px;
+
   background:#eff6ff;
-  border-radius:10px;
-  border-left:5px solid #2563eb;
+
+  border-left:
+  5px solid #2563eb;
+
+  border-radius:12px;
+
+  line-height:1.6;
+
 }
 
+
+/* ==============================
+   WARNING
+============================== */
+
 .warning{
+
   text-align:center;
+
   color:#64748b;
-  font-size:13px;
-  line-height:1.5;
+
+  font-size:12px;
+
+  line-height:1.6;
+
+  padding:
+  3px 15px 20px;
+
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media(max-width:600px){
+
+  body{
+
+    padding:8px;
+
+  }
+
+  .grid{
+
+    grid-template-columns:1fr;
+
+  }
+
+  .full{
+
+    grid-column:auto;
+
+  }
+
+  .card{
+
+    padding:16px;
+
+    border-radius:17px;
+
+  }
+
+  .brand{
+
+    font-size:28px;
+
+  }
+
+  .logo{
+
+    font-size:38px;
+
+  }
+
+  header{
+
+    padding:25px 15px;
+
+    border-radius:20px;
+
+  }
+
 }
 
 </style>
+
 </head>
 
 
 <body>
 
+
 <div class="container">
 
 
-<!-- HEADER -->
+<!-- ==============================
+     HEADER
+============================== -->
 
 <header>
 
-<h1>🏥 TriageAI 🤖</h1>
+<div class="logo">
+
+🏥
+
+</div>
+
+<div class="brand">
+
+TriageAI 🤖
+
+</div>
 
 <p>
+
 Smart Emergency Care Assistant
+
 </p>
+
+<div class="tagline">
+
+🚑 Stay with you when every second matters
+
+</div>
 
 </header>
 
 
-<!-- =========================================
-PATIENT ASSESSMENT
-========================================= -->
+
+<!-- ==============================
+     PATIENT ASSESSMENT
+============================== -->
 
 <div class="card">
 
-<h2>👤 Patient Assessment</h2>
+<h2>
+
+👤 Patient Assessment
+
+</h2>
+
+<p class="subtitle">
+
+Enter the patient's information for
+a preliminary triage assessment.
+
+</p>
 
 
-<label>Patient Name</label>
+<div class="grid">
+
+
+<div>
+
+<label>
+
+Patient Name
+
+</label>
 
 <input
 id="patientName"
@@ -214,45 +720,80 @@ type="text"
 placeholder="Enter patient name"
 >
 
+</div>
 
-<label>Age</label>
+
+<div>
+
+<label>
+
+Age
+
+</label>
 
 <input
 id="patientAge"
 type="number"
 min="0"
 max="120"
-placeholder="Enter age"
+placeholder="Age"
 >
 
+</div>
 
-<label>Symptoms</label>
+
+<div class="full">
+
+<label>
+
+Symptoms
+
+</label>
 
 <textarea
 id="patientSymptoms"
 placeholder="Describe the patient's symptoms..."
 ></textarea>
 
+</div>
+
+</div>
+
+
 
 <!-- VOICE -->
 
-<label>🎤 Voice Assistant</label>
+<label>
+
+🎤 Voice Assistant
+
+</label>
+
 
 <select id="voiceLanguage">
 
 <option value="en-US">
+
 🇬🇧 English
+
 </option>
 
 <option value="fr-FR">
+
 🇫🇷 Français
+
 </option>
 
 <option value="ar-SA">
+
 🇸🇦 العربية
+
 </option>
 
 </select>
+
+
+<div class="grid">
 
 
 <button
@@ -275,6 +816,9 @@ onclick="stopVoice()"
 </button>
 
 
+</div>
+
+
 <div
 id="voiceStatus"
 class="status"
@@ -285,7 +829,19 @@ class="status"
 </div>
 
 
-<label>Pain Level (0 - 10)</label>
+
+<!-- VITALS -->
+
+<div class="grid">
+
+
+<div>
+
+<label>
+
+Pain Level (0–10)
+
+</label>
 
 <input
 id="pain"
@@ -295,8 +851,16 @@ max="10"
 placeholder="0 - 10"
 >
 
+</div>
 
-<label>Heart Rate</label>
+
+<div>
+
+<label>
+
+Heart Rate
+
+</label>
 
 <input
 id="heartRate"
@@ -304,8 +868,16 @@ type="number"
 placeholder="BPM"
 >
 
+</div>
 
-<label>Temperature</label>
+
+<div>
+
+<label>
+
+Temperature
+
+</label>
 
 <input
 id="temperature"
@@ -314,8 +886,16 @@ step="0.1"
 placeholder="°C"
 >
 
+</div>
 
-<label>Oxygen Saturation</label>
+
+<div>
+
+<label>
+
+Oxygen Saturation
+
+</label>
 
 <input
 id="oxygen"
@@ -324,6 +904,11 @@ min="0"
 max="100"
 placeholder="%"
 >
+
+</div>
+
+
+</div>
 
 
 <button
@@ -347,68 +932,104 @@ onclick="newPatient()"
 
 <div id="result"></div>
 
+
 </div>
 
 
 
-<!-- =========================================
-FIRST AID
-========================================= -->
+<!-- ==============================
+     FIRST AID
+============================== -->
 
 <div class="card">
 
-<h2>🆘 First Aid Guide</h2>
+<h2>
+
+🆘 First Aid Guide
+
+</h2>
+
+<p class="subtitle">
+
+Select an emergency condition to display
+basic first-aid guidance.
+
+</p>
 
 
 <label>
+
 Emergency Condition
+
 </label>
 
 
 <select id="condition">
 
 <option value="">
+
 -- Select Condition --
+
 </option>
 
 <option value="bleeding">
+
 🩸 Severe Bleeding
+
 </option>
 
 <option value="choking">
+
 🫁 Choking
+
 </option>
 
 <option value="burn">
+
 🔥 Burns
+
 </option>
 
 <option value="stroke">
+
 🧠 Stroke
+
 </option>
 
 <option value="breathing">
+
 😮‍💨 Difficulty Breathing
+
 </option>
 
 <option value="cardiac">
+
 ❤️ Cardiac Arrest
+
 </option>
 
 <option value="unconscious">
+
 😵 Unconsciousness
+
 </option>
 
 <option value="fracture">
+
 🦴 Fracture
+
 </option>
 
 <option value="snake">
+
 🐍 Snake Bite
+
 </option>
 
 <option value="scorpion">
+
 🦂 Scorpion Sting
+
 </option>
 
 </select>
@@ -425,20 +1046,39 @@ onclick="showGuide()"
 
 <div id="guide"></div>
 
+
 </div>
 
 
 
-<!-- =========================================
-STAY WITH ME
-========================================= -->
+<!-- ==============================
+     STAY WITH ME
+============================== -->
 
-<div class="card">
+<div
+class="card feature"
+>
 
-<h2>🫶 Stay With Me</h2>
+<div class="feature-badge">
 
-<p>
+⭐ MAIN FEATURE
+
+</div>
+
+
+<h2>
+
+🫶 Stay With Me
+
+</h2>
+
+
+<p class="subtitle">
+
 Step-by-step emergency support.
+Choose a condition above and let
+TriageAI guide you one step at a time.
+
 </p>
 
 
@@ -453,23 +1093,28 @@ onclick="startStay()"
 
 <div id="stay"></div>
 
+
 </div>
 
 
 
-<!-- =========================================
-HOSPITAL
-========================================= -->
+<!-- ==============================
+     HOSPITAL
+============================== -->
 
 <div class="card">
 
-<h2>🏥 Nearby Emergency Hospitals</h2>
+<h2>
+
+📍 Nearby Emergency Hospitals
+
+</h2>
 
 
-<p>
+<p class="subtitle">
 
-Find emergency hospitals close to your
-current location.
+Use your current GPS location to search
+for nearby emergency hospitals.
 
 </p>
 
@@ -494,20 +1139,25 @@ nearby hospitals.
 
 </div>
 
+
 </div>
 
 
 
-<!-- =========================================
-EMERGENCY
-========================================= -->
+<!-- ==============================
+     EMERGENCY
+============================== -->
 
 <div class="card">
 
-<h2>🚑 Emergency Assistance</h2>
+<h2>
+
+🚑 Emergency Assistance
+
+</h2>
 
 
-<p>
+<p class="subtitle">
 
 For a real emergency, contact professional
 emergency services immediately.
@@ -524,6 +1174,7 @@ onclick="callEmergency()"
 
 </button>
 
+
 </div>
 
 
@@ -532,13 +1183,13 @@ onclick="callEmergency()"
 
 <p class="warning">
 
-⚠️ TriageAI is an educational prototype and
-preliminary decision-support tool.
+⚠️ TriageAI is an educational prototype
+and preliminary decision-support tool.
 
 <br>
 
-It does not diagnose disease and does not replace
-professional medical assessment.
+It does not diagnose disease and does not
+replace professional medical assessment.
 
 <br>
 
@@ -555,7 +1206,7 @@ For a real emergency, contact emergency services.
 
 
 /* =========================================
-ANALYZE PATIENT
+   ANALYZE PATIENT
 ========================================= */
 
 function analyzePatient(){
@@ -563,7 +1214,8 @@ function analyzePatient(){
 const name =
 document.getElementById(
 "patientName"
-).value || "Unknown Patient";
+).value ||
+"Unknown Patient";
 
 
 const age =
@@ -670,7 +1322,7 @@ reasons.push(
 }
 
 
-/* HEART RATE */
+/* HEART */
 
 if(
 heart > 0 &&
@@ -830,7 +1482,7 @@ css =
 }
 
 
-/* DISPLAY */
+/* RESULT */
 
 const result =
 document.getElementById(
@@ -844,16 +1496,18 @@ result.className =
 
 result.innerHTML = `
 
-<h2 style="text-align:center">
+<div class="priority">
 
 ${priority}
 
-</h2>
+</div>
 
 
 <div class="item">
 
-<strong>👤 Patient:</strong>
+<strong>
+👤 Patient:
+</strong>
 
 ${escapeHTML(name)}
 
@@ -862,7 +1516,9 @@ ${escapeHTML(name)}
 
 <div class="item">
 
-<strong>🎂 Age:</strong>
+<strong>
+🎂 Age:
+</strong>
 
 ${age || "Not provided"}
 
@@ -871,7 +1527,9 @@ ${age || "Not provided"}
 
 <div class="item">
 
-<strong>🩺 Symptoms:</strong>
+<strong>
+🩺 Symptoms:
+</strong>
 
 ${escapeHTML(symptoms) || "Not provided"}
 
@@ -880,7 +1538,9 @@ ${escapeHTML(symptoms) || "Not provided"}
 
 <div class="item">
 
-<strong>❤️ Vital Signs</strong>
+<strong>
+❤️ Vital Signs
+</strong>
 
 <br><br>
 
@@ -902,7 +1562,9 @@ ${oxygen || "N/A"} %
 
 <div class="item">
 
-<strong>📊 Triage Score:</strong>
+<strong>
+📊 Triage Score:
+</strong>
 
 ${score}
 
@@ -911,7 +1573,9 @@ ${score}
 
 <div class="item">
 
-<strong>⚠️ Reasons:</strong>
+<strong>
+⚠️ Reasons:
+</strong>
 
 <br>
 
@@ -931,44 +1595,38 @@ reasons.join("<br>")
 
 
 /* =========================================
-NEW PATIENT
+   NEW PATIENT
 ========================================= */
 
 function newPatient(){
 
-document.getElementById(
-"patientName"
-).value = "";
+const fields = [
 
+"patientName",
 
-document.getElementById(
-"patientAge"
-).value = "";
+"patientAge",
 
+"patientSymptoms",
 
-document.getElementById(
-"patientSymptoms"
-).value = "";
+"pain",
 
+"heartRate",
 
-document.getElementById(
-"pain"
-).value = "";
+"temperature",
 
-
-document.getElementById(
-"heartRate"
-).value = "";
-
-
-document.getElementById(
-"temperature"
-).value = "";
-
-
-document.getElementById(
 "oxygen"
+
+];
+
+
+fields.forEach(
+function(id){
+
+document.getElementById(
+id
 ).value = "";
+
+});
 
 
 document.getElementById(
@@ -984,7 +1642,7 @@ document.getElementById(
 
 
 /* =========================================
-VOICE RECOGNITION
+   VOICE
 ========================================= */
 
 let recognition = null;
@@ -1020,6 +1678,7 @@ try{
 recognition.stop();
 
 }
+
 catch(e){}
 
 }
@@ -1035,11 +1694,16 @@ document.getElementById(
 ).value;
 
 
-recognition.continuous = false;
+recognition.continuous =
+false;
 
-recognition.interimResults = false;
 
-recognition.maxAlternatives = 1;
+recognition.interimResults =
+false;
+
+
+recognition.maxAlternatives =
+1;
 
 
 recognition.onstart =
@@ -1070,9 +1734,9 @@ status.innerHTML =
 escapeHTML(text);
 
 
-/* Automatic condition detection */
-
-detectCondition(text.toLowerCase());
+detectCondition(
+text.toLowerCase()
+);
 
 };
 
@@ -1090,8 +1754,16 @@ event.error;
 recognition.onend =
 function(){
 
+if(
+status.innerHTML.includes(
+"Listening"
+)
+){
+
 status.innerHTML =
 "🎤 Voice assistant ready.";
+
+}
 
 };
 
@@ -1113,7 +1785,7 @@ status.innerHTML =
 
 
 /* =========================================
-STOP VOICE
+   STOP VOICE
 ========================================= */
 
 function stopVoice(){
@@ -1140,7 +1812,7 @@ document.getElementById(
 
 
 /* =========================================
-FIRST AID DATA
+   FIRST AID
 ========================================= */
 
 const guides = {
@@ -1301,7 +1973,7 @@ scorpion:[
 
 
 /* =========================================
-SHOW GUIDE
+   SHOW GUIDE
 ========================================= */
 
 function showGuide(){
@@ -1340,7 +2012,9 @@ guide.innerHTML = `
 <div class="item">
 
 <h3>
+
 🆘 First Aid
+
 </h3>
 
 <ol>
@@ -1348,10 +2022,13 @@ guide.innerHTML = `
 ${
 guides[condition]
 .map(
-step =>
-"<li>" +
+function(step){
+
+return "<li>" +
 escapeHTML(step) +
-"</li>"
+"</li>";
+
+}
 )
 .join("")
 }
@@ -1366,22 +2043,21 @@ escapeHTML(step) +
 
 
 /* =========================================
-AUTOMATIC CONDITION
+   AUTO CONDITION
 ========================================= */
 
 function detectCondition(text){
+
+let condition = "";
+
 
 if(
 text.includes("bleeding") ||
 text.includes("blood")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "bleeding";
-
-showGuide();
 
 }
 
@@ -1389,12 +2065,8 @@ else if(
 text.includes("choking")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "choking";
-
-showGuide();
 
 }
 
@@ -1402,12 +2074,8 @@ else if(
 text.includes("burn")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "burn";
-
-showGuide();
 
 }
 
@@ -1415,12 +2083,8 @@ else if(
 text.includes("stroke")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "stroke";
-
-showGuide();
 
 }
 
@@ -1429,12 +2093,8 @@ text.includes("breathing") ||
 text.includes("shortness of breath")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "breathing";
-
-showGuide();
 
 }
 
@@ -1443,12 +2103,8 @@ text.includes("cardiac arrest") ||
 text.includes("not breathing")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "cardiac";
-
-showGuide();
 
 }
 
@@ -1456,12 +2112,8 @@ else if(
 text.includes("unconscious")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "unconscious";
-
-showGuide();
 
 }
 
@@ -1470,12 +2122,8 @@ text.includes("fracture") ||
 text.includes("broken bone")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "fracture";
-
-showGuide();
 
 }
 
@@ -1483,12 +2131,8 @@ else if(
 text.includes("snake")
 ){
 
-document.getElementById(
-"condition"
-).value =
+condition =
 "snake";
-
-showGuide();
 
 }
 
@@ -1496,10 +2140,19 @@ else if(
 text.includes("scorpion")
 ){
 
+condition =
+"scorpion";
+
+}
+
+
+if(condition){
+
 document.getElementById(
 "condition"
 ).value =
-"scorpion";
+condition;
+
 
 showGuide();
 
@@ -1509,7 +2162,7 @@ showGuide();
 
 
 /* =========================================
-STAY WITH ME
+   STAY WITH ME
 ========================================= */
 
 let stayStep = 0;
@@ -1549,7 +2202,7 @@ renderStay();
 
 
 /* =========================================
-RENDER STEP
+   RENDER STAY
 ========================================= */
 
 function renderStay(){
@@ -1561,7 +2214,8 @@ document.getElementById(
 
 
 if(
-stayStep >= currentSteps.length
+stayStep >=
+currentSteps.length
 ){
 
 stay.innerHTML = `
@@ -1569,7 +2223,9 @@ stay.innerHTML = `
 <div class="item">
 
 <strong>
+
 ✅ Guidance Complete
+
 </strong>
 
 <br><br>
@@ -1587,22 +2243,24 @@ return;
 
 
 const text =
-currentSteps[stayStep];
+currentSteps[
+stayStep
+];
 
 
 stay.innerHTML = `
 
 <div class="step">
 
-<strong>
+<span class="step-number">
 
-Step ${stayStep + 1}
+STEP ${stayStep + 1}
 /
 ${currentSteps.length}
 
-</strong>
+</span>
 
-<br><br>
+<br>
 
 ${escapeHTML(text)}
 
@@ -1653,7 +2311,7 @@ class="status"
 
 
 /* =========================================
-NEXT STEP
+   NEXT STEP
 ========================================= */
 
 function nextStep(){
@@ -1668,7 +2326,7 @@ renderStay();
 
 
 /* =========================================
-READ STEP
+   READ STEP
 ========================================= */
 
 function readStep(){
@@ -1684,7 +2342,10 @@ return;
 
 
 if(
-!("speechSynthesis" in window)
+!(
+"speechSynthesis"
+in window
+)
 ){
 
 alert(
@@ -1700,7 +2361,9 @@ window.speechSynthesis.cancel();
 
 
 const text =
-currentSteps[stayStep];
+currentSteps[
+stayStep
+];
 
 
 const speech =
@@ -1715,11 +2378,16 @@ document.getElementById(
 ).value;
 
 
-speech.rate = 0.9;
+speech.rate =
+0.9;
 
-speech.pitch = 1;
 
-speech.volume = 1;
+speech.pitch =
+1;
+
+
+speech.volume =
+1;
 
 
 const status =
@@ -1769,7 +2437,10 @@ window.speechSynthesis
 
 const shortLanguage =
 speech.lang
-.substring(0,2)
+.substring(
+0,
+2
+)
 .toLowerCase();
 
 
@@ -1803,13 +2474,14 @@ speech
 
 
 /* =========================================
-STOP READING
+   STOP READING
 ========================================= */
 
 function stopReading(){
 
 if(
-"speechSynthesis" in window
+"speechSynthesis"
+in window
 ){
 
 window.speechSynthesis.cancel();
@@ -1834,7 +2506,7 @@ status.innerHTML =
 
 
 /* =========================================
-FIND NEARBY HOSPITALS
+   NEARBY HOSPITALS
 ========================================= */
 
 function findHospital(){
@@ -1854,7 +2526,6 @@ if(
 ){
 
 status.innerHTML =
-
 "❌ Location is not supported by this browser.";
 
 return;
@@ -1869,16 +2540,10 @@ function(position){
 const latitude =
 position.coords.latitude;
 
+
 const longitude =
 position.coords.longitude;
 
-
-/*
-
-Open Google Maps using
-the patient's exact GPS location.
-
-*/
 
 const mapsURL =
 "https://www.google.com/maps/search/emergency+hospital/@"
@@ -1925,12 +2590,6 @@ and try again.
 `;
 
 
-/*
-
-Fallback search
-
-*/
-
 const fallbackURL =
 "https://www.google.com/maps/search/emergency+hospital+near+me";
 
@@ -1959,7 +2618,7 @@ maximumAge:0
 
 
 /* =========================================
-CALL EMERGENCY
+   EMERGENCY
 ========================================= */
 
 function callEmergency(){
@@ -1971,14 +2630,18 @@ window.location.href =
 
 
 /* =========================================
-ESCAPE HTML
+   ESCAPE HTML
 ========================================= */
 
 function escapeHTML(value){
 
-return String(value || "")
+return String(
+value || ""
+)
+
 .replace(
 /[&<>"']/g,
+
 function(character){
 
 return {
@@ -1996,20 +2659,23 @@ return {
 }[character];
 
 }
+
 );
 
 }
 
 
 /* =========================================
-LOAD SPEECH VOICES
+   LOAD VOICES
 ========================================= */
 
 if(
-"speechSynthesis" in window
+"speechSynthesis"
+in window
 ){
 
-window.speechSynthesis.onvoiceschanged =
+window.speechSynthesis
+.onvoiceschanged =
 function(){
 
 window.speechSynthesis
@@ -2019,7 +2685,10 @@ window.speechSynthesis
 
 }
 
+
 </script>
 
+
 </body>
+
 </html>
