@@ -34,8 +34,15 @@ header{
   align-items:center;
 }
 
-.logo{font-size:24px;font-weight:800}
-.sub{font-size:12px;opacity:.85}
+.logo{
+  font-size:24px;
+  font-weight:800;
+}
+
+.sub{
+  font-size:12px;
+  opacity:.85;
+}
 
 .header-actions{
   display:flex;
@@ -50,17 +57,32 @@ header{
   color:white;
 }
 
-.screen{padding:20px}
-.hidden{display:none!important}
+.screen{
+  padding:20px;
+}
+
+.hidden{
+  display:none!important;
+}
 
 .hero{
   text-align:center;
   padding:30px 10px 20px;
 }
 
-.hero-icon{font-size:65px}
-.hero h1{font-size:34px;margin:8px 0}
-.hero p{color:#617083;line-height:1.7}
+.hero-icon{
+  font-size:65px;
+}
+
+.hero h1{
+  font-size:34px;
+  margin:8px 0;
+}
+
+.hero p{
+  color:#617083;
+  line-height:1.7;
+}
 
 .card{
   background:white;
@@ -205,6 +227,10 @@ header{
   font-size:20px;
 }
 
+.mic.recording{
+  background:#c92a2a;
+}
+
 .quick{
   display:flex;
   flex-wrap:wrap;
@@ -230,6 +256,23 @@ header{
   min-width:140px;
 }
 
+.voice-settings{
+  margin-top:10px;
+  padding:10px;
+  background:#f1f5f9;
+  border-radius:13px;
+  font-size:13px;
+}
+
+.voice-settings select{
+  width:100%;
+  padding:9px;
+  border:1px solid #d7e0e8;
+  border-radius:10px;
+  background:white;
+  margin-top:6px;
+}
+
 .firstaid{
   border:1px solid #e3e8ed;
   padding:15px;
@@ -237,7 +280,9 @@ header{
   margin-bottom:10px;
 }
 
-.firstaid h3{margin-top:0}
+.firstaid h3{
+  margin-top:0;
+}
 
 .firstaid ol,
 .firstaid ul{
@@ -284,9 +329,19 @@ footer{
 }
 
 @media(max-width:600px){
-  .screen{padding:14px}
-  .hero h1{font-size:28px}
-  .msg{max-width:92%}
+
+  .screen{
+    padding:14px;
+  }
+
+  .hero h1{
+    font-size:28px;
+  }
+
+  .msg{
+    max-width:92%;
+  }
+
 }
 </style>
 </head>
@@ -296,39 +351,70 @@ footer{
 <div class="app">
 
 <header>
+
   <div>
     <div class="logo">🩺 TriageAI</div>
     <div class="sub">Smart Emergency Care</div>
   </div>
 
   <div class="header-actions">
-    <button class="small-btn" onclick="goHome()">🏠</button>
-    <button class="small-btn" onclick="setLang()">🌐</button>
+
+    <button
+      class="small-btn"
+      onclick="goHome()"
+    >
+      🏠
+    </button>
+
+    <button
+      class="small-btn"
+      onclick="setLang()"
+    >
+      🌐
+    </button>
+
   </div>
+
 </header>
 
 
-<!-- START -->
+<!-- =====================================================
+     START
+===================================================== -->
 
-<section id="startScreen" class="screen">
+<section
+  id="startScreen"
+  class="screen"
+>
 
   <div class="hero">
-    <div class="hero-icon">🩺</div>
 
-    <h1>TriageAI</h1>
+    <div class="hero-icon">
+      🩺
+    </div>
+
+    <h1>
+      TriageAI
+    </h1>
 
     <p>
       مساعد صحي تفاعلي يساعدك تفهم الأعراض،
       يسألك خطوة بخطوة، ويعطيك تقييمًا أوليًا
       ويوجهك للخطوة المناسبة.
     </p>
+
   </div>
+
 
   <div class="card">
 
-    <h3>👤 قبل ما نبدأ</h3>
+    <h3>
+      👤 قبل ما نبدأ
+    </h3>
 
-    <label>شنوة اسمك؟</label>
+    <label>
+      شنوة اسمك؟
+    </label>
 
     <input
       id="name"
@@ -336,7 +422,10 @@ footer{
       placeholder="مثال: Ahmed"
     >
 
-    <label>العمر</label>
+
+    <label>
+      العمر
+    </label>
 
     <input
       id="age"
@@ -347,6 +436,7 @@ footer{
       placeholder="العمر"
     >
 
+
     <button
       class="primary"
       onclick="startApp()"
@@ -356,24 +446,36 @@ footer{
 
   </div>
 
+
   <div class="warning">
+
     ⚠️ <b>مهم:</b>
+
     TriageAI يعمل كتقييم أولي وتوجيه صحي،
     وما يعوّضش الطبيب أو خدمات الطوارئ.
+
   </div>
 
 </section>
 
 
-<!-- HOME -->
+<!-- =====================================================
+     HOME
+===================================================== -->
 
-<section id="homeScreen" class="screen hidden">
+<section
+  id="homeScreen"
+  class="screen hidden"
+>
 
   <div class="card">
 
     <h2 id="welcome"></h2>
 
-    <p>كيفاش تحب تبدأ؟</p>
+    <p>
+      كيفاش تحب تبدأ؟
+    </p>
+
 
     <div class="menu-grid">
 
@@ -381,9 +483,19 @@ footer{
         class="menu-btn"
         onclick="openChat()"
       >
-        <span class="icon">💬</span>
-        <strong>احكي مع TriageAI</strong>
-        <small>اكتب أو احكي على مشكلتك</small>
+
+        <span class="icon">
+          💬
+        </span>
+
+        <strong>
+          احكي مع TriageAI
+        </strong>
+
+        <small>
+          اكتب أو احكي على مشكلتك
+        </small>
+
       </button>
 
 
@@ -391,9 +503,19 @@ footer{
         class="menu-btn"
         onclick="openFirstAid()"
       >
-        <span class="icon">🚑</span>
-        <strong>First Aid</strong>
-        <small>الإسعافات الأولية</small>
+
+        <span class="icon">
+          🚑
+        </span>
+
+        <strong>
+          First Aid
+        </strong>
+
+        <small>
+          الإسعافات الأولية
+        </small>
+
       </button>
 
 
@@ -401,9 +523,19 @@ footer{
         class="menu-btn"
         onclick="findHospitals()"
       >
-        <span class="icon">🏥</span>
-        <strong>مرافق صحية</strong>
-        <small>مستشفيات ومصحات قريبة</small>
+
+        <span class="icon">
+          🏥
+        </span>
+
+        <strong>
+          مرافق صحية
+        </strong>
+
+        <small>
+          مستشفيات ومصحات قريبة
+        </small>
+
       </button>
 
 
@@ -411,18 +543,31 @@ footer{
         class="menu-btn"
         onclick="openEmergency()"
       >
-        <span class="icon">🆘</span>
-        <strong>Emergency Mode</strong>
-        <small>حالة استعجالية</small>
+
+        <span class="icon">
+          🆘
+        </span>
+
+        <strong>
+          Emergency Mode
+        </strong>
+
+        <small>
+          حالة استعجالية
+        </small>
+
       </button>
 
     </div>
+
   </div>
 
 
   <div class="card">
 
-    <h3>💡 كيف يخدم؟</h3>
+    <h3>
+      💡 كيف يخدم؟
+    </h3>
 
     <p>
       تنجم تكتب أو تحكي بالصوت.
@@ -436,28 +581,38 @@ footer{
 </section>
 
 
-<!-- CHAT -->
+<!-- =====================================================
+     CHAT
+===================================================== -->
 
-<section id="chatScreen" class="screen hidden">
+<section
+  id="chatScreen"
+  class="screen hidden"
+>
 
   <div class="card">
 
-    <h2>💬 TriageAI</h2>
+    <h2>
+      💬 TriageAI
+    </h2>
 
     <p>
       احكيلي بطريقتك العادية.
       تنجم تكتب، أو تستعمل 🎙️ وقت اللي تحب.
     </p>
 
+
     <div
       id="chat"
       class="chat"
     ></div>
 
+
     <div
       id="quick"
       class="quick"
     ></div>
+
 
     <div class="chat-tools">
 
@@ -468,6 +623,7 @@ footer{
         onkeydown="if(event.key==='Enter')sendMessage()"
       >
 
+
       <button
         id="micButton"
         class="mic"
@@ -477,12 +633,52 @@ footer{
         🎙️
       </button>
 
+
       <button
         class="mic"
         onclick="sendMessage()"
       >
         ➤
       </button>
+
+    </div>
+
+
+    <div class="voice-settings">
+
+      🎙️ <b>لغة الكلام بالصوت</b>
+
+      <select id="inputVoiceLanguage">
+
+        <option value="ar-TN">
+          العربية / عربي
+        </option>
+
+        <option value="fr-FR">
+          Français
+        </option>
+
+        <option value="en-US">
+          English
+        </option>
+
+        <option value="es-ES">
+          Español
+        </option>
+
+        <option value="it-IT">
+          Italiano
+        </option>
+
+        <option value="de-DE">
+          Deutsch
+        </option>
+
+      </select>
+
+      <div style="margin-top:6px;color:#64748b">
+        الميكروفون اختياري. إذا تحب تكتب، اكتب عادي.
+      </div>
 
     </div>
 
@@ -499,6 +695,7 @@ footer{
         🔊 اسمع الإجابة
       </button>
 
+
       <button
         class="secondary"
         onclick="openEmergency()"
@@ -513,7 +710,9 @@ footer{
 </section>
 
 
-<!-- FIRST AID -->
+<!-- =====================================================
+     FIRST AID
+===================================================== -->
 
 <section
   id="firstAidScreen"
@@ -522,7 +721,9 @@ footer{
 
   <div class="card">
 
-    <h2>🚑 الإسعافات الأولية</h2>
+    <h2>
+      🚑 الإسعافات الأولية
+    </h2>
 
     <p>
       معلومات أولية عامة.
@@ -531,12 +732,15 @@ footer{
 
   </div>
 
+
   <div id="firstAidList"></div>
 
 </section>
 
 
-<!-- HOSPITAL -->
+<!-- =====================================================
+     HOSPITAL
+===================================================== -->
 
 <section
   id="hospitalScreen"
@@ -545,12 +749,15 @@ footer{
 
   <div class="card">
 
-    <h2>🏥 المرافق الصحية</h2>
+    <h2>
+      🏥 المرافق الصحية
+    </h2>
 
     <p>
       نستعمل موقع الهاتف باش نفتحلك بحث
       عن المرافق الصحية القريبة.
     </p>
+
 
     <button
       class="primary"
@@ -558,6 +765,7 @@ footer{
     >
       📍 ابحث عن مستشفيات قريبة
     </button>
+
 
     <div
       id="locationStatus"
@@ -569,7 +777,9 @@ footer{
 </section>
 
 
-<!-- EMERGENCY -->
+<!-- =====================================================
+     EMERGENCY
+===================================================== -->
 
 <section
   id="emergencyScreen"
@@ -578,7 +788,10 @@ footer{
 
   <div class="card">
 
-    <h2>🆘 Emergency Mode</h2>
+    <h2>
+      🆘 Emergency Mode
+    </h2>
+
 
     <div class="danger">
 
@@ -589,18 +802,44 @@ footer{
     </div>
 
 
-    <h3>🔴 علامات خطر</h3>
+    <h3>
+      🔴 علامات خطر
+    </h3>
+
 
     <ul style="line-height:1.9">
 
-      <li>عدم الاستجابة أو فقدان الوعي</li>
-      <li>عدم التنفس الطبيعي</li>
-      <li>صعوبة تنفس شديدة</li>
-      <li>ألم صدر شديد أو مفاجئ</li>
-      <li>نزيف شديد</li>
-      <li>علامات سكتة دماغية مفاجئة</li>
-      <li>اختناق شديد</li>
-      <li>تشنج مستمر أو متكرر</li>
+      <li>
+        عدم الاستجابة أو فقدان الوعي
+      </li>
+
+      <li>
+        عدم التنفس الطبيعي
+      </li>
+
+      <li>
+        صعوبة تنفس شديدة
+      </li>
+
+      <li>
+        ألم صدر شديد أو مفاجئ
+      </li>
+
+      <li>
+        نزيف شديد
+      </li>
+
+      <li>
+        علامات سكتة دماغية مفاجئة
+      </li>
+
+      <li>
+        اختناق شديد
+      </li>
+
+      <li>
+        تشنج مستمر أو متكرر
+      </li>
 
     </ul>
 
@@ -613,6 +852,7 @@ footer{
       >
         🏥 أقرب مرفق صحي
       </button>
+
 
       <button
         class="secondary"
@@ -628,11 +868,16 @@ footer{
 
   <div class="card">
 
-    <h3>🫀 إذا الشخص غير مستجيب</h3>
+    <h3>
+      🫀 إذا الشخص غير مستجيب
+    </h3>
+
 
     <ol style="line-height:1.9">
 
-      <li>تأكد أن المكان آمن.</li>
+      <li>
+        تأكد أن المكان آمن.
+      </li>
 
       <li>
         شوف هل الشخص يستجيب للصوت أو اللمس.
@@ -683,7 +928,7 @@ let patient = {
 
 
 /* =====================================================
-   REAL AI CONVERSATION
+   AI CONVERSATION
 ===================================================== */
 
 let conversation = [];
@@ -691,6 +936,15 @@ let conversation = [];
 let lastAI = "";
 
 let isWaitingForAI = false;
+
+
+/* =====================================================
+   VOICE STATE
+===================================================== */
+
+let availableVoices = [];
+
+let recognition = null;
 
 
 /* =====================================================
@@ -708,9 +962,12 @@ function hideAll(){
     "emergencyScreen"
   ].forEach(id => {
 
-    document
-      .getElementById(id)
-      .classList.add("hidden");
+    const element =
+      document.getElementById(id);
+
+    if(element){
+      element.classList.add("hidden");
+    }
 
   });
 
@@ -733,6 +990,7 @@ function goHome(){
   document
     .getElementById("homeScreen")
     .classList.remove("hidden");
+
 }
 
 
@@ -750,17 +1008,22 @@ function startApp(){
       .value
       .trim();
 
+
   patient.name =
     name || "صاحبي";
 
-  patient.age = age || "";
+  patient.age =
+    age || "";
+
 
   document
     .getElementById("welcome")
     .textContent =
       "أهلا " + patient.name + " 👋";
 
+
   hideAll();
+
 
   document
     .getElementById("homeScreen")
@@ -772,6 +1035,7 @@ function startApp(){
 function openChat(){
 
   hideAll();
+
 
   document
     .getElementById("chatScreen")
@@ -788,6 +1052,7 @@ function openChat(){
       "ما يلزمكش تستعمل كلمات طبية.\n\n" +
       "باش نسألك سؤال واحد كل مرة ونبني على إجاباتك.";
 
+
     aiMessage(opening);
 
   }
@@ -799,23 +1064,37 @@ function openChat(){
    CHAT UI
 ===================================================== */
 
-function addMessage(text,who="ai",extraClass=""){
+function addMessage(
+  text,
+  who="ai",
+  extraClass=""
+){
 
   const chat =
     document.getElementById("chat");
 
+
   const div =
     document.createElement("div");
 
-  div.className =
-    "msg " + who + " " + extraClass;
 
-  div.textContent = text;
+  div.className =
+    "msg " +
+    who +
+    " " +
+    extraClass;
+
+
+  div.textContent =
+    text;
+
 
   chat.appendChild(div);
 
+
   chat.scrollTop =
     chat.scrollHeight;
+
 
   return div;
 
@@ -824,10 +1103,19 @@ function addMessage(text,who="ai",extraClass=""){
 
 function aiMessage(text){
 
-  addMessage(text,"ai");
+  addMessage(
+    text,
+    "ai"
+  );
 
-  lastAI = text;
 
+  lastAI =
+    text;
+
+
+  /*
+    Speak automatically.
+  */
   speak(text);
 
 }
@@ -835,7 +1123,10 @@ function aiMessage(text){
 
 function userMessage(text){
 
-  addMessage(text,"user");
+  addMessage(
+    text,
+    "user"
+  );
 
 }
 
@@ -845,18 +1136,25 @@ function showTyping(){
   const chat =
     document.getElementById("chat");
 
+
   const div =
     document.createElement("div");
 
-  div.id = "typing";
+
+  div.id =
+    "typing";
+
 
   div.className =
     "msg ai typing";
 
+
   div.textContent =
     "TriageAI يكتب...";
 
+
   chat.appendChild(div);
+
 
   chat.scrollTop =
     chat.scrollHeight;
@@ -869,42 +1167,61 @@ function hideTyping(){
   const typing =
     document.getElementById("typing");
 
+
   if(typing)
     typing.remove();
 
 }
 
 
+/* =====================================================
+   SEND MESSAGE TO AI
+===================================================== */
+
 async function sendMessage(){
 
   if(isWaitingForAI)
     return;
 
+
   const input =
     document.getElementById("chatInput");
+
 
   const text =
     input.value.trim();
 
+
   if(!text)
     return;
 
+
   input.value = "";
+
 
   userMessage(text);
 
+
   conversation.push({
+
     role:"user",
+
     content:text
+
   });
+
 
   document
     .getElementById("quick")
     .innerHTML = "";
 
-  isWaitingForAI = true;
+
+  isWaitingForAI =
+    true;
+
 
   showTyping();
+
 
   try{
 
@@ -912,6 +1229,7 @@ async function sendMessage(){
       await fetch(
         BACKEND_URL + "/api/chat",
         {
+
           method:"POST",
 
           headers:{
@@ -928,6 +1246,7 @@ async function sendMessage(){
             messages:conversation
 
           })
+
         }
       );
 
@@ -939,7 +1258,10 @@ async function sendMessage(){
     hideTyping();
 
 
-    if(!response.ok || !data.ok){
+    if(
+      !response.ok ||
+      !data.ok
+    ){
 
       throw new Error(
         data.error ||
@@ -950,7 +1272,9 @@ async function sendMessage(){
 
 
     const reply =
-      String(data.reply || "").trim();
+      String(
+        data.reply || ""
+      ).trim();
 
 
     if(!reply){
@@ -963,8 +1287,11 @@ async function sendMessage(){
 
 
     conversation.push({
+
       role:"assistant",
+
       content:reply
+
     });
 
 
@@ -973,47 +1300,67 @@ async function sendMessage(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Chat error:",
+      error
+    );
+
 
     hideTyping();
+
 
     aiMessage(
       "سامحني، صار مشكل في الاتصال بالمساعد الصحي.\n\n" +
       "تأكد من الإنترنت وأن الـbackend يخدم، وبعد عاود جرّب."
     );
 
+
   }finally{
 
-    isWaitingForAI = false;
+    isWaitingForAI =
+      false;
 
   }
 
 }
 
 
+/* =====================================================
+   QUICK OPTIONS
+===================================================== */
+
 function setQuick(options){
 
   const box =
     document.getElementById("quick");
 
-  box.innerHTML = "";
+
+  box.innerHTML =
+    "";
+
 
   options.forEach(option => {
 
     const btn =
       document.createElement("button");
 
-    btn.textContent = option;
+
+    btn.textContent =
+      option;
+
 
     btn.onclick = () => {
 
       document
         .getElementById("chatInput")
-        .value = option;
+        .value =
+        option;
+
 
       sendMessage();
 
     };
+
 
     box.appendChild(btn);
 
@@ -1023,8 +1370,399 @@ function setQuick(options){
 
 
 /* =====================================================
+   VOICE SYSTEM
+===================================================== */
+
+/*
+  Load all voices installed in the browser/device.
+*/
+
+function loadVoices(){
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+    return;
+  }
+
+
+  availableVoices =
+    window.speechSynthesis
+      .getVoices() || [];
+
+}
+
+
+/*
+  Browsers such as Chrome may load voices
+  asynchronously.
+*/
+
+if(
+  "speechSynthesis" in window
+){
+
+  loadVoices();
+
+
+  window.speechSynthesis
+    .onvoiceschanged =
+      loadVoices;
+
+}
+
+
+/* =====================================================
+   TEXT LANGUAGE DETECTION
+===================================================== */
+
+function detectSpeechLanguage(text){
+
+  if(!text){
+    return "en-US";
+  }
+
+
+  /*
+    Arabic script.
+  */
+
+  if(
+    /[\u0600-\u06FF]/.test(text)
+  ){
+
+    return "ar-SA";
+
+  }
+
+
+  const lower =
+    text.toLowerCase();
+
+
+  /*
+    French indicators.
+  */
+
+  const frenchWords =
+    /\b(je|j'ai|j’ai|tu|vous|nous|il|elle|est|suis|sont|avec|sans|pour|dans|depuis|douleur|mal|tête|poitrine|respire|respiration|difficile|fièvre|merci|bonjour|urgent|urgence|symptôme|symptômes|médical|médecin)\b/i;
+
+
+  const frenchCharacters =
+    /[àâçéèêëîïôùûüÿœ]/i;
+
+
+  if(
+    frenchWords.test(lower) ||
+    frenchCharacters.test(text)
+  ){
+
+    return "fr-FR";
+
+  }
+
+
+  /*
+    Spanish.
+  */
+
+  const spanishWords =
+    /\b(hola|tengo|dolor|cabeza|pecho|respirar|difícil|fiebre|médico|urgencia)\b/i;
+
+
+  if(
+    spanishWords.test(lower)
+  ){
+
+    return "es-ES";
+
+  }
+
+
+  /*
+    Italian.
+  */
+
+  const italianWords =
+    /\b(ciao|ho|dolore|testa|petto|respirare|difficile|febbre|medico|urgenza)\b/i;
+
+
+  if(
+    italianWords.test(lower)
+  ){
+
+    return "it-IT";
+
+  }
+
+
+  /*
+    German.
+  */
+
+  const germanWords =
+    /\b(ich|habe|schmerzen|kopf|brust|atmen|schwierig|fieber|arzt|notfall)\b/i;
+
+
+  if(
+    germanWords.test(lower)
+  ){
+
+    return "de-DE";
+
+  }
+
+
+  /*
+    Default.
+  */
+
+  return "en-US";
+
+}
+
+
+/* =====================================================
+   FIND BEST VOICE
+===================================================== */
+
+function findVoice(language){
+
+  loadVoices();
+
+
+  if(
+    !availableVoices.length
+  ){
+
+    return null;
+
+  }
+
+
+  const normalized =
+    language.toLowerCase();
+
+
+  /*
+    Exact match.
+  */
+
+  let voice =
+    availableVoices.find(
+      voice =>
+        voice.lang &&
+        voice.lang.toLowerCase() === normalized
+    );
+
+
+  if(voice)
+    return voice;
+
+
+  /*
+    Same language family.
+
+    Example:
+    fr-FR -> fr-CA
+    en-US -> en-GB
+    ar-SA -> ar-EG
+  */
+
+  const family =
+    normalized.split("-")[0];
+
+
+  voice =
+    availableVoices.find(
+      voice =>
+        voice.lang &&
+        voice.lang
+          .toLowerCase()
+          .startsWith(
+            family + "-"
+          )
+    );
+
+
+  if(voice)
+    return voice;
+
+
+  /*
+    Any matching language.
+  */
+
+  voice =
+    availableVoices.find(
+      voice =>
+        voice.lang &&
+        voice.lang
+          .toLowerCase()
+          .startsWith(family)
+    );
+
+
+  return voice || null;
+
+}
+
+
+/* =====================================================
+   VOICE OUTPUT
+===================================================== */
+
+function speak(text){
+
+  if(!text)
+    return;
+
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+
+    return;
+
+  }
+
+
+  /*
+    Stop previous speech.
+  */
+
+  window.speechSynthesis.cancel();
+
+
+  /*
+    Reload available voices.
+  */
+
+  loadVoices();
+
+
+  /*
+    Detect language of AI answer.
+  */
+
+  const language =
+    detectSpeechLanguage(text);
+
+
+  /*
+    Find appropriate installed voice.
+  */
+
+  const voice =
+    findVoice(language);
+
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+
+  /*
+    Set language.
+  */
+
+  utterance.lang =
+    language;
+
+
+  /*
+    Explicitly select voice
+    when available.
+  */
+
+  if(voice){
+
+    utterance.voice =
+      voice;
+
+  }
+
+
+  /*
+    Speaking speed.
+
+    Arabic is slightly slower because
+    browser Arabic voices can sound rushed.
+
+    French is slightly slower too.
+  */
+
+  if(
+    language.startsWith("ar")
+  ){
+
+    utterance.rate =
+      0.88;
+
+  }else if(
+    language.startsWith("fr")
+  ){
+
+    utterance.rate =
+      0.92;
+
+  }else{
+
+    utterance.rate =
+      0.95;
+
+  }
+
+
+  utterance.pitch =
+    1;
+
+
+  utterance.volume =
+    1;
+
+
+  utterance.onerror =
+    event => {
+
+      console.warn(
+        "Speech error:",
+        event.error,
+        "language:",
+        language,
+        "voice:",
+        voice
+          ? voice.name
+          : "default"
+      );
+
+    };
+
+
+  window.speechSynthesis
+    .speak(utterance);
+
+}
+
+
+/* =====================================================
+   REPEAT LAST ANSWER
+===================================================== */
+
+function speakLast(){
+
+  if(lastAI){
+
+    speak(lastAI);
+
+  }
+
+}
+
+
+/* =====================================================
    VOICE INPUT
-   OPTIONAL ONLY
 ===================================================== */
 
 function voiceInput(){
@@ -1041,102 +1779,185 @@ function voiceInput(){
     );
 
     return;
+
   }
 
 
-  const recognition =
+  /*
+    If a previous recognition is running,
+    stop it.
+  */
+
+  if(recognition){
+
+    try{
+      recognition.stop();
+    }catch(e){}
+
+  }
+
+
+  recognition =
     new SpeechRecognition();
 
 
+  /*
+    User chooses the microphone language.
+
+    This is important because browser speech
+    recognition usually needs a language hint.
+  */
+
+  const selectedLanguage =
+    document
+      .getElementById(
+        "inputVoiceLanguage"
+      )
+      .value;
+
+
   recognition.lang =
-    "ar-TN";
+    selectedLanguage;
+
 
   recognition.interimResults =
     false;
+
 
   recognition.maxAlternatives =
     1;
 
 
+  recognition.continuous =
+    false;
+
+
   const mic =
-    document.getElementById("micButton");
+    document.getElementById(
+      "micButton"
+    );
 
 
   recognition.onstart = () => {
 
-    mic.textContent = "🔴";
+    mic.textContent =
+      "🔴";
+
+
+    mic.classList.add(
+      "recording"
+    );
+
+
+    mic.title =
+      "جاري الاستماع...";
 
   };
 
 
   recognition.onend = () => {
 
-    mic.textContent = "🎙️";
+    mic.textContent =
+      "🎙️";
+
+
+    mic.classList.remove(
+      "recording"
+    );
+
+
+    mic.title =
+      "استعمل الصوت إذا تحب";
 
   };
 
 
-  recognition.onerror = () => {
+  recognition.onerror =
+    event => {
 
-    mic.textContent = "🎙️";
-
-  };
-
-
-  recognition.onresult = event => {
-
-    const text =
-      event.results[0][0].transcript;
-
-    document
-      .getElementById("chatInput")
-      .value = text;
-
-    sendMessage();
-
-  };
+      console.error(
+        "Speech recognition error:",
+        event.error
+      );
 
 
-  recognition.start();
-
-}
-
-
-/* =====================================================
-   VOICE OUTPUT
-===================================================== */
-
-function speak(text){
-
-  if(!("speechSynthesis" in window))
-    return;
+      mic.textContent =
+        "🎙️";
 
 
-  window.speechSynthesis.cancel();
+      mic.classList.remove(
+        "recording"
+      );
 
 
-  const utterance =
-    new SpeechSynthesisUtterance(text);
+      if(
+        event.error ===
+        "not-allowed"
+      ){
+
+        alert(
+          "لازم تسمح للمتصفح باستعمال الميكروفون."
+        );
+
+      }
+
+    };
 
 
-  utterance.lang =
-    "ar-TN";
+  recognition.onresult =
+    event => {
 
-  utterance.rate =
-    .95;
-
-
-  window.speechSynthesis.speak(
-    utterance
-  );
-
-}
+      const text =
+        event
+          .results[0][0]
+          .transcript;
 
 
-function speakLast(){
+      if(!text)
+        return;
 
-  if(lastAI)
-    speak(lastAI);
+
+      const input =
+        document.getElementById(
+          "chatInput"
+        );
+
+
+      input.value =
+        text;
+
+
+      /*
+        Same behavior as typing:
+        send automatically.
+      */
+
+      sendMessage();
+
+    };
+
+
+  try{
+
+    recognition.start();
+
+  }catch(error){
+
+    console.error(
+      "Recognition start error:",
+      error
+    );
+
+
+    mic.textContent =
+      "🎙️";
+
+
+    mic.classList.remove(
+      "recording"
+    );
+
+  }
 
 }
 
@@ -1151,17 +1972,36 @@ const firstAid = [
   title:"🫀 توقف التنفس / CPR",
 
   body:`
-  <ol>
-    <li>تأكد أن المكان آمن.</li>
-    <li>شوف هل الشخص يستجيب.</li>
-    <li>إذا ما يستجيبش وما يتنفسش طبيعيًا، اطلب المساعدة.</li>
-    <li>ابدأ CPR حسب تدريبك وتعليمات خدمات الطوارئ.</li>
-  </ol>
+    <ol>
 
-  <div class="explain">
-    <b>CPR / RCP:</b>
-    الإنعاش القلبي الرئوي، ويستعمل عند فقدان الاستجابة مع عدم وجود تنفس طبيعي.
-  </div>
+      <li>
+        تأكد أن المكان آمن.
+      </li>
+
+      <li>
+        شوف هل الشخص يستجيب.
+      </li>
+
+      <li>
+        إذا ما يستجيبش وما يتنفسش طبيعيًا،
+        اطلب المساعدة.
+      </li>
+
+      <li>
+        ابدأ CPR حسب تدريبك وتعليمات خدمات الطوارئ.
+      </li>
+
+    </ol>
+
+    <div class="explain">
+
+      <b>CPR / RCP:</b>
+
+      الإنعاش القلبي الرئوي،
+      ويستعمل عند فقدان الاستجابة
+      مع عدم وجود تنفس طبيعي.
+
+    </div>
   `
 },
 
@@ -1169,12 +2009,27 @@ const firstAid = [
   title:"🩸 نزيف شديد",
 
   body:`
-  <ol>
-    <li>استعمل قفازات إذا متوفرة.</li>
-    <li>اضغط مباشرة وبقوة على مكان النزيف بضمادة أو قماش نظيف.</li>
-    <li>واصل الضغط ولا ترفع الضمادة باستمرار للتثبت.</li>
-    <li>إذا النزيف شديد أو ما يوقفش، اطلب المساعدة الطبية.</li>
-  </ol>
+    <ol>
+
+      <li>
+        استعمل قفازات إذا متوفرة.
+      </li>
+
+      <li>
+        اضغط مباشرة وبقوة على مكان النزيف
+        بضمادة أو قماش نظيف.
+      </li>
+
+      <li>
+        واصل الضغط ولا ترفع الضمادة باستمرار للتثبت.
+      </li>
+
+      <li>
+        إذا النزيف شديد أو ما يوقفش،
+        اطلب المساعدة الطبية.
+      </li>
+
+    </ol>
   `
 },
 
@@ -1182,11 +2037,15 @@ const firstAid = [
   title:"😮‍💨 اختناق",
 
   body:`
-  <p>
-    إذا الشخص ما ينجمش يتنفس أو يتكلم أو يسعل بقوة،
-    الحالة تنجم تكون استعجالية.
-    اطلب المساعدة الطبية واتبع تعليمات الإسعاف الحالية.
-  </p>
+    <p>
+
+      إذا الشخص ما ينجمش يتنفس أو يتكلم
+      أو يسعل بقوة،
+      الحالة تنجم تكون استعجالية.
+
+      اطلب المساعدة الطبية واتبع تعليمات الإسعاف الحالية.
+
+    </p>
   `
 },
 
@@ -1194,13 +2053,29 @@ const firstAid = [
   title:"🔥 حرق",
 
   body:`
-  <ol>
-    <li>أبعد الشخص عن مصدر الحرارة إذا كان ذلك آمنًا.</li>
-    <li>برّد المنطقة بماء جارٍ بارد أو فاتر.</li>
-    <li>ما تحطش الثلج مباشرة على الجلد.</li>
-    <li>ما تفقعش الفقاعات.</li>
-    <li>الحروق الكبيرة أو العميقة تستحق تقييمًا طبيًا.</li>
-  </ol>
+    <ol>
+
+      <li>
+        أبعد الشخص عن مصدر الحرارة إذا كان ذلك آمنًا.
+      </li>
+
+      <li>
+        برّد المنطقة بماء جارٍ بارد أو فاتر.
+      </li>
+
+      <li>
+        ما تحطش الثلج مباشرة على الجلد.
+      </li>
+
+      <li>
+        ما تفقعش الفقاعات.
+      </li>
+
+      <li>
+        الحروق الكبيرة أو العميقة تستحق تقييمًا طبيًا.
+      </li>
+
+    </ol>
   `
 },
 
@@ -1208,12 +2083,25 @@ const firstAid = [
   title:"🧠 علامات AVC / Stroke",
 
   body:`
-  <ul>
-    <li>اعوجاج مفاجئ في الوجه.</li>
-    <li>ضعف أو خدر مفاجئ في ذراع أو ساق.</li>
-    <li>اضطراب مفاجئ في الكلام.</li>
-    <li>ظهور الأعراض فجأة يستوجب تقييمًا عاجلًا.</li>
-  </ul>
+    <ul>
+
+      <li>
+        اعوجاج مفاجئ في الوجه.
+      </li>
+
+      <li>
+        ضعف أو خدر مفاجئ في ذراع أو ساق.
+      </li>
+
+      <li>
+        اضطراب مفاجئ في الكلام.
+      </li>
+
+      <li>
+        ظهور الأعراض فجأة يستوجب تقييمًا عاجلًا.
+      </li>
+
+    </ul>
   `
 },
 
@@ -1221,12 +2109,26 @@ const firstAid = [
   title:"😵 فقدان الوعي",
 
   body:`
-  <ol>
-    <li>تأكد أن المكان آمن.</li>
-    <li>حاول التثبت من الاستجابة.</li>
-    <li>راقب التنفس الطبيعي.</li>
-    <li>إذا ما يتنفسش طبيعيًا، اطلب المساعدة وابدأ CPR حسب التدريب.</li>
-  </ol>
+    <ol>
+
+      <li>
+        تأكد أن المكان آمن.
+      </li>
+
+      <li>
+        حاول التثبت من الاستجابة.
+      </li>
+
+      <li>
+        راقب التنفس الطبيعي.
+      </li>
+
+      <li>
+        إذا ما يتنفسش طبيعيًا،
+        اطلب المساعدة وابدأ CPR حسب التدريب.
+      </li>
+
+    </ol>
   `
 }
 
@@ -1237,9 +2139,15 @@ function openFirstAid(){
 
   hideAll();
 
+
   document
-    .getElementById("firstAidScreen")
-    .classList.remove("hidden");
+    .getElementById(
+      "firstAidScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
+
 
   renderFirstAid();
 
@@ -1249,18 +2157,26 @@ function openFirstAid(){
 function renderFirstAid(){
 
   const list =
-    document.getElementById("firstAidList");
+    document.getElementById(
+      "firstAidList"
+    );
 
-  list.innerHTML = "";
+
+  list.innerHTML =
+    "";
 
 
   firstAid.forEach(item => {
 
     const div =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
+
 
     div.className =
       "firstaid";
+
 
     div.innerHTML =
       "<h3>" +
@@ -1268,7 +2184,10 @@ function renderFirstAid(){
       "</h3>" +
       item.body;
 
-    list.appendChild(div);
+
+    list.appendChild(
+      div
+    );
 
   });
 
@@ -1283,34 +2202,40 @@ function findHospitals(){
 
   hideAll();
 
+
   document
-    .getElementById("hospitalScreen")
-    .classList.remove("hidden");
+    .getElementById(
+      "hospitalScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
 
   const status =
-    document.getElementById("locationStatus");
+    document.getElementById(
+      "locationStatus"
+    );
 
 
   if(!navigator.geolocation){
 
-    status.innerHTML =
-      `
+    status.innerHTML = `
       <div class="warning">
         المتصفح ما يدعمش تحديد الموقع.
       </div>
-      `;
+    `;
 
     return;
+
   }
 
 
-  status.innerHTML =
-    `
+  status.innerHTML = `
     <div class="card">
       📍 نستنى في موقعك...
     </div>
-    `;
+  `;
 
 
   navigator.geolocation.getCurrentPosition(
@@ -1319,6 +2244,7 @@ function findHospitals(){
 
       const lat =
         position.coords.latitude;
+
 
       const lng =
         position.coords.longitude;
@@ -1331,8 +2257,8 @@ function findHospitals(){
         lng;
 
 
-      status.innerHTML =
-        `
+      status.innerHTML = `
+
         <div class="safe">
 
           📍 تم تحديد موقعك.
@@ -1343,19 +2269,28 @@ function findHospitals(){
             class="primary"
             onclick="window.open('${url}','_blank')"
           >
+
             🗺️ افتح المستشفيات القريبة
+
           </button>
 
         </div>
-        `;
+
+      `;
 
     },
 
 
     error => {
 
-      status.innerHTML =
-        `
+      console.error(
+        "Geolocation error:",
+        error
+      );
+
+
+      status.innerHTML = `
+
         <div class="warning">
 
           ما نجمتش ناخذ موقعك.
@@ -1366,7 +2301,8 @@ function findHospitals(){
           وجرب مرة أخرى.
 
         </div>
-        `;
+
+      `;
 
     },
 
@@ -1390,9 +2326,14 @@ function openEmergency(){
 
   hideAll();
 
+
   document
-    .getElementById("emergencyScreen")
-    .classList.remove("hidden");
+    .getElementById(
+      "emergencyScreen"
+    )
+    .classList.remove(
+      "hidden"
+    );
 
 }
 
@@ -1404,18 +2345,34 @@ function openEmergency(){
 function setLang(){
 
   alert(
-    "Prototype الحالي: العربية / Tunisian Arabic.\n\n" +
-    "المرحلة القادمة نضيفوا Français + English + voice language."
+    "الصوت توّا يدعم اختيار العربية والفرنسية والإنجليزية وغيرها.\n\n" +
+    "في المحادثة، استعمل القائمة الموجودة تحت الميكروفون لاختيار لغة الكلام."
   );
 
 }
 
 
 /* =====================================================
-   INIT
+   INITIALIZATION
 ===================================================== */
 
 renderFirstAid();
+
+
+/*
+  Load voices after page initialization.
+*/
+
+if(
+  "speechSynthesis" in window
+){
+
+  setTimeout(
+    loadVoices,
+    500
+  );
+
+}
 
 </script>
 
