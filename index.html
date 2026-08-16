@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TriageAI</title>
+<title>TriageAI - Smart Emergency Care</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   font-family:Arial,sans-serif;
@@ -31,6 +32,15 @@ header{
   border-radius:16px;
   text-align:center;
   margin-bottom:20px;
+}
+
+header h1{
+  margin:0 0 8px;
+  font-size:30px;
+}
+
+header p{
+  margin:0;
 }
 
 .card{
@@ -64,6 +74,7 @@ select{
 
 textarea{
   min-height:100px;
+  resize:vertical;
 }
 
 button{
@@ -76,6 +87,11 @@ button{
   color:white;
   font-size:16px;
   font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.9;
 }
 
 .blue{
@@ -92,6 +108,10 @@ button{
 
 .gray{
   background:#475569;
+}
+
+.orange{
+  background:#ea580c;
 }
 
 .result{
@@ -115,6 +135,14 @@ button{
   border:2px solid #16a34a;
 }
 
+.item{
+  padding:12px;
+  margin-top:8px;
+  background:#f8fafc;
+  border-radius:8px;
+  line-height:1.5;
+}
+
 .status{
   padding:12px;
   margin-top:12px;
@@ -129,38 +157,54 @@ button{
   border:2px solid #2563eb;
   border-radius:10px;
   font-size:18px;
+  line-height:1.6;
 }
 
-.item{
-  padding:12px;
-  margin-top:8px;
-  background:#f8fafc;
-  border-radius:8px;
+.hospital-box{
+  margin-top:15px;
+  padding:15px;
+  background:#eff6ff;
+  border-radius:10px;
+  border-left:5px solid #2563eb;
 }
 
 .warning{
   text-align:center;
   color:#64748b;
   font-size:13px;
+  line-height:1.5;
 }
+
 </style>
 </head>
+
 
 <body>
 
 <div class="container">
 
+
+<!-- HEADER -->
+
 <header>
+
 <h1>🏥 TriageAI 🤖</h1>
-<p>Smart Emergency Care Assistant</p>
+
+<p>
+Smart Emergency Care Assistant
+</p>
+
 </header>
 
 
-<!-- PATIENT -->
+<!-- =========================================
+PATIENT ASSESSMENT
+========================================= -->
 
 <div class="card">
 
 <h2>👤 Patient Assessment</h2>
+
 
 <label>Patient Name</label>
 
@@ -170,22 +214,78 @@ type="text"
 placeholder="Enter patient name"
 >
 
+
 <label>Age</label>
 
 <input
 id="patientAge"
 type="number"
+min="0"
+max="120"
 placeholder="Enter age"
 >
+
 
 <label>Symptoms</label>
 
 <textarea
 id="patientSymptoms"
-placeholder="Describe symptoms..."
+placeholder="Describe the patient's symptoms..."
 ></textarea>
 
-<label>Pain Level</label>
+
+<!-- VOICE -->
+
+<label>🎤 Voice Assistant</label>
+
+<select id="voiceLanguage">
+
+<option value="en-US">
+🇬🇧 English
+</option>
+
+<option value="fr-FR">
+🇫🇷 Français
+</option>
+
+<option value="ar-SA">
+🇸🇦 العربية
+</option>
+
+</select>
+
+
+<button
+class="purple"
+onclick="startVoice()"
+>
+
+🎤 Start Voice Assistant
+
+</button>
+
+
+<button
+class="gray"
+onclick="stopVoice()"
+>
+
+⏹ Stop Voice
+
+</button>
+
+
+<div
+id="voiceStatus"
+class="status"
+>
+
+🎤 Voice assistant ready.
+
+</div>
+
+
+<label>Pain Level (0 - 10)</label>
 
 <input
 id="pain"
@@ -195,6 +295,7 @@ max="10"
 placeholder="0 - 10"
 >
 
+
 <label>Heart Rate</label>
 
 <input
@@ -202,6 +303,7 @@ id="heartRate"
 type="number"
 placeholder="BPM"
 >
+
 
 <label>Temperature</label>
 
@@ -212,79 +314,62 @@ step="0.1"
 placeholder="°C"
 >
 
+
 <label>Oxygen Saturation</label>
 
 <input
 id="oxygen"
 type="number"
+min="0"
+max="100"
 placeholder="%"
 >
 
-<button onclick="analyzePatient()">
+
+<button
+onclick="analyzePatient()"
+>
+
 🔍 Analyze Patient
+
 </button>
+
 
 <button
 class="gray"
-onclick="newPatient()">
+onclick="newPatient()"
+>
+
 ➕ New Patient
+
 </button>
+
 
 <div id="result"></div>
 
 </div>
 
 
-<!-- VOICE -->
+
+<!-- =========================================
+FIRST AID
+========================================= -->
 
 <div class="card">
 
-<h2>🎤 Voice Assistant</h2>
-
-<p>
-Speak the patient's symptoms.
-</p>
-
-<select id="voiceLanguage">
-
-<option value="en-US">🇬🇧 English</option>
-
-<option value="fr-FR">🇫🇷 Français</option>
-
-<option value="ar-SA">🇸🇦 العربية</option>
-
-</select>
-
-<button
-class="purple"
-onclick="startVoice()">
-🎤 Start Voice
-</button>
-
-<button
-class="gray"
-onclick="stopVoice()">
-⏹ Stop Voice
-</button>
-
-<div
-id="voiceStatus"
-class="status">
-🎤 Voice assistant ready.
-</div>
-
-</div>
+<h2>🆘 First Aid Guide</h2>
 
 
-<!-- FIRST AID -->
+<label>
+Emergency Condition
+</label>
 
-<div class="card">
-
-<h2>🆘 First Aid</h2>
 
 <select id="condition">
 
-<option value="">Select condition</option>
+<option value="">
+-- Select Condition --
+</option>
 
 <option value="bleeding">
 🩸 Severe Bleeding
@@ -310,91 +395,222 @@ class="status">
 ❤️ Cardiac Arrest
 </option>
 
+<option value="unconscious">
+😵 Unconsciousness
+</option>
+
+<option value="fracture">
+🦴 Fracture
+</option>
+
+<option value="snake">
+🐍 Snake Bite
+</option>
+
+<option value="scorpion">
+🦂 Scorpion Sting
+</option>
+
 </select>
 
-<button onclick="showGuide()">
+
+<button
+onclick="showGuide()"
+>
+
 📖 Show First Aid
+
 </button>
+
 
 <div id="guide"></div>
 
 </div>
 
 
-<!-- STAY WITH ME -->
+
+<!-- =========================================
+STAY WITH ME
+========================================= -->
 
 <div class="card">
 
 <h2>🫶 Stay With Me</h2>
 
-<button onclick="startStay()">
+<p>
+Step-by-step emergency support.
+</p>
+
+
+<button
+onclick="startStay()"
+>
+
 🫶 Start Stay With Me
+
 </button>
+
 
 <div id="stay"></div>
 
 </div>
 
 
-<!-- EMERGENCY -->
+
+<!-- =========================================
+HOSPITAL
+========================================= -->
 
 <div class="card">
 
-<h2>🚑 Emergency</h2>
+<h2>🏥 Nearby Emergency Hospitals</h2>
+
 
 <p>
-For a real emergency, contact professional emergency services.
+
+Find emergency hospitals close to your
+current location.
+
 </p>
+
+
+<button
+class="blue"
+onclick="findHospital()"
+>
+
+📍 Find Nearby Emergency Hospitals
+
+</button>
+
+
+<div
+id="hospitalStatus"
+class="hospital-box"
+>
+
+📍 Press the button to search for
+nearby hospitals.
+
+</div>
+
+</div>
+
+
+
+<!-- =========================================
+EMERGENCY
+========================================= -->
+
+<div class="card">
+
+<h2>🚑 Emergency Assistance</h2>
+
+
+<p>
+
+For a real emergency, contact professional
+emergency services immediately.
+
+</p>
+
 
 <button
 class="red"
-onclick="callEmergency()">
-📞 Call 198
+onclick="callEmergency()"
+>
+
+📞 Call Protection Civile — 198
+
 </button>
 
 </div>
 
 
+
+<!-- WARNING -->
+
 <p class="warning">
 
-⚠️ TriageAI is an educational prototype.
-It does not replace professional medical assessment.
+⚠️ TriageAI is an educational prototype and
+preliminary decision-support tool.
+
+<br>
+
+It does not diagnose disease and does not replace
+professional medical assessment.
+
+<br>
+
+For a real emergency, contact emergency services.
 
 </p>
+
 
 </div>
 
 
+
 <script>
 
-/* =====================================================
-ANALYZE
-===================================================== */
+
+/* =========================================
+ANALYZE PATIENT
+========================================= */
 
 function analyzePatient(){
 
 const name =
-document.getElementById("patientName").value
-|| "Unknown Patient";
+document.getElementById(
+"patientName"
+).value || "Unknown Patient";
+
 
 const age =
-Number(document.getElementById("patientAge").value);
+Number(
+document.getElementById(
+"patientAge"
+).value
+);
+
 
 const symptoms =
-document.getElementById("patientSymptoms").value
+document.getElementById(
+"patientSymptoms"
+).value
 .toLowerCase();
 
+
 const pain =
-Number(document.getElementById("pain").value);
+Number(
+document.getElementById(
+"pain"
+).value
+);
+
 
 const heart =
-Number(document.getElementById("heartRate").value);
+Number(
+document.getElementById(
+"heartRate"
+).value
+);
+
 
 const temperature =
-Number(document.getElementById("temperature").value);
+Number(
+document.getElementById(
+"temperature"
+).value
+);
+
 
 const oxygen =
-Number(document.getElementById("oxygen").value);
+Number(
+document.getElementById(
+"oxygen"
+).value
+);
 
 
 let score = 0;
@@ -402,83 +618,154 @@ let score = 0;
 let reasons = [];
 
 
-/* Pain */
+/* PAIN */
 
 if(pain >= 8){
 
 score += 4;
 
-reasons.push("Severe pain");
+reasons.push(
+"Severe pain"
+);
 
 }
+
 else if(pain >= 5){
 
 score += 2;
 
-reasons.push("Moderate pain");
+reasons.push(
+"Moderate pain"
+);
 
 }
 
 
-/* Oxygen */
+/* OXYGEN */
 
-if(oxygen > 0 && oxygen < 90){
+if(
+oxygen > 0 &&
+oxygen < 90
+){
 
 score += 5;
 
-reasons.push("Very low oxygen");
-
-}
-else if(oxygen > 0 && oxygen < 94){
-
-score += 3;
-
-reasons.push("Low oxygen");
+reasons.push(
+"Very low oxygen saturation"
+);
 
 }
 
-
-/* Heart */
-
-if(
-heart > 0 &&
-(heart < 50 || heart > 120)
+else if(
+oxygen > 0 &&
+oxygen < 94
 ){
 
 score += 3;
 
-reasons.push("Abnormal heart rate");
+reasons.push(
+"Low oxygen saturation"
+);
 
 }
 
 
-/* Temperature */
+/* HEART RATE */
 
-if(temperature >= 39.5){
+if(
+heart > 0 &&
+(
+heart < 50 ||
+heart > 120
+)
+){
 
 score += 3;
 
-reasons.push("High temperature");
+reasons.push(
+"Abnormal heart rate"
+);
 
 }
 
 
-/* Emergency words */
+/* TEMPERATURE */
+
+if(
+temperature >= 39.5
+){
+
+score += 3;
+
+reasons.push(
+"High temperature"
+);
+
+}
+
+else if(
+temperature >= 38.5
+){
+
+score += 1;
+
+reasons.push(
+"Fever"
+);
+
+}
+
+
+/* AGE */
+
+if(
+age >= 65 ||
+(
+age > 0 &&
+age < 5
+)
+){
+
+score += 1;
+
+reasons.push(
+"Age-related risk"
+);
+
+}
+
+
+/* EMERGENCY KEYWORDS */
 
 const emergencyWords = [
 
 "chest pain",
+
 "difficulty breathing",
+
 "shortness of breath",
+
 "severe bleeding",
+
 "heavy bleeding",
+
 "unconscious",
+
 "seizure",
+
 "stroke",
+
 "choking",
+
 "cardiac arrest",
+
 "not breathing",
-"gasping"
+
+"gasping",
+
+"snake bite",
+
+"scorpion sting"
 
 ];
 
@@ -487,12 +774,15 @@ for(
 let word of emergencyWords
 ){
 
-if(symptoms.includes(word)){
+if(
+symptoms.includes(word)
+){
 
 score += 5;
 
 reasons.push(
-"Emergency symptom: " + word
+"Emergency symptom: " +
+word
 );
 
 break;
@@ -502,39 +792,50 @@ break;
 }
 
 
-/* Result */
+/* PRIORITY */
 
 let priority;
 
 let css;
 
+
 if(score >= 7){
 
-priority = "🔴 CRITICAL";
+priority =
+"🔴 CRITICAL";
 
-css = "critical";
+css =
+"critical";
 
 }
 
 else if(score >= 3){
 
-priority = "🟠 URGENT";
+priority =
+"🟠 URGENT";
 
-css = "urgent";
+css =
+"urgent";
 
 }
 
 else{
 
-priority = "🟢 NON-URGENT";
+priority =
+"🟢 NON-URGENT";
 
-css = "normal";
+css =
+"normal";
 
 }
 
 
+/* DISPLAY */
+
 const result =
-document.getElementById("result");
+document.getElementById(
+"result"
+);
 
 
 result.className =
@@ -544,53 +845,69 @@ result.className =
 result.innerHTML = `
 
 <h2 style="text-align:center">
+
 ${priority}
+
 </h2>
+
 
 <div class="item">
 
-<strong>Patient:</strong>
+<strong>👤 Patient:</strong>
+
 ${escapeHTML(name)}
 
 </div>
 
+
 <div class="item">
 
-<strong>Age:</strong>
+<strong>🎂 Age:</strong>
+
 ${age || "Not provided"}
 
 </div>
 
+
 <div class="item">
 
-<strong>Symptoms:</strong>
+<strong>🩺 Symptoms:</strong>
+
 ${escapeHTML(symptoms) || "Not provided"}
 
 </div>
 
+
 <div class="item">
 
-<strong>Heart Rate:</strong>
+<strong>❤️ Vital Signs</strong>
+
+<br><br>
+
+Heart Rate:
 ${heart || "N/A"} BPM
 
 <br>
 
-<strong>Temperature:</strong>
+Temperature:
 ${temperature || "N/A"} °C
 
 <br>
 
-<strong>Oxygen:</strong>
+Oxygen:
 ${oxygen || "N/A"} %
 
 </div>
 
+
 <div class="item">
 
 <strong>📊 Triage Score:</strong>
+
 ${score}
 
 </div>
+
 
 <div class="item">
 
@@ -613,9 +930,9 @@ reasons.join("<br>")
 }
 
 
-/* =====================================================
+/* =========================================
 NEW PATIENT
-===================================================== */
+========================================= */
 
 function newPatient(){
 
@@ -623,33 +940,41 @@ document.getElementById(
 "patientName"
 ).value = "";
 
+
 document.getElementById(
 "patientAge"
 ).value = "";
+
 
 document.getElementById(
 "patientSymptoms"
 ).value = "";
 
+
 document.getElementById(
 "pain"
 ).value = "";
+
 
 document.getElementById(
 "heartRate"
 ).value = "";
 
+
 document.getElementById(
 "temperature"
 ).value = "";
+
 
 document.getElementById(
 "oxygen"
 ).value = "";
 
+
 document.getElementById(
 "result"
 ).innerHTML = "";
+
 
 document.getElementById(
 "result"
@@ -658,9 +983,9 @@ document.getElementById(
 }
 
 
-/* =====================================================
-VOICE
-===================================================== */
+/* =========================================
+VOICE RECOGNITION
+========================================= */
 
 let recognition = null;
 
@@ -681,9 +1006,21 @@ document.getElementById(
 if(!SpeechRecognition){
 
 status.innerHTML =
-"❌ Voice is not supported. Use Google Chrome.";
+"❌ Voice recognition is not supported. Please use Google Chrome.";
 
 return;
+
+}
+
+
+if(recognition){
+
+try{
+
+recognition.stop();
+
+}
+catch(e){}
 
 }
 
@@ -729,7 +1066,13 @@ text;
 
 
 status.innerHTML =
-"✅ Heard: " + text;
+"✅ Heard: " +
+escapeHTML(text);
+
+
+/* Automatic condition detection */
+
+detectCondition(text.toLowerCase());
 
 };
 
@@ -758,6 +1101,7 @@ try{
 recognition.start();
 
 }
+
 catch(error){
 
 status.innerHTML =
@@ -768,9 +1112,9 @@ status.innerHTML =
 }
 
 
-/* =====================================================
+/* =========================================
 STOP VOICE
-===================================================== */
+========================================= */
 
 function stopVoice(){
 
@@ -781,9 +1125,11 @@ try{
 recognition.stop();
 
 }
-catch(error){}
+
+catch(e){}
 
 }
+
 
 document.getElementById(
 "voiceStatus"
@@ -793,59 +1139,170 @@ document.getElementById(
 }
 
 
-/* =====================================================
-FIRST AID
-===================================================== */
+/* =========================================
+FIRST AID DATA
+========================================= */
 
 const guides = {
 
+
 bleeding:[
+
 "Call emergency services.",
+
 "Apply firm direct pressure.",
+
 "Keep pressure continuous.",
+
 "Do not remove an embedded object."
+
 ],
+
 
 choking:[
+
 "If the patient can cough effectively, encourage coughing.",
-"If severe choking, provide appropriate first aid.",
+
+"For severe choking, provide appropriate first aid.",
+
 "If unconscious, start CPR.",
+
 "Call emergency services."
+
 ],
+
 
 burn:[
+
 "Move away from the heat source.",
+
 "Cool the burn with cool running water.",
+
 "Remove rings and watches.",
+
 "Do not use ice directly.",
-"Do not apply butter or toothpaste."
+
+"Do not apply butter, oil or toothpaste."
+
 ],
+
 
 stroke:[
+
 "Think FAST: Face, Arm, Speech, Time.",
+
 "Call emergency services immediately.",
+
 "Record when symptoms started.",
-"Do not give food or drink if swallowing is impaired."
+
+"Do not let the patient drive.",
+
+"Monitor breathing and consciousness."
+
 ],
+
 
 breathing:[
+
 "Sit the patient comfortably.",
+
 "Reassure the patient.",
+
 "Help with prescribed treatment if available.",
+
 "Call emergency services if severe.",
+
 "Monitor breathing."
+
 ],
 
+
 cardiac:[
+
 "Check responsiveness.",
+
+"Check normal breathing.",
+
 "Call emergency services.",
+
 "Start CPR.",
+
 "Use an AED if available.",
+
 "Continue until help arrives."
+
+],
+
+
+unconscious:[
+
+"Check responsiveness.",
+
+"Check normal breathing.",
+
+"Call emergency services.",
+
+"If breathing normally, place in recovery position when appropriate.",
+
+"If not breathing normally, start CPR."
+
+],
+
+
+fracture:[
+
+"Keep the injured area still.",
+
+"Support the injured limb.",
+
+"Do not straighten the limb.",
+
+"Control severe bleeding.",
+
+"Seek medical assessment."
+
+],
+
+
+snake:[
+
+"Move away from the snake.",
+
+"Keep the patient calm and still.",
+
+"Immobilize the bitten limb.",
+
+"Remove rings and watches.",
+
+"Do not cut or suck the wound.",
+
+"Seek urgent medical care."
+
+],
+
+
+scorpion:[
+
+"Move away from the scorpion.",
+
+"Wash the area with soap and water.",
+
+"Use a cool compress.",
+
+"Keep the patient calm.",
+
+"Monitor breathing and consciousness.",
+
+"Seek medical assessment."
+
 ]
 
 };
 
+
+/* =========================================
+SHOW GUIDE
+========================================= */
 
 function showGuide(){
 
@@ -863,8 +1320,15 @@ document.getElementById(
 
 if(!condition){
 
-guide.innerHTML =
-"<div class='item'>Please select a condition.</div>";
+guide.innerHTML = `
+
+<div class="item">
+
+⚠️ Please select a condition first.
+
+</div>
+
+`;
 
 return;
 
@@ -875,7 +1339,9 @@ guide.innerHTML = `
 
 <div class="item">
 
-<strong>🆘 First Aid</strong>
+<h3>
+🆘 First Aid
+</h3>
 
 <ol>
 
@@ -899,9 +1365,152 @@ escapeHTML(step) +
 }
 
 
-/* =====================================================
+/* =========================================
+AUTOMATIC CONDITION
+========================================= */
+
+function detectCondition(text){
+
+if(
+text.includes("bleeding") ||
+text.includes("blood")
+){
+
+document.getElementById(
+"condition"
+).value =
+"bleeding";
+
+showGuide();
+
+}
+
+else if(
+text.includes("choking")
+){
+
+document.getElementById(
+"condition"
+).value =
+"choking";
+
+showGuide();
+
+}
+
+else if(
+text.includes("burn")
+){
+
+document.getElementById(
+"condition"
+).value =
+"burn";
+
+showGuide();
+
+}
+
+else if(
+text.includes("stroke")
+){
+
+document.getElementById(
+"condition"
+).value =
+"stroke";
+
+showGuide();
+
+}
+
+else if(
+text.includes("breathing") ||
+text.includes("shortness of breath")
+){
+
+document.getElementById(
+"condition"
+).value =
+"breathing";
+
+showGuide();
+
+}
+
+else if(
+text.includes("cardiac arrest") ||
+text.includes("not breathing")
+){
+
+document.getElementById(
+"condition"
+).value =
+"cardiac";
+
+showGuide();
+
+}
+
+else if(
+text.includes("unconscious")
+){
+
+document.getElementById(
+"condition"
+).value =
+"unconscious";
+
+showGuide();
+
+}
+
+else if(
+text.includes("fracture") ||
+text.includes("broken bone")
+){
+
+document.getElementById(
+"condition"
+).value =
+"fracture";
+
+showGuide();
+
+}
+
+else if(
+text.includes("snake")
+){
+
+document.getElementById(
+"condition"
+).value =
+"snake";
+
+showGuide();
+
+}
+
+else if(
+text.includes("scorpion")
+){
+
+document.getElementById(
+"condition"
+).value =
+"scorpion";
+
+showGuide();
+
+}
+
+}
+
+
+/* =========================================
 STAY WITH ME
-===================================================== */
+========================================= */
 
 let stayStep = 0;
 
@@ -930,20 +1539,32 @@ return;
 currentSteps =
 guides[condition];
 
+
 stayStep = 0;
+
 
 renderStay();
 
 }
 
 
+/* =========================================
+RENDER STEP
+========================================= */
+
 function renderStay(){
 
-if(stayStep >= currentSteps.length){
-
+const stay =
 document.getElementById(
 "stay"
-).innerHTML = `
+);
+
+
+if(
+stayStep >= currentSteps.length
+){
+
+stay.innerHTML = `
 
 <div class="item">
 
@@ -969,9 +1590,7 @@ const text =
 currentSteps[stayStep];
 
 
-document.getElementById(
-"stay"
-).innerHTML = `
+stay.innerHTML = `
 
 <div class="step">
 
@@ -991,29 +1610,40 @@ ${escapeHTML(text)}
 
 
 <button
-onclick="nextStep()">
+onclick="nextStep()"
+>
+
 ➡️ Next Step
+
 </button>
 
 
 <button
 class="blue"
-onclick="readStep()">
+onclick="readStep()"
+>
+
 🔊 Read Step
+
 </button>
 
 
 <button
 class="gray"
-onclick="stopReading()">
+onclick="stopReading()"
+>
+
 ⏹ Stop Reading
+
 </button>
+
 
 <div
 id="readStatus"
-class="status">
+class="status"
+>
 
-🔊 Ready.
+🔊 Ready to read.
 
 </div>
 
@@ -1022,9 +1652,9 @@ class="status">
 }
 
 
-/* =====================================================
-NEXT
-===================================================== */
+/* =========================================
+NEXT STEP
+========================================= */
 
 function nextStep(){
 
@@ -1037,21 +1667,20 @@ renderStay();
 }
 
 
-/* =====================================================
+/* =========================================
 READ STEP
-===================================================== */
+========================================= */
 
 function readStep(){
 
-if(!currentSteps.length){
+if(
+!currentSteps.length ||
+stayStep >= currentSteps.length
+){
 
 return;
 
 }
-
-
-const text =
-currentSteps[stayStep];
 
 
 if(
@@ -1059,7 +1688,7 @@ if(
 ){
 
 alert(
-"Text to Speech is not supported."
+"Text-to-Speech is not supported on this device."
 );
 
 return;
@@ -1068,6 +1697,10 @@ return;
 
 
 window.speechSynthesis.cancel();
+
+
+const text =
+currentSteps[stayStep];
 
 
 const speech =
@@ -1129,6 +1762,39 @@ status.innerHTML =
 };
 
 
+const voices =
+window.speechSynthesis
+.getVoices();
+
+
+const shortLanguage =
+speech.lang
+.substring(0,2)
+.toLowerCase();
+
+
+const voice =
+voices.find(
+function(v){
+
+return v.lang &&
+v.lang
+.toLowerCase()
+.startsWith(
+shortLanguage
+);
+
+});
+
+
+if(voice){
+
+speech.voice =
+voice;
+
+}
+
+
 window.speechSynthesis.speak(
 speech
 );
@@ -1136,9 +1802,9 @@ speech
 }
 
 
-/* =====================================================
+/* =========================================
 STOP READING
-===================================================== */
+========================================= */
 
 function stopReading(){
 
@@ -1156,6 +1822,7 @@ document.getElementById(
 "readStatus"
 );
 
+
 if(status){
 
 status.innerHTML =
@@ -1166,9 +1833,134 @@ status.innerHTML =
 }
 
 
-/* =====================================================
-CALL 198
-===================================================== */
+/* =========================================
+FIND NEARBY HOSPITALS
+========================================= */
+
+function findHospital(){
+
+const status =
+document.getElementById(
+"hospitalStatus"
+);
+
+
+status.innerHTML =
+"📍 Getting your location...";
+
+
+if(
+!navigator.geolocation
+){
+
+status.innerHTML =
+
+"❌ Location is not supported by this browser.";
+
+return;
+
+}
+
+
+navigator.geolocation.getCurrentPosition(
+
+function(position){
+
+const latitude =
+position.coords.latitude;
+
+const longitude =
+position.coords.longitude;
+
+
+/*
+
+Open Google Maps using
+the patient's exact GPS location.
+
+*/
+
+const mapsURL =
+"https://www.google.com/maps/search/emergency+hospital/@"
++
+latitude
++
+","
++
+longitude
++
+",14z";
+
+
+status.innerHTML = `
+
+📍 Location found.
+
+<br><br>
+
+Opening nearby emergency hospitals...
+
+`;
+
+
+window.open(
+mapsURL,
+"_blank"
+);
+
+},
+
+
+function(error){
+
+status.innerHTML = `
+
+❌ Unable to get your location.
+
+<br><br>
+
+Please allow location permission
+and try again.
+
+`;
+
+
+/*
+
+Fallback search
+
+*/
+
+const fallbackURL =
+"https://www.google.com/maps/search/emergency+hospital+near+me";
+
+
+window.open(
+fallbackURL,
+"_blank"
+);
+
+},
+
+
+{
+
+enableHighAccuracy:true,
+
+timeout:10000,
+
+maximumAge:0
+
+}
+
+);
+
+}
+
+
+/* =========================================
+CALL EMERGENCY
+========================================= */
 
 function callEmergency(){
 
@@ -1178,9 +1970,9 @@ window.location.href =
 }
 
 
-/* =====================================================
+/* =========================================
 ESCAPE HTML
-===================================================== */
+========================================= */
 
 function escapeHTML(value){
 
@@ -1192,15 +1984,38 @@ function(character){
 return {
 
 "&":"&amp;",
+
 "<":"&lt;",
+
 ">":"&gt;",
+
 '"':"&quot;",
+
 "'":"&#039;"
 
 }[character];
 
 }
 );
+
+}
+
+
+/* =========================================
+LOAD SPEECH VOICES
+========================================= */
+
+if(
+"speechSynthesis" in window
+){
+
+window.speechSynthesis.onvoiceschanged =
+function(){
+
+window.speechSynthesis
+.getVoices();
+
+};
 
 }
 
