@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -338,16 +339,6 @@ button:active{
   line-height:1.6;
 }
 
-.step-number{
-  display:inline-block;
-  background:#2563eb;
-  color:white;
-  padding:6px 10px;
-  border-radius:50px;
-  font-size:12px;
-  margin-bottom:8px;
-}
-
 .emergency-banner{
   padding:16px;
   background:#dc2626;
@@ -423,13 +414,12 @@ button:active{
 }
 
 </style>
-</head>
 
+</head>
 
 <body>
 
 <div class="container">
-
 
 <!-- HEADER -->
 
@@ -476,7 +466,6 @@ placeholder="Enter patient name"
 
 </div>
 
-
 <div>
 
 <label>Age</label>
@@ -490,7 +479,6 @@ placeholder="Age"
 >
 
 </div>
-
 
 <div class="full">
 
@@ -526,7 +514,6 @@ placeholder="Describe the patient's symptoms..."
 
 </select>
 
-
 <div class="grid">
 
 <button
@@ -544,7 +531,6 @@ onclick="stopVoice()"
 </button>
 
 </div>
-
 
 <div
 id="voiceStatus"
@@ -572,7 +558,6 @@ placeholder="0 - 10"
 
 </div>
 
-
 <div>
 
 <label>Heart Rate</label>
@@ -584,7 +569,6 @@ placeholder="BPM"
 >
 
 </div>
-
 
 <div>
 
@@ -598,7 +582,6 @@ placeholder="°C"
 >
 
 </div>
-
 
 <div>
 
@@ -616,11 +599,9 @@ placeholder="%"
 
 </div>
 
-
 <button onclick="analyzePatient()">
 🔍 Analyze Patient
 </button>
-
 
 <button
 class="gray"
@@ -628,7 +609,6 @@ onclick="newPatient()"
 >
 ➕ New Patient
 </button>
-
 
 <div id="result"></div>
 
@@ -644,7 +624,6 @@ onclick="newPatient()"
 <p class="subtitle">
 Select an emergency condition to display basic first-aid guidance.
 </p>
-
 
 <label>Emergency Condition</label>
 
@@ -696,11 +675,9 @@ Select an emergency condition to display basic first-aid guidance.
 
 </select>
 
-
 <button onclick="showGuide()">
 📖 Show First Aid
 </button>
-
 
 <div id="guide"></div>
 
@@ -721,14 +698,12 @@ Select an emergency condition to display basic first-aid guidance.
 
 <p class="subtitle">
 TriageAI asks questions by voice, listens to the user's answer,
-and continues step by step.
+and continues automatically step by step.
 </p>
-
 
 <button onclick="startStay()">
 🫶 Start Stay With Me
 </button>
-
 
 <div id="stay"></div>
 
@@ -747,14 +722,12 @@ and continues step by step.
 Use your current GPS location to search for nearby emergency hospitals.
 </p>
 
-
 <button
 class="blue"
 onclick="findHospital()"
 >
 📍 Find Nearby Emergency Hospitals
 </button>
-
 
 <div
 id="hospitalStatus"
@@ -777,7 +750,6 @@ class="hospital-box"
 <p class="subtitle">
 For a real emergency, contact professional emergency services immediately.
 </p>
-
 
 <button
 class="red"
@@ -803,22 +775,44 @@ For a real emergency, contact emergency services.
 
 </p>
 
-
 </div>
 
 
 <script>
 
+/* =====================================================
+   HELPER
+===================================================== */
 
-/* =====================================
+function escapeHTML(value){
+
+return String(value || "")
+.replace(/[&<>"']/g,function(character){
+
+return {
+
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+
+}[character];
+
+});
+
+}
+
+
+/* =====================================================
    TRIAGE
-===================================== */
+===================================================== */
 
 function analyzePatient(){
 
 const name =
-document.getElementById("patientName").value ||
-"Unknown Patient";
+document.getElementById("patientName").value.trim()
+|| "Unknown Patient";
 
 const age =
 Number(document.getElementById("patientAge").value);
@@ -984,15 +978,15 @@ css="normal";
 }
 
 
-const result=
+const result =
 document.getElementById("result");
 
 
-result.className=
+result.className =
 "result "+css;
 
 
-result.innerHTML=`
+result.innerHTML = `
 
 <div class="priority">
 ${priority}
@@ -1010,7 +1004,7 @@ ${age || "Not provided"}
 
 <div class="item">
 <strong>🩺 Symptoms:</strong>
-${escapeHTML(symptoms)||"Not provided"}
+${escapeHTML(symptoms) || "Not provided"}
 </div>
 
 <div class="item">
@@ -1020,17 +1014,17 @@ ${escapeHTML(symptoms)||"Not provided"}
 <br><br>
 
 Heart Rate:
-${heart||"N/A"} BPM
+${heart || "N/A"} BPM
 
 <br>
 
 Temperature:
-${temperature||"N/A"} °C
+${temperature || "N/A"} °C
 
 <br>
 
 Oxygen:
-${oxygen||"N/A"} %
+${oxygen || "N/A"} %
 
 </div>
 
@@ -1063,14 +1057,13 @@ reasons.join("<br>")
 
 if(score>=7){
 
-const detected=
+const detected =
 detectConditionFromSymptoms(symptoms);
 
 if(detected){
 
-document.getElementById(
-"condition"
-).value=detected;
+document.getElementById("condition").value =
+detected;
 
 }
 
@@ -1079,9 +1072,9 @@ document.getElementById(
 }
 
 
-/* =====================================
+/* =====================================================
    NEW PATIENT
-===================================== */
+===================================================== */
 
 function newPatient(){
 
@@ -1107,27 +1100,27 @@ document.getElementById("result").className="";
 }
 
 
-/* =====================================
+/* =====================================================
    GENERAL VOICE ASSISTANT
-===================================== */
+===================================================== */
 
 let recognition=null;
 
 
 function startVoice(){
 
-const SpeechRecognition=
+const SpeechRecognition =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
 
-const status=
+const status =
 document.getElementById("voiceStatus");
 
 
 if(!SpeechRecognition){
 
-status.innerHTML=
+status.innerHTML =
 "❌ Voice recognition is not supported. Please use Google Chrome.";
 
 return;
@@ -1144,10 +1137,11 @@ recognition.stop();
 }
 
 
-recognition=
+recognition =
 new SpeechRecognition();
 
-recognition.lang=
+
+recognition.lang =
 document.getElementById("voiceLanguage").value;
 
 recognition.continuous=false;
@@ -1157,7 +1151,7 @@ recognition.maxAlternatives=1;
 
 recognition.onstart=function(){
 
-status.innerHTML=
+status.innerHTML =
 "🎤 Listening... Speak now.";
 
 };
@@ -1165,7 +1159,7 @@ status.innerHTML=
 
 recognition.onresult=function(event){
 
-const text=
+const text =
 event.results[0][0].transcript;
 
 
@@ -1174,7 +1168,7 @@ document.getElementById(
 ).value=text;
 
 
-status.innerHTML=
+status.innerHTML =
 "✅ Heard: "+
 escapeHTML(text);
 
@@ -1188,7 +1182,7 @@ text.toLowerCase()
 
 recognition.onerror=function(event){
 
-status.innerHTML=
+status.innerHTML =
 "❌ Voice error: "+event.error;
 
 };
@@ -1200,7 +1194,7 @@ if(
 status.innerHTML.includes("Listening")
 ){
 
-status.innerHTML=
+status.innerHTML =
 "🎤 Voice assistant ready.";
 
 }
@@ -1215,7 +1209,7 @@ recognition.start();
 }
 catch(e){
 
-status.innerHTML=
+status.innerHTML =
 "❌ Could not start microphone.";
 
 }
@@ -1235,15 +1229,15 @@ recognition.stop();
 
 document.getElementById(
 "voiceStatus"
-).innerHTML=
+).innerHTML =
 "⏹ Voice stopped.";
 
 }
 
 
-/* =====================================
+/* =====================================================
    FIRST AID
-===================================== */
+===================================================== */
 
 const guides={
 
@@ -1325,7 +1319,7 @@ cardiac:[
 
 "Use an AED if available.",
 
-"Continue until help arrives or the patient shows signs of normal breathing."
+"Continue until help arrives or normal breathing returns."
 
 ],
 
@@ -1394,16 +1388,16 @@ scorpion:[
 
 function showGuide(){
 
-const condition=
+const condition =
 document.getElementById("condition").value;
 
-const guide=
+const guide =
 document.getElementById("guide");
 
 
 if(!condition){
 
-guide.innerHTML=`
+guide.innerHTML = `
 
 <div class="item">
 ⚠️ Please select a condition first.
@@ -1416,7 +1410,7 @@ return;
 }
 
 
-guide.innerHTML=`
+guide.innerHTML = `
 
 <div class="item">
 
@@ -1445,21 +1439,20 @@ escapeHTML(step)+
 }
 
 
-/* =====================================
+/* =====================================================
    CONDITION DETECTION
-===================================== */
+===================================================== */
 
 function detectCondition(text){
 
-const condition=
+const condition =
 detectConditionFromSymptoms(text);
 
 
 if(condition){
 
-document.getElementById(
-"condition"
-).value=condition;
+document.getElementById("condition").value =
+condition;
 
 showGuide();
 
@@ -1592,29 +1585,21 @@ return "";
 }
 
 
-/* =====================================
+/* =====================================================
    STAY WITH ME 2.0
-   VOICE-FIRST SYSTEM
-===================================== */
+===================================================== */
 
 let stayCondition="";
 let stayQuestionIndex=0;
-let stayListening=false;
-let stayVoiceRecognition=null;
 let stayStopped=false;
+let stayVoiceRecognition=null;
 
 
-/*
-  كل سؤال عنده:
-  question = السؤال
-  yes = الرد إذا قال YES
-  no = الرد إذا قال NO
-  nextYes = الخطوة القادمة
-  nextNo = الخطوة القادمة
-*/
+/* =====================================================
+   STAY FLOWS
+===================================================== */
 
 const stayFlows={
-
 
 choking:{
 
@@ -1634,9 +1619,9 @@ ar:"هل المريض واعي؟"
 },
 
 yes:{
-en:"The patient is conscious. If they can cough effectively, encourage coughing and monitor closely.",
-fr:"Le patient est conscient. S'il peut tousser efficacement, encouragez-le à tousser et surveillez-le.",
-ar:"المريض واعي. إذا كان يستطيع السعال، شجعه على السعال وراقبه."
+en:"The patient is conscious. Encourage coughing if they can cough effectively.",
+fr:"Le patient est conscient. Encouragez-le à tousser s'il peut tousser efficacement.",
+ar:"المريض واعي. شجعه على السعال إذا كان يستطيع السعال بشكل فعال."
 },
 
 no:{
@@ -1697,8 +1682,8 @@ ar:"هل المريض يستجيب؟"
 },
 
 yes:{
-en:"Continue monitoring the patient closely and seek urgent professional assessment.",
-fr:"Surveillez attentivement le patient et demandez une évaluation médicale urgente.",
+en:"Continue monitoring the patient and seek urgent medical assessment.",
+fr:"Continuez à surveiller le patient et demandez une évaluation médicale urgente.",
 ar:"واصل مراقبة المريض واطلب تقييماً طبياً عاجلاً."
 },
 
@@ -1784,9 +1769,9 @@ ar:"هل المريض يتنفس بشكل طبيعي؟"
 },
 
 yes:{
-en:"If breathing normally, use the recovery position when appropriate and continue monitoring.",
-fr:"S'il respire normalement, utilisez la position latérale de sécurité si appropriée et continuez la surveillance.",
-ar:"إذا كان يتنفس بشكل طبيعي، ضع المريض في وضعية الإفاقة عندما يكون ذلك مناسباً وواصل المراقبة."
+en:"Continue monitoring the patient and follow professional advice.",
+fr:"Continuez à surveiller le patient et suivez les conseils des professionnels.",
+ar:"واصل مراقبة المريض واتبع تعليمات المختصين."
 },
 
 no:{
@@ -1869,8 +1854,8 @@ ar:"اتصل بالطوارئ فوراً وسجل وقت بداية الأعرا
 
 no:{
 en:"New neurological symptoms still require urgent medical assessment.",
-fr:"De nouveaux symptômes neurologiques nécessitent tout de même une évaluation médicale urgente.",
-ar:"الأعراض العصبية الجديدة تحتاج أيضاً إلى تقييـم طبي عاجل."
+fr:"De nouveaux symptômes neurologiques nécessitent une évaluation médicale urgente.",
+ar:"الأعراض العصبية الجديدة تحتاج إلى تقييم طبي عاجل."
 },
 
 nextYes:"emergency",
@@ -1927,7 +1912,7 @@ burn:{
 intro:{
 en:"Stay with the patient and protect the burned area.",
 fr:"Restez avec le patient et protégez la zone brûlée.",
-ar:"ابق مع المريض واحمِ المنطقة المحروقة."
+ar:"ابق مع المريض واحم المنطقة المحروقة."
 },
 
 questions:[
@@ -2080,22 +2065,20 @@ nextNo:"finish"
 };
 
 
-/* =====================================
+/* =====================================================
    LANGUAGE
-===================================== */
+===================================================== */
 
 function currentLang(){
 
-const value=
-document.getElementById(
-"voiceLanguage"
-).value;
+const value =
+document.getElementById("voiceLanguage").value;
 
-if(value.startsWith("fr")){
+if(value.indexOf("fr")===0){
 return "fr";
 }
 
-if(value.startsWith("ar")){
+if(value.indexOf("ar")===0){
 return "ar";
 }
 
@@ -2104,33 +2087,23 @@ return "en";
 }
 
 
-/* =====================================
-   START STAY WITH ME
-===================================== */
+/* =====================================================
+   START STAY
+===================================================== */
 
 function startStay(){
 
-const condition=
-document.getElementById(
-"condition"
-).value;
+const condition =
+document.getElementById("condition").value;
 
-
-const stay=
+const stay =
 document.getElementById("stay");
 
 
 if(!condition){
 
-stay.innerHTML=`
-
-<div class="item">
-
-⚠️ Please select an emergency condition first.
-
-</div>
-
-`;
+stay.innerHTML =
+'<div class="item">⚠️ Please select an emergency condition first.</div>';
 
 return;
 
@@ -2139,22 +2112,13 @@ return;
 
 if(!stayFlows[condition]){
 
-stay.innerHTML=`
-
-<div class="item">
-
-⚠️ Voice Stay With Me is not available for this condition yet.
-
-</div>
-
-`;
+stay.innerHTML =
+'<div class="item">⚠️ Voice mode is not available for this condition.</div>';
 
 return;
 
 }
 
-
-/* STOP OLD RECOGNITION */
 
 stopStayRecognition();
 
@@ -2173,84 +2137,50 @@ stayQuestionIndex=0;
 stayStopped=false;
 
 
-renderStayVoiceIntro();
-
-}
-
-
-/* =====================================
-   INTRO
-===================================== */
-
-function renderStayVoiceIntro(){
-
-const stay=
-document.getElementById("stay");
-
-const flow=
-stayFlows[stayCondition];
-
-const lang=
+const lang =
 currentLang();
 
-const intro=
-flow.intro[lang];
+const intro =
+stayFlows[condition].intro[lang];
 
 
-stay.innerHTML=`
+stay.innerHTML = `
 
 <div class="stay-box voice-active">
 
 <div class="stay-title">
-
 🫶 Stay With Me — Voice Mode
-
 </div>
-
 
 <div class="status">
-
 ${escapeHTML(intro)}
-
 </div>
-
 
 <div class="question">
 
 <div class="question-number">
-
 VOICE MODE
-
 </div>
 
 <br>
 
-🎤 TriageAI will ask the questions automatically.
+🎤 TriageAI will ask automatically.
 
 <br><br>
 
-👂 Just answer with your voice.
+👂 Just answer YES or NO.
 
 </div>
 
-
-<div
-id="stayVoiceStatus"
-class="voice-listening"
->
-
+<div id="stayVoiceStatus" class="status">
 🔊 Preparing voice...
-
 </div>
-
 
 <button
 class="gray"
 onclick="stopStay()"
 >
-
-⏹ Stop Stay With Me
-
+⏹ Stop
 </button>
 
 </div>
@@ -2258,15 +2188,13 @@ onclick="stopStay()"
 `;
 
 
-/*
-  Give the browser a tiny moment before speaking.
-*/
-
 setTimeout(function(){
 
 speakStayText(
 intro,
 function(){
+
+if(!stayStopped){
 
 setTimeout(
 askStayQuestion,
@@ -2275,16 +2203,16 @@ askStayQuestion,
 
 }
 
-);
+});
 
 },500);
 
 }
 
 
-/* =====================================
+/* =====================================================
    ASK QUESTION
-===================================== */
+===================================================== */
 
 function askStayQuestion(){
 
@@ -2293,14 +2221,16 @@ return;
 }
 
 
-const flow=
+const flow =
 stayFlows[stayCondition];
 
 
-if(
-!flow ||
-stayQuestionIndex>=flow.questions.length
-){
+if(!flow){
+return;
+}
+
+
+if(stayQuestionIndex >= flow.questions.length){
 
 finishStayVoice();
 
@@ -2309,12 +2239,12 @@ return;
 }
 
 
-const lang=
+const lang =
 currentLang();
 
-const question=
-flow.questions[stayQuestionIndex]
-.q[lang];
+
+const question =
+flow.questions[stayQuestionIndex].q[lang];
 
 
 renderVoiceQuestion(question);
@@ -2322,65 +2252,61 @@ renderVoiceQuestion(question);
 
 setTimeout(function(){
 
+if(stayStopped){
+return;
+}
+
+
 speakStayText(
 question,
 function(){
 
+if(!stayStopped){
+
 setTimeout(
 listenForStayAnswer,
-500
+600
 );
 
 }
 
-);
+});
 
 },300);
 
 }
 
 
-/* =====================================
-   DISPLAY QUESTION
-===================================== */
+/* =====================================================
+   QUESTION DISPLAY
+===================================================== */
 
 function renderVoiceQuestion(question){
 
-const stay=
+const stay =
 document.getElementById("stay");
 
 
-const total=
-stayFlows[stayCondition]
-.questions.length;
+const total =
+stayFlows[stayCondition].questions.length;
 
 
-stay.innerHTML=`
+stay.innerHTML = `
 
 <div class="stay-box voice-active">
 
 <div class="stay-title">
-
 🫶 Stay With Me
-
 </div>
-
 
 <div class="status">
-
-🎤 TriageAI is talking to you.
-
+🎤 Listen and answer by voice.
 </div>
-
 
 <div class="question">
 
 <div class="question-number">
-
-QUESTION ${stayQuestionIndex+1}
-/
-${total}
-
+QUESTION ${stayQuestionIndex+1} / ${total}
 </div>
 
 <br>
@@ -2389,36 +2315,25 @@ ${escapeHTML(question)}
 
 </div>
 
-
-<div
-id="stayVoiceStatus"
-class="voice-listening"
->
-
+<div id="stayVoiceStatus" class="voice-listening">
 🔊 Speaking...
-
 </div>
 
+<div id="backupArea"></div>
 
 <button
 class="purple"
 onclick="repeatStayQuestion()"
 >
-
 🔊 Repeat Question
-
 </button>
-
 
 <button
 class="gray"
 onclick="stopStay()"
 >
-
 ⏹ Stop
-
 </button>
-
 
 </div>
 
@@ -2427,9 +2342,9 @@ onclick="stopStay()"
 }
 
 
-/* =====================================
+/* =====================================================
    REPEAT QUESTION
-===================================== */
+===================================================== */
 
 function repeatStayQuestion(){
 
@@ -2438,36 +2353,38 @@ return;
 }
 
 
-const flow=
+stopStayRecognition();
+
+
+const flow =
 stayFlows[stayCondition];
 
-const lang=
-currentLang();
 
-const question=
-flow.questions[stayQuestionIndex]
-.q[lang];
+const question =
+flow.questions[stayQuestionIndex].q[currentLang()];
 
 
 speakStayText(
 question,
 function(){
 
+if(!stayStopped){
+
 setTimeout(
 listenForStayAnswer,
-400
+600
 );
 
 }
 
-);
+});
 
 }
 
 
-/* =====================================
-   LISTEN TO ANSWER
-===================================== */
+/* =====================================================
+   LISTEN FOR YES / NO
+===================================================== */
 
 function listenForStayAnswer(){
 
@@ -2476,30 +2393,27 @@ return;
 }
 
 
-const SpeechRecognition=
+const SpeechRecognition =
 window.SpeechRecognition ||
 window.webkitSpeechRecognition;
 
 
-const status=
-document.getElementById(
-"stayVoiceStatus"
-);
+const status =
+document.getElementById("stayVoiceStatus");
 
 
 if(!SpeechRecognition){
+
+showBackupButtons();
 
 if(status){
 
 status.className="status";
 
-status.innerHTML=
-"❌ Voice recognition is not supported. Use the YES / NO buttons below.";
+status.innerHTML =
+"❌ Voice recognition is not supported. Use YES / NO.";
 
 }
-
-
-addBackupButtons();
 
 return;
 
@@ -2509,65 +2423,54 @@ return;
 stopStayRecognition();
 
 
-stayVoiceRecognition=
+stayVoiceRecognition =
 new SpeechRecognition();
 
 
-stayVoiceRecognition.lang=
-document.getElementById(
-"voiceLanguage"
-).value;
+stayVoiceRecognition.lang =
+document.getElementById("voiceLanguage").value;
 
 
 stayVoiceRecognition.continuous=false;
 
 stayVoiceRecognition.interimResults=false;
 
-stayVoiceRecognition.maxAlternatives=3;
-
-
-stayListening=true;
+stayVoiceRecognition.maxAlternatives=5;
 
 
 if(status){
 
-status.className=
-"voice-listening";
+status.className="voice-listening";
 
-status.innerHTML=
-"🎤 Listening... Answer YES or NO.";
+status.innerHTML =
+"🎤 Listening... Say YES or NO.";
 
 }
 
 
-stayVoiceRecognition.onresult=
+stayVoiceRecognition.onresult =
 function(event){
 
-const transcript=
+const transcript =
 event.results[0][0].transcript;
 
 
-stayListening=false;
+const answer =
+understandYesNo(transcript);
 
+
+if(answer){
 
 if(status){
 
 status.className="status";
 
-status.innerHTML=
+status.innerHTML =
 "👂 Heard: "+
 escapeHTML(transcript);
 
 }
 
-
-const answer=
-understandYesNo(
-transcript
-);
-
-
-if(answer){
 
 handleStayAnswer(answer);
 
@@ -2581,36 +2484,68 @@ handleUnknownAnswer();
 };
 
 
-stayVoiceRecognition.onerror=
+stayVoiceRecognition.onerror =
 function(event){
 
-stayListening=false;
+if(event.error==="not-allowed" ||
+event.error==="permission-denied"){
+
+if(status){
+
+status.className="status";
+
+status.innerHTML =
+"❌ Microphone permission denied. Use YES / NO buttons.";
+
+}
+
+showBackupButtons();
+
+return;
+
+}
+
+
+if(event.error==="no-speech"){
+
+if(status){
+
+status.className="status";
+
+status.innerHTML =
+"⚠️ I didn't hear you. Listening again...";
+
+}
+
+setTimeout(
+listenForStayAnswer,
+700
+);
+
+return;
+
+}
 
 
 if(status){
 
 status.className="status";
 
-status.innerHTML=
-"❌ I couldn't understand the answer. Please try again.";
+status.innerHTML =
+"❌ Microphone error. Trying again...";
 
 }
 
-
 setTimeout(
 listenForStayAnswer,
-800
+1000
 );
 
 };
 
 
-stayVoiceRecognition.onend=
-function(){
-
-stayListening=false;
-
-};
+stayVoiceRecognition.onend =
+function(){};
 
 
 try{
@@ -2620,61 +2555,79 @@ stayVoiceRecognition.start();
 }
 catch(error){
 
+showBackupButtons();
+
 if(status){
 
 status.className="status";
 
-status.innerHTML=
-"❌ Microphone could not start.";
-
-}
-
-addBackupButtons();
+status.innerHTML =
+"❌ Microphone could not start. Use YES / NO.";
 
 }
 
 }
 
+}
 
-/* =====================================
+
+/* =====================================================
    UNDERSTAND YES / NO
-===================================== */
+===================================================== */
 
 function understandYesNo(text){
 
-const t=
+const t =
 text
 .toLowerCase()
 .trim();
 
 
-/* YES */
-
-const yesWords=[
+const yesWords = [
 
 "yes",
 "yeah",
 "yep",
-"correct",
 "oui",
 "ouais",
 "si",
 "نعم",
 "اي",
 "إي",
-"نعم نعم",
+"أيوة",
+"ايوة",
 "آه",
-"اه"
+"اه",
+"أجل"
+
+];
+
+
+const noWords = [
+
+"no",
+"nope",
+"non",
+"لا",
+"لأ",
+"موش",
+"مش",
+"مو",
+"كلا"
 
 ];
 
 
 for(let word of yesWords){
 
+if(t===word){
+return "yes";
+}
+
 if(
-t===word ||
-t.includes(word+" ") ||
-t.includes(" "+word)
+t.startsWith(word+" ") ||
+t.endsWith(" "+word) ||
+t.includes(" "+word+" ")
 ){
 
 return "yes";
@@ -2684,30 +2637,16 @@ return "yes";
 }
 
 
-/* NO */
-
-const noWords=[
-
-"no",
-"nope",
-"non",
-"pas du tout",
-"لا",
-"لا لا",
-"موش",
-"مش",
-"مو",
-"ليس"
-
-];
-
-
 for(let word of noWords){
 
+if(t===word){
+return "no";
+}
+
 if(
-t===word ||
-t.includes(word+" ") ||
-t.includes(" "+word)
+t.startsWith(word+" ") ||
+t.endsWith(" "+word) ||
+t.includes(" "+word+" ")
 ){
 
 return "no";
@@ -2722,13 +2661,18 @@ return null;
 }
 
 
-/* =====================================
+/* =====================================================
    UNKNOWN ANSWER
-===================================== */
+===================================================== */
 
 function handleUnknownAnswer(){
 
-const lang=
+if(stayStopped){
+return;
+}
+
+
+const lang =
 currentLang();
 
 
@@ -2737,35 +2681,33 @@ let message;
 
 if(lang==="fr"){
 
-message=
+message =
 "Je n'ai pas compris. Répondez simplement oui ou non.";
 
 }
 else if(lang==="ar"){
 
-message=
+message =
 "لم أفهم الإجابة. أجب فقط بنعم أو لا.";
 
 }
 else{
 
-message=
+message =
 "I didn't understand. Please answer yes or no.";
 
 }
 
 
-const status=
-document.getElementById(
-"stayVoiceStatus"
-);
+const status =
+document.getElementById("stayVoiceStatus");
 
 
 if(status){
 
 status.className="status";
 
-status.innerHTML=
+status.innerHTML =
 "⚠️ "+
 escapeHTML(message);
 
@@ -2776,21 +2718,23 @@ speakStayText(
 message,
 function(){
 
+if(!stayStopped){
+
 setTimeout(
 listenForStayAnswer,
-500
+600
 );
 
 }
 
-);
+});
 
 }
 
 
-/* =====================================
+/* =====================================================
    HANDLE ANSWER
-===================================== */
+===================================================== */
 
 function handleStayAnswer(answer){
 
@@ -2799,18 +2743,22 @@ return;
 }
 
 
-const flow=
+stopStayRecognition();
+
+
+const flow =
 stayFlows[stayCondition];
 
-const question=
+
+const question =
 flow.questions[stayQuestionIndex];
 
 
-const lang=
+const lang =
 currentLang();
 
 
-const response=
+const response =
 answer==="yes"
 ?
 question.yes[lang]
@@ -2818,7 +2766,7 @@ question.yes[lang]
 question.no[lang];
 
 
-const next=
+const next =
 answer==="yes"
 ?
 question.nextYes
@@ -2826,25 +2774,27 @@ question.nextYes
 question.nextNo;
 
 
-/*
-  Show response first.
-*/
-
 renderStayResponse(
 response,
 answer
 );
 
 
-/*
-  Speak response.
-*/
-
 setTimeout(function(){
+
+if(stayStopped){
+return;
+}
+
 
 speakStayText(
 response,
 function(){
+
+if(stayStopped){
+return;
+}
+
 
 setTimeout(function(){
 
@@ -2860,7 +2810,7 @@ finishStayVoice();
 }
 else{
 
-stayQuestionIndex=
+stayQuestionIndex =
 next;
 
 askStayQuestion();
@@ -2869,38 +2819,33 @@ askStayQuestion();
 
 },700);
 
-}
-
-);
+});
 
 },300);
 
 }
 
 
-/* =====================================
-   RESPONSE SCREEN
-===================================== */
+/* =====================================================
+   RESPONSE
+===================================================== */
 
 function renderStayResponse(
 response,
 answer
 ){
 
-const stay=
+const stay =
 document.getElementById("stay");
 
 
-stay.innerHTML=`
+stay.innerHTML = `
 
 <div class="stay-box voice-active">
 
 <div class="stay-title">
-
 🫶 Stay With Me
-
 </div>
-
 
 <div class="status">
 
@@ -2920,31 +2865,24 @@ answer==="yes"
 
 </div>
 
-
 <div class="step">
 
 ${escapeHTML(response)}
 
 </div>
 
-
 <div
 id="stayVoiceStatus"
 class="status"
 >
-
 🔊 Processing next step...
-
 </div>
-
 
 <button
 class="gray"
 onclick="stopStay()"
 >
-
 ⏹ Stop
-
 </button>
 
 </div>
@@ -2954,9 +2892,49 @@ onclick="stopStay()"
 }
 
 
-/* =====================================
-   EMERGENCY VOICE MODE
-===================================== */
+/* =====================================================
+   BACKUP BUTTONS
+===================================================== */
+
+function showBackupButtons(){
+
+const area =
+document.getElementById("backupArea");
+
+
+if(!area){
+return;
+}
+
+
+area.innerHTML = `
+
+<div class="answer-grid">
+
+<button
+class="answer-yes"
+onclick="handleStayAnswer('yes')"
+>
+🟢 YES
+</button>
+
+<button
+class="answer-no"
+onclick="handleStayAnswer('no')"
+>
+🔴 NO
+</button>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   EMERGENCY MODE
+===================================================== */
 
 function renderEmergencyVoice(){
 
@@ -2965,7 +2943,10 @@ return;
 }
 
 
-const lang=
+stopStayRecognition();
+
+
+const lang =
 currentLang();
 
 
@@ -2975,38 +2956,38 @@ let message;
 
 if(lang==="fr"){
 
-title=
+title =
 "MODE URGENCE";
 
-message=
+message =
 "Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient.";
 
 }
 else if(lang==="ar"){
 
-title=
+title =
 "وضعية الطوارئ";
 
-message=
+message =
 "تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض.";
 
 }
 else{
 
-title=
+title =
 "EMERGENCY MODE";
 
-message=
+message =
 "A potentially serious emergency has been identified. Contact emergency services and stay with the patient.";
 
 }
 
 
-const stay=
+const stay =
 document.getElementById("stay");
 
 
-stay.innerHTML=`
+stay.innerHTML = `
 
 <div class="stay-box emergency-mode">
 
@@ -3016,61 +2997,45 @@ stay.innerHTML=`
 
 </div>
 
-
 <div class="item">
 
 🫶 ${escapeHTML(message)}
 
 </div>
 
-
 <div
 id="stayVoiceStatus"
 class="status"
 >
-
 🔊 Speaking...
-
 </div>
-
 
 <button
 class="red"
 onclick="callEmergency()"
 >
-
 📞 Call Emergency Services
-
 </button>
-
 
 <button
 class="blue"
 onclick="findHospital()"
 >
-
 📍 Find Emergency Hospital
-
 </button>
-
 
 <button
 class="purple"
 onclick="repeatEmergencyMessage()"
 >
-
 🔊 Read Again
-
 </button>
-
 
 <button
 class="gray"
 onclick="stopStay()"
 >
-
-⏹ Stop Stay With Me
-
+⏹ Stop
 </button>
 
 </div>
@@ -3080,42 +3045,41 @@ onclick="stopStay()"
 
 setTimeout(function(){
 
-speakStayText(
-message
-);
+speakStayText(message);
 
 },400);
 
 }
 
 
-/* =====================================
+/* =====================================================
    REPEAT EMERGENCY
-===================================== */
+===================================================== */
 
 function repeatEmergencyMessage(){
 
-const lang=
+const lang =
 currentLang();
+
 
 let message;
 
 
 if(lang==="fr"){
 
-message=
+message =
 "Une situation potentiellement urgente a été identifiée. Appelez les secours et restez avec le patient.";
 
 }
 else if(lang==="ar"){
 
-message=
+message =
 "تم تحديد وضعية قد تكون طارئة. اتصل بالطوارئ وابق مع المريض.";
 
 }
 else{
 
-message=
+message =
 "A potentially serious emergency has been identified. Contact emergency services and stay with the patient.";
 
 }
@@ -3126,9 +3090,9 @@ speakStayText(message);
 }
 
 
-/* =====================================
-   FINISH VOICE STAY
-===================================== */
+/* =====================================================
+   FINISH
+===================================================== */
 
 function finishStayVoice(){
 
@@ -3137,7 +3101,10 @@ return;
 }
 
 
-const lang=
+stopStayRecognition();
+
+
+const lang =
 currentLang();
 
 
@@ -3146,29 +3113,29 @@ let message;
 
 if(lang==="fr"){
 
-message=
+message =
 "Les étapes de Stay With Me sont terminées. Continuez à surveiller le patient et suivez les instructions des professionnels de santé.";
 
 }
 else if(lang==="ar"){
 
-message=
+message =
 "انتهت خطوات Stay With Me. واصل مراقبة المريض واتبع تعليمات المختصين في الرعاية الصحية.";
 
 }
 else{
 
-message=
+message =
 "Stay With Me guidance is complete. Continue monitoring the patient and follow professional medical instructions.";
 
 }
 
 
-const stay=
+const stay =
 document.getElementById("stay");
 
 
-stay.innerHTML=`
+stay.innerHTML = `
 
 <div class="stay-box">
 
@@ -3178,51 +3145,38 @@ stay.innerHTML=`
 
 </div>
 
-
 <div class="item">
 
 🫶 ${escapeHTML(message)}
 
 </div>
 
-
 <div
 id="stayVoiceStatus"
 class="status"
 >
-
 🔊 Speaking...
-
 </div>
-
 
 <button
 class="blue"
 onclick="startStay()"
 >
-
 🔄 Restart Stay With Me
-
 </button>
-
 
 <button
 class="purple"
-onclick="speakStayText('${escapeHTML(message)}')"
+onclick="repeatFinishMessage()"
 >
-
 🔊 Read Again
-
 </button>
-
 
 <button
 class="gray"
 onclick="stopStay()"
 >
-
 ⏹ Close
-
 </button>
 
 </div>
@@ -3232,27 +3186,66 @@ onclick="stopStay()"
 
 setTimeout(function(){
 
-speakStayText(
-message
-);
+speakStayText(message);
 
 },400);
 
 }
 
 
-/* =====================================
-   SPEAK STAY TEXT
-===================================== */
+/* =====================================================
+   REPEAT FINISH
+===================================================== */
+
+function repeatFinishMessage(){
+
+const lang =
+currentLang();
+
+
+let message;
+
+
+if(lang==="fr"){
+
+message =
+"Les étapes de Stay With Me sont terminées. Continuez à surveiller le patient et suivez les instructions des professionnels de santé.";
+
+}
+else if(lang==="ar"){
+
+message =
+"انتهت خطوات Stay With Me. واصل مراقبة المريض واتبع تعليمات المختصين في الرعاية الصحية.";
+
+}
+else{
+
+message =
+"Stay With Me guidance is complete. Continue monitoring the patient and follow professional medical instructions.";
+
+}
+
+
+speakStayText(message);
+
+}
+
+
+/* =====================================================
+   SPEAK TEXT
+===================================================== */
 
 function speakStayText(
 text,
 callback
 ){
 
-if(
-!("speechSynthesis" in window)
-){
+if(stayStopped){
+return;
+}
+
+
+if(!("speechSynthesis" in window)){
 
 if(callback){
 callback();
@@ -3266,11 +3259,11 @@ return;
 window.speechSynthesis.cancel();
 
 
-const speech=
+const speech =
 new SpeechSynthesisUtterance(text);
 
 
-speech.lang=
+speech.lang =
 document.getElementById(
 "voiceLanguage"
 ).value;
@@ -3283,19 +3276,18 @@ speech.pitch=1;
 speech.volume=1;
 
 
-const voices=
+const voices =
 window.speechSynthesis.getVoices();
 
 
-const shortLang=
+const shortLang =
 speech.lang
 .substring(0,2)
 .toLowerCase();
 
 
-const voice=
-voices.find(
-function(v){
+const voice =
+voices.find(function(v){
 
 return v.lang &&
 v.lang
@@ -3312,7 +3304,7 @@ speech.voice=voice;
 }
 
 
-const status=
+const status =
 document.getElementById(
 "stayVoiceStatus"
 );
@@ -3322,19 +3314,18 @@ if(status){
 
 status.className="status";
 
-status.innerHTML=
+status.innerHTML =
 "🔊 Speaking...";
 
 }
 
 
-speech.onend=
-function(){
+speech.onend=function(){
 
 if(status){
 
-status.innerHTML=
-"🎤 Waiting for your answer...";
+status.innerHTML =
+"🎤 Listening...";
 
 }
 
@@ -3347,8 +3338,7 @@ callback();
 };
 
 
-speech.onerror=
-function(){
+speech.onerror=function(){
 
 if(callback){
 
@@ -3366,73 +3356,14 @@ speech
 }
 
 
-/* =====================================
-   BACKUP YES / NO
-===================================== */
-
-function addBackupButtons(){
-
-const stay=
-document.getElementById("stay");
-
-
-const old=
-document.getElementById(
-"backupAnswers"
-);
-
-if(old){
-return;
-}
-
-
-const box=
-document.createElement("div");
-
-box.id=
-"backupAnswers";
-
-
-box.innerHTML=`
-
-<div class="answer-grid">
-
-<button
-class="answer-yes"
-onclick="handleStayAnswer('yes')"
->
-
-🟢 YES
-
-</button>
-
-
-<button
-class="answer-no"
-onclick="handleStayAnswer('no')"
->
-
-🔴 NO
-
-</button>
-
-</div>
-
-`;
-
-
-stay.appendChild(box);
-
-}
-
-
-/* =====================================
+/* =====================================================
    STOP STAY
-===================================== */
+===================================================== */
 
 function stopStay(){
 
 stayStopped=true;
+
 
 stopStayRecognition();
 
@@ -3446,7 +3377,7 @@ window.speechSynthesis.cancel();
 
 document.getElementById(
 "stay"
-).innerHTML=`
+).innerHTML = `
 
 <div class="status">
 
@@ -3454,18 +3385,24 @@ document.getElementById(
 
 </div>
 
+`;
+
 }
 
 
-/* =====================================
-   STOP RECOGNITION
-===================================== */
+/* =====================================================
+   STOP STAY RECOGNITION
+===================================================== */
 
 function stopStayRecognition(){
 
 if(stayVoiceRecognition){
 
 try{
+
+stayVoiceRecognition.onresult=null;
+stayVoiceRecognition.onerror=null;
+stayVoiceRecognition.onend=null;
 
 stayVoiceRecognition.stop();
 
@@ -3476,30 +3413,28 @@ stayVoiceRecognition=null;
 
 }
 
-stayListening=false;
-
 }
 
 
-/* =====================================
+/* =====================================================
    HOSPITAL
-===================================== */
+===================================================== */
 
 function findHospital(){
 
-const status=
+const status =
 document.getElementById(
 "hospitalStatus"
 );
 
 
-status.innerHTML=
+status.innerHTML =
 "📍 Getting your location...";
 
 
 if(!navigator.geolocation){
 
-status.innerHTML=
+status.innerHTML =
 "❌ Location is not supported by this browser.";
 
 return;
@@ -3511,23 +3446,24 @@ navigator.geolocation.getCurrentPosition(
 
 function(position){
 
-const lat=
+const lat =
 position.coords.latitude;
 
-const lon=
+const lon =
 position.coords.longitude;
 
 
-const mapsURL=
+const mapsURL =
 "https://www.google.com/maps/search/emergency+hospital/@"
 +
 lat+
-","+
+","
++
 lon+
 ",14z";
 
 
-status.innerHTML=
+status.innerHTML =
 "📍 Location found.<br><br>Opening nearby emergency hospitals...";
 
 
@@ -3538,10 +3474,9 @@ mapsURL,
 
 },
 
-
 function(){
 
-status.innerHTML=
+status.innerHTML =
 "❌ Unable to get your location.<br><br>Please allow location permission and try again.";
 
 
@@ -3551,7 +3486,6 @@ window.open(
 );
 
 },
-
 
 {
 enableHighAccuracy:true,
@@ -3564,54 +3498,25 @@ maximumAge:0
 }
 
 
-/* =====================================
+/* =====================================================
    CALL EMERGENCY
-===================================== */
+===================================================== */
 
 function callEmergency(){
 
-window.location.href=
+window.location.href =
 "tel:198";
 
 }
 
 
-/* =====================================
-   ESCAPE HTML
-===================================== */
+/* =====================================================
+   VOICE LOADING
+===================================================== */
 
-function escapeHTML(value){
+if("speechSynthesis" in window){
 
-return String(value||"")
-.replace(
-/[&<>"']/g,
-function(character){
-
-return {
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[character];
-
-}
-);
-
-}
-
-
-/* =====================================
-   LOAD VOICES
-===================================== */
-
-if(
-"speechSynthesis" in window
-){
-
-window.speechSynthesis.onvoiceschanged=
+window.speechSynthesis.onvoiceschanged =
 function(){
 
 window.speechSynthesis.getVoices();
