@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TriageAI - Smart Emergency Care</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #1f2937;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+
+    header {
+      background: #0f766e;
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      font-size: 15px;
+      opacity: 0.95;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+      color: #0f766e;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 14px;
+      border: none;
+      border-radius: 9px;
+      background: #0f766e;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #115e59;
+    }
+
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .critical {
+      background: #fee2e2;
+      border: 2px solid #dc2626;
+      color: #991b1b;
+    }
+
+    .urgent {
+      background: #ffedd5;
+      border: 2px solid #f97316;
+      color: #9a3412;
+    }
+
+    .non-urgent {
+      background: #dcfce7;
+      border: 2px solid #16a34a;
+      color: #166534;
+    }
+
+    .priority {
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .warning {
+      margin-top: 20px;
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>
+      <h1>🏥 TriageAI 🤖</h1>
+      <p>Smart Emergency Care Assistant</p>
+    </header>
+
+    <div class="card">
+      <h2>Patient Assessment</h2>
+
+      <label for="name">Patient Name</label>
+      <input type="text" id="name" placeholder="Enter patient name">
+
+      <label for="age">Age</label>
+      <input type="number" id="age" min="0" max="120" placeholder="Enter age">
+
+      <label for="symptoms">Symptoms</label>
+      <textarea id="symptoms" placeholder="Describe the patient's symptoms..."></textarea>
+
+      <label for="pain">Pain Level (0 - 10)</label>
+      <input type="number" id="pain" min="0" max="10" placeholder="0 = no pain, 10 = severe pain">
+
+      <label for="heartRate">Heart Rate (BPM)</label>
+      <input type="number" id="heartRate" placeholder="Example: 80">
+
+      <label for="temperature">Temperature (°C)</label>
+      <input type="number" id="temperature" step="0.1" placeholder="Example: 37.0">
+
+      <label for="oxygen">Oxygen Saturation (%)</label>
+      <input type="number" id="oxygen" min="0" max="100" placeholder="Example: 98">
+
+      <button onclick="analyzePatient()">
+        🔍 Analyze Patient
+      </button>
+
+      <div id="result"></div>
+
+      <p class="warning">
+        ⚠️ This tool provides preliminary triage support only.
+        It does not replace professional medical assessment.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+
+    function analyzePatient() {
+
+      const age = Number(document.getElementById("age").value);
+      const pain = Number(document.getElementById("pain").value);
+      const heartRate = Number(document.getElementById("heartRate").value);
+      const temperature = Number(document.getElementById("temperature").value);
+      const oxygen = Number(document.getElementById("oxygen").value);
+      const symptoms = document.getElementById("symptoms").value.toLowerCase();
+
+      let score = 0;
+
+      // Pain assessment
+      if (pain >= 8) {
+        score += 4;
+      } else if (pain >= 5) {
+        score += 2;
+      } else if (pain >= 3) {
+        score += 1;
+      }
+
+      // Oxygen assessment
+      if (oxygen > 0 && oxygen < 90) {
+        score += 5;
+      } else if (oxygen > 0 && oxygen < 94) {
+        score += 3;
+      }
+
+      // Heart rate assessment
+      if (heartRate > 0 && (heartRate < 50 || heartRate > 120)) {
+        score += 3;
+      }
+
+      // Temperature assessment
+      if (temperature >= 39.5 || (temperature > 0 && temperature < 35)) {
+        score += 3;
+      } else if (temperature >= 38.5) {
+        score += 1;
+      }
+
+      // Age-related risk
+      if (age >= 65 || (age > 0 && age < 5)) {
+        score += 1;
+      }
+
+      // Important emergency symptoms
+      const emergencyKeywords = [
+        "chest pain",
+        "
