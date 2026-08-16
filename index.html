@@ -94,15 +94,11 @@ button{
 }
 
 button:hover{
-  background:#115e59;
+  opacity:.9;
 }
 
 .secondary{
   background:#475569;
-}
-
-.secondary:hover{
-  background:#334155;
 }
 
 .danger{
@@ -111,6 +107,14 @@ button:hover{
 
 .blue{
   background:#2563eb;
+}
+
+.purple{
+  background:#7c3aed;
+}
+
+.stop{
+  background:#dc2626;
 }
 
 #result{
@@ -251,6 +255,36 @@ button:hover{
   border-radius:8px;
 }
 
+.voice-box{
+  background:#f5f3ff;
+  border:2px solid #8b5cf6;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+.voice-active{
+  background:#dcfce7;
+  border:2px solid #16a34a;
+}
+
+.voice-error{
+  background:#fee2e2;
+  border:2px solid #dc2626;
+}
+
+.reading{
+  background:#fef3c7;
+  border:2px solid #f59e0b;
+}
+
+.small{
+  font-size:13px;
+  color:#64748b;
+  margin-top:8px;
+  line-height:1.5;
+}
+
 @media(max-width:600px){
 
   header h1{
@@ -266,11 +300,9 @@ button:hover{
 </style>
 </head>
 
-
 <body>
 
 <div class="container">
-
 
 <header>
 
@@ -283,19 +315,13 @@ Smart Emergency Care Assistant
 </header>
 
 
-
-<!-- =====================================================
-PATIENT ASSESSMENT
-===================================================== -->
+<!-- PATIENT -->
 
 <div class="card">
 
 <h2>👤 Patient Assessment</h2>
 
-
-<label for="name">
-Patient Name
-</label>
+<label>Patient Name</label>
 
 <input
 id="name"
@@ -303,10 +329,7 @@ type="text"
 placeholder="Enter patient name"
 >
 
-
-<label for="age">
-Age
-</label>
+<label>Age</label>
 
 <input
 id="age"
@@ -316,10 +339,7 @@ max="120"
 placeholder="Enter age"
 >
 
-
-<label for="symptoms">
-Symptoms
-</label>
+<label>Symptoms</label>
 
 <textarea
 id="symptoms"
@@ -327,9 +347,59 @@ placeholder="Describe the patient's symptoms..."
 ></textarea>
 
 
-<label for="pain">
-Pain Level (0 - 10)
-</label>
+<!-- VOICE INPUT -->
+
+<div class="voice-box">
+
+<h3>🎤 Voice Input</h3>
+
+<p class="small">
+Describe the patient's symptoms using your voice.
+</p>
+
+<select id="voiceLanguage">
+
+<option value="en-US">
+🇬🇧 English
+</option>
+
+<option value="fr-FR">
+🇫🇷 Français
+</option>
+
+<option value="ar-SA">
+🇸🇦 العربية
+</option>
+
+</select>
+
+<button
+type="button"
+class="purple"
+onclick="startVoice()"
+>
+🎤 Start Voice Assistant
+</button>
+
+<button
+type="button"
+class="secondary"
+onclick="stopVoice()"
+>
+⏹ Stop Listening
+</button>
+
+<div
+id="voiceStatus"
+class="status"
+>
+🎤 Voice assistant ready.
+</div>
+
+</div>
+
+
+<label>Pain Level (0 - 10)</label>
 
 <input
 id="pain"
@@ -339,10 +409,7 @@ max="10"
 placeholder="0 = no pain, 10 = severe pain"
 >
 
-
-<label for="heartRate">
-Heart Rate (BPM)
-</label>
+<label>Heart Rate (BPM)</label>
 
 <input
 id="heartRate"
@@ -350,10 +417,7 @@ type="number"
 placeholder="Example: 80"
 >
 
-
-<label for="temperature">
-Temperature (°C)
-</label>
+<label>Temperature (°C)</label>
 
 <input
 id="temperature"
@@ -362,10 +426,7 @@ step="0.1"
 placeholder="Example: 37.0"
 >
 
-
-<label for="oxygen">
-Oxygen Saturation (%)
-</label>
+<label>Oxygen Saturation (%)</label>
 
 <input
 id="oxygen"
@@ -375,34 +436,25 @@ max="100"
 placeholder="Example: 98"
 >
 
-
 <button
 type="button"
 onclick="analyzePatient()"
 >
-
 🔍 Analyze Patient
-
 </button>
-
 
 <button
 type="button"
 class="secondary"
 onclick="newPatient()"
 >
-
 ➕ New Patient
-
 </button>
 
 </div>
 
 
-
-<!-- =====================================================
-RESULT
-===================================================== -->
+<!-- RESULT -->
 
 <div
 id="result"
@@ -410,211 +462,98 @@ class="card"
 ></div>
 
 
-
-<!-- =====================================================
-FIRST AID
-===================================================== -->
+<!-- FIRST AID -->
 
 <div class="card">
 
-<h2>
-🆘 First Aid Guide
-</h2>
+<h2>🆘 First Aid Guide</h2>
 
-
-<label for="conditionSelect">
-
-Emergency Condition
-
-</label>
-
+<label>Emergency Condition</label>
 
 <select id="conditionSelect">
 
 <option value="">
-
 -- Select a condition --
-
 </option>
 
 </select>
-
 
 <button
 type="button"
 onclick="showGuide()"
 >
-
 📖 Show First Aid
-
 </button>
-
 
 <div id="guideContent"></div>
 
 </div>
 
 
-
-<!-- =====================================================
-STAY WITH ME
-===================================================== -->
+<!-- STAY WITH ME -->
 
 <div class="card">
 
-<h2>
-🫶 Stay With Me
-</h2>
+<h2>🫶 Stay With Me</h2>
 
 <p>
 Step-by-step emergency support.
 </p>
 
-
 <button
 type="button"
 onclick="startStay()"
 >
-
 🫶 Start Stay With Me
-
 </button>
-
 
 <div id="stayContent"></div>
 
 </div>
 
 
-
-<!-- =====================================================
-VOICE
-===================================================== -->
-
-<div class="card">
-
-<h2>
-🎤 Voice Assistant
-</h2>
-
-<p>
-Describe the emergency using your voice.
-</p>
-
-
-<select id="voiceLanguage">
-
-<option value="en-US">
-English
-</option>
-
-<option value="fr-FR">
-Français
-</option>
-
-<option value="ar-TN">
-العربية
-</option>
-
-</select>
-
-
-<button
-type="button"
-class="blue"
-onclick="startVoice()"
->
-
-🎤 Start Voice
-
-</button>
-
-
-<button
-type="button"
-class="secondary"
-onclick="stopVoice()"
->
-
-⏹ Stop Voice
-
-</button>
-
-
-<div
-id="voiceStatus"
-class="status"
->
-
-Voice assistant ready.
-
-</div>
-
-</div>
-
-
-
-<!-- =====================================================
-EMERGENCY
-===================================================== -->
+<!-- EMERGENCY -->
 
 <div class="card emergency-box">
 
-<h3>
-🇹🇳 Emergency Assistance
-</h3>
+<h3>🇹🇳 Emergency Assistance</h3>
 
 <p>
 For a real emergency, contact professional emergency
 services immediately.
 </p>
 
-
 <button
 type="button"
 class="danger"
 onclick="callEmergency()"
 >
-
 📞 Call Protection Civile — 198
-
 </button>
-
 
 <button
 type="button"
 onclick="findHospital()"
 >
-
 📍 Find Nearby Emergency Hospital
-
 </button>
 
 </div>
 
 
-
-<!-- =====================================================
-HISTORY
-===================================================== -->
+<!-- HISTORY -->
 
 <div class="card">
 
-<h2>
-📋 Analysis History
-</h2>
-
+<h2>📋 Analysis History</h2>
 
 <div id="history">
 
-<p>
-No patient analysis yet.
-</p>
+<p>No patient analysis yet.</p>
 
 </div>
 
 </div>
-
 
 
 <p class="warning">
@@ -629,22 +568,19 @@ For a real emergency, contact emergency services.
 
 </p>
 
-
 </div>
-
 
 
 <script>
 
 /* =====================================================
-MEDICAL KNOWLEDGE BASE
+MEDICAL KNOWLEDGE
 ===================================================== */
 
 const medicalKnowledge = {
 
 scorpion:{
 name:"🦂 Scorpion Sting",
-
 redFlags:[
 "Difficulty breathing",
 "Altered consciousness",
@@ -653,7 +589,6 @@ redFlags:[
 "Muscle spasms",
 "Rapid deterioration"
 ],
-
 firstAid:[
 "Move away from the scorpion safely.",
 "Wash the area with soap and water.",
@@ -662,15 +597,12 @@ firstAid:[
 "Monitor breathing and consciousness.",
 "Seek medical assessment."
 ],
-
 dont:[
 "Do not use a tourniquet.",
 "Do not cut the wound.",
 "Do not suck venom.",
-"Do not burn the area.",
-"Do not apply unknown substances."
+"Do not burn the area."
 ],
-
 stay:[
 "Check consciousness.",
 "Check breathing.",
@@ -680,10 +612,8 @@ stay:[
 ]
 },
 
-
 snake:{
 name:"🐍 Snake Bite",
-
 redFlags:[
 "Difficulty breathing",
 "Weakness or paralysis",
@@ -691,7 +621,6 @@ redFlags:[
 "Abnormal bleeding",
 "Rapid swelling"
 ],
-
 firstAid:[
 "Move away from the snake.",
 "Keep the patient calm.",
@@ -701,15 +630,12 @@ firstAid:[
 "Arrange rapid medical transport.",
 "Monitor breathing."
 ],
-
 dont:[
 "Do not use a tourniquet.",
 "Do not cut the wound.",
 "Do not suck venom.",
-"Do not apply herbs or chemicals.",
-"Do not catch the snake."
+"Do not apply herbs or chemicals."
 ],
-
 stay:[
 "Check breathing.",
 "Keep the patient still.",
@@ -719,10 +645,8 @@ stay:[
 ]
 },
 
-
 bleeding:{
-name:"🩸 Severe / Life-Threatening Bleeding",
-
+name:"🩸 Severe Bleeding",
 redFlags:[
 "Heavy continuous bleeding",
 "Spurting blood",
@@ -731,22 +655,18 @@ redFlags:[
 "Confusion",
 "Collapse"
 ],
-
 firstAid:[
 "Ensure scene safety.",
 "Use gloves if available.",
 "Call emergency services.",
 "Apply firm direct pressure.",
-"Keep pressure continuous.",
-"Add more material if blood soaks through."
+"Keep pressure continuous."
 ],
-
 dont:[
 "Do not remove an embedded object.",
 "Do not repeatedly remove dressings.",
 "Do not delay emergency help."
 ],
-
 stay:[
 "Is the bleeding severe?",
 "Call 198.",
@@ -755,16 +675,13 @@ stay:[
 ]
 },
 
-
 cardiac:{
 name:"❤️ Cardiac Arrest / CPR",
-
 redFlags:[
 "Unresponsive",
 "Not breathing normally",
 "Only gasping"
 ],
-
 firstAid:[
 "Check responsiveness.",
 "Call emergency services.",
@@ -772,12 +689,9 @@ firstAid:[
 "Use an AED as soon as available.",
 "Follow AED instructions."
 ],
-
 dont:[
-"Do not delay CPR.",
-"Do not waste time checking a pulse as a lay rescuer."
+"Do not delay CPR."
 ],
-
 stay:[
 "Check response.",
 "Check normal breathing.",
@@ -788,10 +702,8 @@ stay:[
 ]
 },
 
-
 choking:{
 name:"🫁 Choking",
-
 redFlags:[
 "Unable to speak",
 "Unable to breathe",
@@ -799,21 +711,16 @@ redFlags:[
 "Blue or gray color",
 "Unconsciousness"
 ],
-
 firstAid:[
 "If the person can cough effectively, encourage coughing.",
-"For severe choking in adults and children, alternate 5 back blows and 5 abdominal thrusts.",
-"For late pregnancy, use chest thrusts.",
-"For infants, use 5 back blows followed by 5 chest thrusts.",
+"For severe choking, use appropriate first aid.",
 "If unresponsive, start CPR.",
 "Remove an object only if visible."
 ],
-
 dont:[
 "Do not perform a blind finger sweep.",
 "Do not leave the patient alone."
 ],
-
 stay:[
 "Can the patient cough?",
 "Can they speak?",
@@ -823,10 +730,8 @@ stay:[
 ]
 },
 
-
 burns:{
 name:"🔥 Burns",
-
 redFlags:[
 "Face or neck burn",
 "Breathing difficulty",
@@ -835,23 +740,18 @@ redFlags:[
 "Chemical burn",
 "Major joint involvement"
 ],
-
 firstAid:[
 "Move away from the heat source safely.",
-"Cool thermal burns with cool or lukewarm running water for about 20 minutes.",
+"Cool thermal burns with cool running water.",
 "Remove rings and watches.",
-"Cover loosely with a clean non-stick dressing.",
-"For chemical exposure, protect yourself and irrigate appropriately."
+"Cover loosely with a clean dressing."
 ],
-
 dont:[
 "Do not use ice directly.",
 "Do not apply butter or oil.",
 "Do not apply toothpaste.",
-"Do not pop blisters.",
-"Do not remove clothing stuck to the skin."
+"Do not pop blisters."
 ],
-
 stay:[
 "Identify the type of burn.",
 "Check breathing.",
@@ -861,10 +761,8 @@ stay:[
 ]
 },
 
-
 unconscious:{
-name:"😵 Unconsciousness / Fainting",
-
+name:"😵 Unconsciousness",
 redFlags:[
 "Abnormal breathing",
 "Chest pain",
@@ -873,7 +771,6 @@ redFlags:[
 "Major trauma",
 "Persistent altered consciousness"
 ],
-
 firstAid:[
 "Check responsiveness.",
 "Check normal breathing.",
@@ -881,13 +778,10 @@ firstAid:[
 "If breathing normally, use recovery position when appropriate.",
 "Monitor continuously."
 ],
-
 dont:[
-"Do not splash water.",
 "Do not give food or drink.",
 "Do not leave the person alone."
 ],
-
 stay:[
 "Does the patient respond?",
 "Are they breathing normally?",
@@ -896,10 +790,8 @@ stay:[
 ]
 },
 
-
 stroke:{
 name:"🧠 Stroke / AVC",
-
 redFlags:[
 "Facial droop",
 "Arm weakness",
@@ -908,21 +800,17 @@ redFlags:[
 "Sudden loss of balance",
 "Sudden severe headache"
 ],
-
 firstAid:[
 "Think FAST: Face, Arm, Speech, Time.",
 "Call emergency services immediately.",
 "Record when symptoms started.",
 "Monitor breathing and consciousness."
 ],
-
 dont:[
 "Do not wait for symptoms to disappear.",
 "Do not let the patient drive.",
-"Do not give food or drink if swallowing is impaired.",
-"Do not give aspirin simply because stroke is suspected."
+"Do not give food or drink if swallowing is impaired."
 ],
-
 stay:[
 "Check the face.",
 "Check both arms.",
@@ -933,10 +821,8 @@ stay:[
 ]
 },
 
-
 breathing:{
-name:"😮‍💨 Difficulty Breathing / Asthma",
-
+name:"😮‍💨 Difficulty Breathing",
 redFlags:[
 "Severe breathing difficulty",
 "Unable to speak normally",
@@ -945,21 +831,17 @@ redFlags:[
 "Severe exhaustion",
 "Chest pain"
 ],
-
 firstAid:[
 "Sit the patient comfortably.",
 "Reassure them.",
-"Help with prescribed inhaler according to their action plan.",
+"Help with prescribed inhaler according to their plan.",
 "Call emergency help if severe or worsening.",
 "Start CPR if not breathing normally."
 ],
-
 dont:[
-"Do not assume every breathing problem is asthma.",
 "Do not give random medication.",
 "Do not make the patient walk unnecessarily."
 ],
-
 stay:[
 "Can the patient speak?",
 "Are the lips blue?",
@@ -969,10 +851,8 @@ stay:[
 ]
 },
 
-
 anaphylaxis:{
 name:"🤧 Anaphylaxis",
-
 redFlags:[
 "Difficulty breathing",
 "Tongue swelling",
@@ -981,21 +861,16 @@ redFlags:[
 "Severe dizziness",
 "Collapse"
 ],
-
 firstAid:[
 "Call 198 immediately.",
 "Use prescribed epinephrine auto-injector according to instructions.",
 "Keep the patient in an appropriate position.",
-"Avoid sudden standing or walking.",
 "Monitor breathing."
 ],
-
 dont:[
 "Do not wait.",
-"Do not use antihistamines as a replacement for emergency epinephrine.",
 "Do not let the patient walk or drive."
 ],
-
 stay:[
 "Check breathing.",
 "Check for throat or tongue swelling.",
@@ -1005,10 +880,8 @@ stay:[
 ]
 },
 
-
 electrical:{
 name:"⚡ Electrical Shock",
-
 redFlags:[
 "Loss of consciousness",
 "Breathing difficulty",
@@ -1018,7 +891,6 @@ redFlags:[
 "Burns",
 "Fall or trauma"
 ],
-
 firstAid:[
 "Do not touch the person while electricity may still be active.",
 "Switch off power safely.",
@@ -1026,12 +898,9 @@ firstAid:[
 "Start CPR if not breathing normally.",
 "Use an AED if available."
 ],
-
 dont:[
-"Do not touch an energized person.",
-"Do not assume a small external burn means minor injury."
+"Do not touch an energized person."
 ],
-
 stay:[
 "Is electricity still active?",
 "If yes, stay away.",
@@ -1041,10 +910,8 @@ stay:[
 ]
 },
 
-
 head:{
 name:"🤕 Head Injury",
-
 redFlags:[
 "Loss of consciousness",
 "Confusion",
@@ -1052,23 +919,18 @@ redFlags:[
 "Difficulty waking",
 "Weakness",
 "Seizure",
-"Severe worsening headache",
-"Blood or clear fluid from nose or ear"
+"Severe worsening headache"
 ],
-
 firstAid:[
 "Minimize unnecessary head and neck movement.",
 "Monitor consciousness and breathing.",
 "Control scalp bleeding carefully.",
 "Seek urgent medical assessment for red flags."
 ],
-
 dont:[
 "Do not ignore loss of consciousness.",
-"Do not move unnecessarily after major trauma.",
-"Do not remove embedded objects."
+"Do not move unnecessarily after major trauma."
 ],
-
 stay:[
 "Was there a significant head injury?",
 "Was there loss of consciousness?",
@@ -1078,10 +940,8 @@ stay:[
 ]
 },
 
-
 fracture:{
-name:"🦴 Fracture / Sprain / Dislocation",
-
+name:"🦴 Fracture / Sprain",
 redFlags:[
 "Deformity",
 "Open fracture",
@@ -1090,22 +950,18 @@ redFlags:[
 "Cold or blue limb",
 "Severe bleeding"
 ],
-
 firstAid:[
 "Keep the injured area still.",
 "Support above and below the injury.",
 "Cover open wounds.",
 "Control bleeding around the wound.",
-"Remove rings or watches if safe.",
 "Arrange medical assessment."
 ],
-
 dont:[
 "Do not straighten the limb.",
 "Do not reduce a dislocation.",
 "Do not massage."
 ],
-
 stay:[
 "Is there severe bleeding?",
 "Is there deformity?",
@@ -1116,10 +972,8 @@ stay:[
 ]
 },
 
-
 poisoning:{
 name:"☠️ Poisoning / Intoxication",
-
 redFlags:[
 "Difficulty breathing",
 "Unconsciousness",
@@ -1127,7 +981,6 @@ redFlags:[
 "Severe confusion",
 "Rapid deterioration"
 ],
-
 firstAid:[
 "Protect yourself.",
 "Stop exposure if safe.",
@@ -1135,13 +988,11 @@ firstAid:[
 "Keep the substance container.",
 "Seek urgent professional advice."
 ],
-
 dont:[
 "Do not induce vomiting unless instructed.",
 "Do not give home remedies.",
 "Do not give anything by mouth to an unconscious person."
 ],
-
 stay:[
 "Is the patient conscious?",
 "Are they breathing normally?",
@@ -1153,34 +1004,27 @@ stay:[
 ]
 },
 
-
 heat:{
 name:"🌡️ Heat Stroke",
-
 redFlags:[
 "Confusion",
 "Altered consciousness",
 "Collapse",
 "Seizure",
 "Severe weakness",
-"Very hot body",
-"Rapid deterioration"
+"Very hot body"
 ],
-
 firstAid:[
 "Call 198 immediately.",
 "Move the patient to a cool place.",
 "Start rapid cooling.",
-"Use cool water, wet cloths, fan or cold shower as appropriate.",
+"Use cool water and ventilation as appropriate.",
 "Monitor breathing and consciousness."
 ],
-
 dont:[
 "Do not wait for improvement.",
-"Do not use aspirin or paracetamol as treatment for heat stroke.",
 "Do not give drinks to an unconscious person."
 ],
-
 stay:[
 "Is the patient confused?",
 "Call 198.",
@@ -1190,10 +1034,8 @@ stay:[
 ]
 },
 
-
 hypothermia:{
 name:"🧊 Hypothermia",
-
 redFlags:[
 "Confusion",
 "Severe drowsiness",
@@ -1201,22 +1043,18 @@ redFlags:[
 "Very slow breathing",
 "Loss of consciousness"
 ],
-
 firstAid:[
 "Move the patient to a warm sheltered place.",
 "Remove wet clothing.",
 "Dry and wrap the patient.",
 "Cover the head.",
-"Monitor breathing.",
-"Seek medical help for significant hypothermia."
+"Monitor breathing."
 ],
-
 dont:[
 "Do not use very hot baths.",
 "Do not vigorously rub limbs.",
 "Do not give alcohol."
 ],
-
 stay:[
 "Is the patient very cold?",
 "Are they confused?",
@@ -1226,10 +1064,8 @@ stay:[
 ]
 },
 
-
 insect:{
 name:"🐝 Bee / Wasp Sting",
-
 redFlags:[
 "Difficulty breathing",
 "Tongue swelling",
@@ -1237,7 +1073,6 @@ redFlags:[
 "Severe dizziness",
 "Collapse"
 ],
-
 firstAid:[
 "Move away from the insect.",
 "Remove a visible stinger promptly.",
@@ -1245,11 +1080,9 @@ firstAid:[
 "Use a wrapped cold pack.",
 "Monitor for allergic symptoms."
 ],
-
 dont:[
 "Do not ignore whole-body allergic symptoms."
 ],
-
 stay:[
 "Are symptoms only local?",
 "Cool the area.",
@@ -1258,35 +1091,26 @@ stay:[
 ]
 },
 
-
 animal:{
 name:"🐕 Animal Bite / Rabies Exposure",
-
 redFlags:[
 "Deep bite",
 "Face or neck bite",
 "Hand bite",
 "Multiple bites",
 "Stray or unknown animal",
-"Wild animal exposure",
-"Bat exposure"
+"Wild animal exposure"
 ],
-
 firstAid:[
 "Wash the wound immediately.",
 "Use soap and plenty of running water.",
 "Continue washing for at least 15 minutes.",
-"Seek immediate medical assessment.",
-"Medical professionals assess rabies vaccination and other prevention."
+"Seek immediate medical assessment."
 ],
-
 dont:[
-"Do not apply chili.",
-"Do not apply plant juices.",
-"Do not apply acids or alkalis.",
+"Do not apply chemicals or home remedies.",
 "Do not delay medical care."
 ],
-
 stay:[
 "Was there a bite or scratch?",
 "Wash for at least 15 minutes.",
@@ -1295,32 +1119,26 @@ stay:[
 ]
 },
 
-
 minor:{
 name:"🩹 Minor Cuts / Grazes",
-
 redFlags:[
 "Heavy bleeding",
 "Deep wound",
 "Large wound",
 "Embedded object",
 "Loss of sensation",
-"Difficulty moving",
 "Bite"
 ],
-
 firstAid:[
 "Apply direct pressure if bleeding.",
 "Rinse the wound with clean water.",
 "Clean surrounding skin.",
 "Cover with a clean dressing."
 ],
-
 dont:[
 "Do not remove embedded objects.",
 "Do not ignore heavy bleeding."
 ],
-
 stay:[
 "Is bleeding heavy?",
 "If yes, use the severe bleeding pathway.",
@@ -1329,19 +1147,15 @@ stay:[
 ]
 },
 
-
 chemical:{
 name:"🧪 Chemical Exposure",
-
 redFlags:[
 "Breathing difficulty",
 "Loss of consciousness",
 "Seizure",
 "Extensive burns",
-"Severe pain",
-"Rapid deterioration"
+"Severe pain"
 ],
-
 firstAid:[
 "Protect yourself first.",
 "Stop exposure if safe.",
@@ -1350,14 +1164,11 @@ firstAid:[
 "For eye exposure, irrigate promptly with clean water.",
 "For ingestion, follow poisoning guidance."
 ],
-
 dont:[
 "Do not enter contaminated areas without protection.",
 "Do not touch chemicals with bare hands.",
-"Do not neutralize chemicals with another chemical.",
 "Do not induce vomiting unless instructed."
 ],
-
 stay:[
 "Is the area safe?",
 "Identify the exposure route.",
@@ -1372,7 +1183,7 @@ stay:[
 
 
 /* =====================================================
-INITIALIZE CONDITIONS
+INITIALIZE
 ===================================================== */
 
 const conditionSelect =
@@ -1393,1160 +1204,37 @@ conditionSelect.appendChild(option);
 }
 
 
-
 /* =====================================================
-ANALYZE PATIENT
+HISTORY
 ===================================================== */
 
 let analysisHistory = [];
 
 
+/* =====================================================
+ANALYZE PATIENT
+===================================================== */
+
 function analyzePatient(){
 
 const name =
-document.getElementById("name")
-.value
-.trim()
+document.getElementById("name").value.trim()
 || "Unknown Patient";
 
-
 const age =
-Number(
-document.getElementById("age").value
-);
-
+Number(document.getElementById("age").value);
 
 const pain =
-Number(
-document.getElementById("pain").value
-);
-
+Number(document.getElementById("pain").value);
 
 const heartRate =
-Number(
-document.getElementById("heartRate").value
-);
-
+Number(document.getElementById("heartRate").value);
 
 const temperature =
-Number(
-document.getElementById("temperature").value
-);
-
+Number(document.getElementById("temperature").value);
 
 const oxygen =
-Number(
-document.getElementById("oxygen").value
-);
-
+Number(document.getElementById("oxygen").value);
 
 const symptoms =
-document.getElementById("symptoms")
-.value
-.trim();
-
-
-const text =
-symptoms.toLowerCase();
-
-
-let score = 0;
-
-let reasons = [];
-
-
-/* PAIN */
-
-if(pain >= 8){
-
-score += 4;
-
-reasons.push(
-"Severe pain"
-);
-
-}
-
-else if(pain >= 5){
-
-score += 2;
-
-reasons.push(
-"Moderate pain"
-);
-
-}
-
-else if(pain >= 3){
-
-score += 1;
-
-reasons.push(
-"Mild pain"
-);
-
-}
-
-
-/* OXYGEN */
-
-if(
-oxygen > 0 &&
-oxygen < 90
-){
-
-score += 5;
-
-reasons.push(
-"Very low oxygen saturation"
-);
-
-}
-
-else if(
-oxygen > 0 &&
-oxygen < 94
-){
-
-score += 3;
-
-reasons.push(
-"Low oxygen saturation"
-);
-
-}
-
-
-/* HEART RATE */
-
-if(
-heartRate > 0 &&
-(
-heartRate < 50 ||
-heartRate > 120
-)
-){
-
-score += 3;
-
-reasons.push(
-"Abnormal heart rate"
-);
-
-}
-
-
-/* TEMPERATURE */
-
-if(
-temperature >= 39.5 ||
-(
-temperature > 0 &&
-temperature < 35
-)
-){
-
-score += 3;
-
-reasons.push(
-"Abnormal temperature"
-);
-
-}
-
-else if(
-temperature >= 38.5
-){
-
-score += 1;
-
-reasons.push(
-"Fever"
-);
-
-}
-
-
-/* AGE */
-
-if(
-age >= 65 ||
-(
-age > 0 &&
-age < 5
-)
-){
-
-score += 1;
-
-reasons.push(
-"Age-related risk"
-);
-
-}
-
-
-/* EMERGENCY KEYWORDS */
-
-const emergencyKeywords = [
-
-"chest pain",
-"difficulty breathing",
-"shortness of breath",
-"severe bleeding",
-"heavy bleeding",
-"unconscious",
-"loss of consciousness",
-"seizure",
-"stroke",
-"paralysis",
-"severe headache",
-"confusion",
-"cardiac arrest",
-"not breathing",
-"gasping",
-"choking",
-"anaphylaxis",
-"throat swelling",
-"snake bite",
-"snakebite",
-"scorpion sting",
-"electric shock",
-"heat stroke",
-"head injury"
-
-];
-
-
-for(
-const keyword of emergencyKeywords
-){
-
-if(
-text.includes(keyword)
-){
-
-score += 5;
-
-reasons.push(
-"Emergency symptom: "
-+ keyword
-);
-
-break;
-
-}
-
-}
-
-
-/* PRIORITY */
-
-let priority;
-let message;
-let action;
-let className;
-
-
-if(score >= 7){
-
-priority =
-"🔴 CRITICAL";
-
-message =
-"High-risk presentation detected.";
-
-action =
-"Immediate medical assessment is required.";
-
-className =
-"critical";
-
-}
-
-else if(score >= 3){
-
-priority =
-"🟠 URGENT";
-
-message =
-"Potential risk factors detected.";
-
-action =
-"Patient should be assessed as soon as possible.";
-
-className =
-"urgent";
-
-}
-
-else{
-
-priority =
-"🟢 NON-URGENT";
-
-message =
-"No major risk factors detected by this prototype.";
-
-action =
-"Professional assessment is still recommended.";
-
-className =
-"nonurgent";
-
-}
-
-
-/* DISPLAY */
-
-const result =
-document.getElementById("result");
-
-
-result.className =
-"card " + className;
-
-
-result.innerHTML = `
-
-<div class="priority">
-
-${priority}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>👤 Patient</strong><br>
-
-${escapeHTML(name)}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>🎂 Age</strong><br>
-
-${age || "Not provided"}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>🩺 Symptoms</strong><br>
-
-${escapeHTML(symptoms) || "Not provided"}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>❤️ Vital Signs</strong><br>
-
-Heart Rate:
-${heartRate || "N/A"} BPM
-
-<br>
-
-Temperature:
-${temperature || "N/A"} °C
-
-<br>
-
-Oxygen Saturation:
-${oxygen || "N/A"} %
-
-</div>
-
-
-<div class="result-item score">
-
-📊 Triage Score:
-${score}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>Assessment</strong><br>
-
-${message}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>⚠️ Why?</strong><br>
-
-${
-reasons.length
-?
-reasons.map(escapeHTML).join("<br>")
-:
-"No specific risk factor detected."
-}
-
-</div>
-
-
-<div class="result-item">
-
-<strong>🚑 Recommended Action</strong><br>
-
-${action}
-
-</div>
-
-`;
-
-
-result.style.display =
-"block";
-
-
-analysisHistory.unshift({
-
-name:name,
-
-priority:priority,
-
-score:score
-
-});
-
-
-updateHistory();
-
-
-/* AUTOMATIC GUIDE */
-
-detectCondition(text);
-
-}
-
-
-
-/* =====================================================
-HISTORY
-===================================================== */
-
-function updateHistory(){
-
-const history =
-document.getElementById("history");
-
-
-if(
-analysisHistory.length === 0
-){
-
-history.innerHTML =
-"<p>No patient analysis yet.</p>";
-
-return;
-
-}
-
-
-history.innerHTML =
-analysisHistory
-.map(function(patient){
-
-return `
-
-<div class="history-item">
-
-<strong>
-${escapeHTML(patient.priority)}
-</strong>
-
-Patient:
-${escapeHTML(patient.name)}
-
-<br>
-
-Triage Score:
-${patient.score}
-
-</div>
-
-`;
-
-})
-.join("");
-
-}
-
-
-
-/* =====================================================
-NEW PATIENT
-===================================================== */
-
-function newPatient(){
-
-document.getElementById("name").value = "";
-
-document.getElementById("age").value = "";
-
-document.getElementById("symptoms").value = "";
-
-document.getElementById("pain").value = "";
-
-document.getElementById("heartRate").value = "";
-
-document.getElementById("temperature").value = "";
-
-document.getElementById("oxygen").value = "";
-
-
-document.getElementById("result")
-.style.display = "none";
-
-
-conditionSelect.value = "";
-
-document.getElementById("guideContent")
-.innerHTML = "";
-
-document.getElementById("stayContent")
-.innerHTML = "";
-
-}
-
-
-
-/* =====================================================
-GUIDE
-===================================================== */
-
-function showGuide(){
-
-const key =
-conditionSelect.value;
-
-
-const content =
-document.getElementById("guideContent");
-
-
-if(!key){
-
-content.innerHTML = `
-
-<div class="guide bluebox">
-
-Please select an emergency condition.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-const data =
-medicalKnowledge[key];
-
-
-content.innerHTML = `
-
-<div class="guide red">
-
-<h3>
-🚨 Red Flags
-</h3>
-
-<ul>
-
-${data.redFlags.map(
-item =>
-`<li>${escapeHTML(item)}</li>`
-).join("")}
-
-</ul>
-
-</div>
-
-
-<div class="guide green">
-
-<h3>
-🆘 First Aid
-</h3>
-
-<ol>
-
-${data.firstAid.map(
-item =>
-`<li>${escapeHTML(item)}</li>`
-).join("")}
-
-</ol>
-
-</div>
-
-
-<div class="guide orange">
-
-<h3>
-❌ DON'T
-</h3>
-
-<ul>
-
-${data.dont.map(
-item =>
-`<li>${escapeHTML(item)}</li>`
-).join("")}
-
-</ul>
-
-</div>
-
-
-<div class="guide bluebox">
-
-<h3>
-🫶 Stay With Me
-</h3>
-
-<ul>
-
-${data.stay.map(
-item =>
-`<li>${escapeHTML(item)}</li>`
-).join("")}
-
-</ul>
-
-</div>
-
-`;
-
-}
-
-
-
-/* =====================================================
-AUTOMATIC CONDITION DETECTION
-===================================================== */
-
-function detectCondition(text){
-
-const rules = {
-
-scorpion:[
-"scorpion",
-"scorpion sting"
-],
-
-snake:[
-"snake bite",
-"snakebite"
-],
-
-bleeding:[
-"severe bleeding",
-"heavy bleeding",
-"spurting blood"
-],
-
-cardiac:[
-"cardiac arrest",
-"not breathing",
-"gasping"
-],
-
-choking:[
-"choking"
-],
-
-burns:[
-"burn",
-"burns",
-"scald"
-],
-
-unconscious:[
-"unconscious",
-"fainting",
-"fainted",
-"passed out"
-],
-
-stroke:[
-"stroke",
-"facial droop",
-"arm weakness",
-"speech difficulty"
-],
-
-breathing:[
-"difficulty breathing",
-"shortness of breath",
-"asthma",
-"wheezing"
-],
-
-anaphylaxis:[
-"anaphylaxis",
-"throat swelling",
-"tongue swelling"
-],
-
-electrical:[
-"electric shock",
-"electrical shock",
-"electrocution"
-],
-
-head:[
-"head injury",
-"head trauma"
-],
-
-fracture:[
-"fracture",
-"broken bone",
-"dislocation",
-"sprain"
-],
-
-poisoning:[
-"poisoning",
-"overdose",
-"intoxication"
-],
-
-heat:[
-"heat stroke",
-"heatstroke"
-],
-
-hypothermia:[
-"hypothermia"
-],
-
-insect:[
-"bee sting",
-"wasp sting",
-"insect sting"
-],
-
-animal:[
-"animal bite",
-"dog bite",
-"rabies"
-],
-
-minor:[
-"small cut",
-"minor wound",
-"scratch",
-"graze"
-],
-
-chemical:[
-"chemical exposure",
-"chemical burn",
-"chemical in eye"
-]
-
-};
-
-
-for(
-const key in rules
-){
-
-for(
-const word of rules[key]
-){
-
-if(
-text.includes(word)
-){
-
-conditionSelect.value =
-key;
-
-showGuide();
-
-return;
-
-}
-
-}
-
-}
-
-}
-
-
-
-/* =====================================================
-STAY WITH ME
-===================================================== */
-
-let stayStep = 0;
-
-
-function startStay(){
-
-const key =
-conditionSelect.value;
-
-
-if(!key){
-
-alert(
-"Please select a condition first."
-);
-
-return;
-
-}
-
-
-stayStep = 0;
-
-renderStay();
-
-}
-
-
-function renderStay(){
-
-const key =
-conditionSelect.value;
-
-
-const data =
-medicalKnowledge[key];
-
-
-const box =
-document.getElementById("stayContent");
-
-
-if(
-stayStep >= data.stay.length
-){
-
-box.innerHTML = `
-
-<div class="guide green">
-
-<h3>
-✅ Guidance Complete
-</h3>
-
-Continue monitoring the patient
-and follow professional medical instructions.
-
-</div>
-
-
-<button
-type="button"
-onclick="startStay()"
->
-
-🔄 Restart
-
-</button>
-
-`;
-
-return;
-
-}
-
-
-box.innerHTML = `
-
-<div class="stay-step">
-
-<strong>
-
-Step ${stayStep + 1}
-/
-${data.stay.length}
-
-</strong>
-
-<br><br>
-
-${escapeHTML(
-data.stay[stayStep]
-)}
-
-</div>
-
-
-<button
-type="button"
-onclick="nextStay()"
->
-
-➡️ Next Step
-
-</button>
-
-
-<button
-type="button"
-class="blue"
-onclick="speakText(${JSON.stringify(
-data.stay[stayStep]
-)})"
->
-
-🔊 Read Step
-
-</button>
-
-`;
-
-}
-
-
-function nextStay(){
-
-stayStep++;
-
-renderStay();
-
-}
-
-
-
-/* =====================================================
-VOICE ASSISTANT
-===================================================== */
-
-let recognition = null;
-
-
-function startVoice(){
-
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
-
-
-const status =
-document.getElementById(
-"voiceStatus"
-);
-
-
-if(!SpeechRecognition){
-
-status.innerText =
-"Voice recognition is not supported by this browser.";
-
-return;
-
-}
-
-
-recognition =
-new SpeechRecognition();
-
-
-recognition.lang =
-document.getElementById(
-"voiceLanguage"
-).value;
-
-
-recognition.interimResults =
-false;
-
-recognition.maxAlternatives =
-1;
-
-
-status.innerText =
-"🎤 Listening...";
-
-
-recognition.onresult =
-function(event){
-
-const text =
-event.results[0][0]
-.transcript;
-
-
-document.getElementById(
-"symptoms"
-).value =
-text;
-
-
-status.innerText =
-"Heard: " + text;
-
-
-detectCondition(
-text.toLowerCase()
-);
-
-};
-
-
-recognition.onerror =
-function(){
-
-status.innerText =
-"Voice recognition error.";
-
-};
-
-
-recognition.onend =
-function(){
-
-status.innerText =
-"Voice assistant ready.";
-
-};
-
-
-recognition.start();
-
-}
-
-
-function stopVoice(){
-
-if(recognition){
-
-try{
-
-recognition.stop();
-
-}
-
-catch(error){}
-
-}
-
-
-document.getElementById(
-"voiceStatus"
-).innerText =
-"Voice assistant stopped.";
-
-}
-
-
-
-/* =====================================================
-VOICE OUTPUT
-===================================================== */
-
-function speakText(text){
-
-if(
-!("speechSynthesis" in window)
-){
-
-return;
-
-}
-
-
-speechSynthesis.cancel();
-
-
-const speech =
-new SpeechSynthesisUtterance(
-text
-);
-
-
-speech.lang =
-document.getElementById(
-"voiceLanguage"
-).value;
-
-
-speech.rate = 0.95;
-
-
-speechSynthesis.speak(
-speech
-);
-
-}
-
-
-
-/* =====================================================
-EMERGENCY
-===================================================== */
-
-function callEmergency(){
-
-window.location.href =
-"tel:198";
-
-}
-
-
-function findHospital(){
-
-window.open(
-
-"https://www.google.com/maps/search/emergency+hospital+near+me",
-
-"_blank"
-
-);
-
-}
-
-
-
-/* =====================================================
-SECURITY
-===================================================== */
-
-function escapeHTML(value){
-
-return String(value || "")
-.replace(
-/[&<>"']/g,
-function(character){
-
-return {
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[character];
-
-}
-);
-
-}
-
-</script>
-
-</body>
-</html>
+document.ge
