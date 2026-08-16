@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>TriageAI - Smart Emergency Care</title>
 
   <style>
@@ -98,7 +97,6 @@
       margin-top: 20px;
       padding: 20px;
       border-radius: 12px;
-      text-align: center;
     }
 
     .critical {
@@ -122,7 +120,15 @@
     .priority {
       font-size: 25px;
       font-weight: bold;
-      margin-bottom: 10px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .result-item {
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(255,255,255,0.6);
+      border-radius: 8px;
     }
 
     .warning {
@@ -136,240 +142,188 @@
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <header>
-      <h1>🏥 TriageAI 🤖</h1>
-      <p>Smart Emergency Care Assistant</p>
-    </header>
+  <header>
+    <h1>🏥 TriageAI 🤖</h1>
+    <p>Smart Emergency Care Assistant</p>
+  </header>
 
-    <div class="card">
+  <div class="card">
 
-      <h2>Patient Assessment</h2>
+    <h2>Patient Assessment</h2>
 
-      <label for="name">Patient Name</label>
-      <input
-        type="text"
-        id="name"
-        placeholder="Enter patient name"
-      >
+    <label for="name">Patient Name</label>
+    <input type="text" id="name" placeholder="Enter patient name">
 
-      <label for="age">Age</label>
-      <input
-        type="number"
-        id="age"
-        min="0"
-        max="120"
-        placeholder="Enter age"
-      >
+    <label for="age">Age</label>
+    <input type="number" id="age" min="0" max="120" placeholder="Enter age">
 
-      <label for="symptoms">Symptoms</label>
-      <textarea
-        id="symptoms"
-        placeholder="Describe the patient's symptoms..."
-      ></textarea>
+    <label for="symptoms">Symptoms</label>
+    <textarea id="symptoms" placeholder="Describe the patient's symptoms..."></textarea>
 
-      <label for="pain">Pain Level (0 - 10)</label>
-      <input
-        type="number"
-        id="pain"
-        min="0"
-        max="10"
-        placeholder="0 = no pain, 10 = severe pain"
-      >
+    <label for="pain">Pain Level (0 - 10)</label>
+    <input type="number" id="pain" min="0" max="10" placeholder="0 = no pain, 10 = severe pain">
 
-      <label for="heartRate">Heart Rate (BPM)</label>
-      <input
-        type="number"
-        id="heartRate"
-        placeholder="Example: 80"
-      >
+    <label for="heartRate">Heart Rate (BPM)</label>
+    <input type="number" id="heartRate" placeholder="Example: 80">
 
-      <label for="temperature">Temperature (°C)</label>
-      <input
-        type="number"
-        id="temperature"
-        step="0.1"
-        placeholder="Example: 37.0"
-      >
+    <label for="temperature">Temperature (°C)</label>
+    <input type="number" id="temperature" step="0.1" placeholder="Example: 37.0">
 
-      <label for="oxygen">Oxygen Saturation (%)</label>
-      <input
-        type="number"
-        id="oxygen"
-        min="0"
-        max="100"
-        placeholder="Example: 98"
-      >
+    <label for="oxygen">Oxygen Saturation (%)</label>
+    <input type="number" id="oxygen" min="0" max="100" placeholder="Example: 98">
 
-      <button type="button" onclick="analyzePatient()">
-        🔍 Analyze Patient
-      </button>
+    <button type="button" onclick="analyzePatient()">
+      🔍 Analyze Patient
+    </button>
 
-      <div id="result"></div>
+    <div id="result"></div>
 
-      <p class="warning">
-        ⚠️ This tool provides preliminary triage support only.
-        It does not replace professional medical assessment.
-      </p>
+    <p class="warning">
+      ⚠️ This tool provides preliminary triage support only.
+      It does not replace professional medical assessment.
+    </p>
 
-    </div>
   </div>
+</div>
 
-  <script>
+<script>
 
-    function analyzePatient() {
+function analyzePatient() {
 
-      const age = Number(
-        document.getElementById("age").value
-      );
+  const name = document.getElementById("name").value || "Unknown Patient";
+  const age = Number(document.getElementById("age").value);
+  const pain = Number(document.getElementById("pain").value);
+  const heartRate = Number(document.getElementById("heartRate").value);
+  const temperature = Number(document.getElementById("temperature").value);
+  const oxygen = Number(document.getElementById("oxygen").value);
+  const symptoms = document.getElementById("symptoms").value.toLowerCase();
 
-      const pain = Number(
-        document.getElementById("pain").value
-      );
+  let score = 0;
+  let reasons = [];
 
-      const heartRate = Number(
-        document.getElementById("heartRate").value
-      );
+  if (pain >= 8) {
+    score += 4;
+    reasons.push("Severe pain");
+  } else if (pain >= 5) {
+    score += 2;
+    reasons.push("Moderate pain");
+  } else if (pain >= 3) {
+    score += 1;
+    reasons.push("Mild pain");
+  }
 
-      const temperature = Number(
-        document.getElementById("temperature").value
-      );
+  if (oxygen > 0 && oxygen < 90) {
+    score += 5;
+    reasons.push("Very low oxygen saturation");
+  } else if (oxygen > 0 && oxygen < 94) {
+    score += 3;
+    reasons.push("Low oxygen saturation");
+  }
 
-      const oxygen = Number(
-        document.getElementById("oxygen").value
-      );
+  if (heartRate > 0 && (heartRate < 50 || heartRate > 120)) {
+    score += 3;
+    reasons.push("Abnormal heart rate");
+  }
 
-      const symptoms = document
-        .getElementById("symptoms")
-        .value
-        .toLowerCase();
+  if (temperature >= 39.5 || (temperature > 0 && temperature < 35)) {
+    score += 3;
+    reasons.push("Abnormal temperature");
+  } else if (temperature >= 38.5) {
+    score += 1;
+    reasons.push("Fever");
+  }
 
-      let score = 0;
+  if (age >= 65 || (age > 0 && age < 5)) {
+    score += 1;
+    reasons.push("Age-related risk");
+  }
 
-      // Pain assessment
-      if (pain >= 8) {
-        score += 4;
-      } else if (pain >= 5) {
-        score += 2;
-      } else if (pain >= 3) {
-        score += 1;
-      }
+  const emergencyKeywords = [
+    "chest pain",
+    "difficulty breathing",
+    "shortness of breath",
+    "severe bleeding",
+    "unconscious",
+    "loss of consciousness",
+    "seizure",
+    "stroke",
+    "paralysis",
+    "severe headache",
+    "confusion"
+  ];
 
-      // Oxygen assessment
-      if (oxygen > 0 && oxygen < 90) {
-        score += 5;
-      } else if (oxygen > 0 && oxygen < 94) {
-        score += 3;
-      }
-
-      // Heart rate assessment
-      if (
-        heartRate > 0 &&
-        (heartRate < 50 || heartRate > 120)
-      ) {
-        score += 3;
-      }
-
-      // Temperature assessment
-      if (
-        temperature >= 39.5 ||
-        (temperature > 0 && temperature < 35)
-      ) {
-        score += 3;
-      } else if (temperature >= 38.5) {
-        score += 1;
-      }
-
-      // Age-related risk
-      if (
-        age >= 65 ||
-        (age > 0 && age < 5)
-      ) {
-        score += 1;
-      }
-
-      // Emergency symptoms
-      const emergencyKeywords = [
-        "chest pain",
-        "difficulty breathing",
-        "shortness of breath",
-        "severe bleeding",
-        "unconscious",
-        "loss of consciousness",
-        "seizure",
-        "stroke",
-        "paralysis",
-        "severe headache",
-        "confusion"
-      ];
-
-      let emergencyFound = false;
-
-      for (const keyword of emergencyKeywords) {
-
-        if (symptoms.includes(keyword)) {
-          emergencyFound = true;
-          break;
-        }
-
-      }
-
-      if (emergencyFound) {
-        score += 5;
-      }
-
-      // Result
-      const result = document.getElementById("result");
-
-      let priority;
-      let message;
-      let className;
-
-      if (score >= 7) {
-
-        priority = "🔴 CRITICAL";
-
-        message =
-          "Immediate medical attention is required.";
-
-        className = "critical";
-
-      } else if (score >= 3) {
-
-        priority = "🟠 URGENT";
-
-        message =
-          "Patient should be assessed as soon as possible.";
-
-        className = "urgent";
-
-      } else {
-
-        priority = "🟢 NON-URGENT";
-
-        message =
-          "Patient appears stable, but professional assessment is recommended.";
-
-        className = "non-urgent";
-      }
-
-      result.className = className;
-
-      result.innerHTML = `
-        <div class="priority">${priority}</div>
-
-        <p>${message}</p>
-
-        <p>
-          <strong>Triage Score:</strong> ${score}
-        </p>
-      `;
-
-      result.style.display = "block";
+  for (const keyword of emergencyKeywords) {
+    if (symptoms.includes(keyword)) {
+      score += 5;
+      reasons.push("Emergency symptom: " + keyword);
+      break;
     }
+  }
 
-  </script>
+  let priority;
+  let message;
+  let action;
+  let className;
+
+  if (score >= 7) {
+
+    priority = "🔴 CRITICAL";
+    message = "High-risk presentation detected.";
+    action = "Immediate medical assessment is required.";
+    className = "critical";
+
+  } else if (score >= 3) {
+
+    priority = "🟠 URGENT";
+    message = "Potential risk factors detected.";
+    action = "Patient should be assessed as soon as possible.";
+    className = "urgent";
+
+  } else {
+
+    priority = "🟢 NON-URGENT";
+    message = "No major risk factors detected by this tool.";
+    action = "Routine professional assessment is recommended.";
+    className = "non-urgent";
+  }
+
+  const result = document.getElementById("result");
+
+  result.className = className;
+
+  result.innerHTML = `
+    <div class="priority">${priority}</div>
+
+    <div class="result-item">
+      <strong>Patient:</strong> ${name}
+    </div>
+
+    <div class="result-item">
+      <strong>Triage Score:</strong> ${score}
+    </div>
+
+    <div class="result-item">
+      <strong>Assessment:</strong><br>
+      ${message}
+    </div>
+
+    <div class="result-item">
+      <strong>Why?</strong><br>
+      ${reasons.length > 0 ? reasons.join("<br>") : "No specific risk factor detected."}
+    </div>
+
+    <div class="result-item">
+      <strong>Recommended Action:</strong><br>
+      ${action}
+    </div>
+  `;
+
+  result.style.display = "block";
+}
+
+</script>
 
 </body>
-</html>
+  </html>
